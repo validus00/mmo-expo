@@ -5,8 +5,7 @@ using UnityEngine.UI;
 using Photon.Pun;
 using Photon.Realtime;
 
-public class LaunchManager : MonoBehaviourPunCallbacks
-{
+public class LaunchManager : MonoBehaviourPunCallbacks {
     public GameObject EnterEventPanel;
     public GameObject ConnectionStatusPanel;
     public GameObject AvatarPanel;
@@ -57,8 +56,7 @@ public class LaunchManager : MonoBehaviourPunCallbacks
         InvalidPasscodeText.SetActive(false);
     }
 
-    public void JoinExistingRoom()
-    {
+    public void JoinExistingRoom() {
         if (string.IsNullOrEmpty(passcodeInput)) {
             Debug.Log("Room name is empty");
             return;

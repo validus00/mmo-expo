@@ -4,8 +4,7 @@ using UnityEngine;
 using Photon.Pun;
 using TMPro;
 
-public class UserSetup : MonoBehaviourPunCallbacks
-{
+public class UserSetup : MonoBehaviourPunCallbacks {
     [SerializeField]
     GameObject FPSCamera;
 
