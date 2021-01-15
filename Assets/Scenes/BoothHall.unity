@@ -1464,6 +1464,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Student
       objectReference: {fileID: 0}
+    - target: {fileID: 1991100644789613932, guid: 68c58ccb6472dc64bb48482815d0541f,
+        type: 3}
+      propertyPath: viewIdField
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5711072283027373933, guid: 68c58ccb6472dc64bb48482815d0541f,
         type: 3}
       propertyPath: m_RootOrder
