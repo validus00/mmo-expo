@@ -10,7 +10,7 @@ public class PlayerNameInputManager : MonoBehaviour
             Debug.Log("Player name is empty");
             return;
         }
-
+        Debug.Log("player name: " + playerName);
         PhotonNetwork.NickName = playerName;
     }
 }

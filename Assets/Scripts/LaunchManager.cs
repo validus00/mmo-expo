@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using Photon.Pun;
 using Photon.Realtime;
 
@@ -9,12 +10,18 @@ public class LaunchManager : MonoBehaviourPunCallbacks
     public GameObject EnterEventPanel;
     public GameObject ConnectionStatusPanel;
     public GameObject AvatarPanel;
+    public GameObject EnterPasscodePanel;
+    public bool createNew;
+    public bool joinExisting;
+    //public InputField passcodeInput;
+    public string passcodeInput;
 
     #region Unity Methods
     void Start() {
         EnterEventPanel.SetActive(true);
         ConnectionStatusPanel.SetActive(false);
         AvatarPanel.SetActive(false);
+        EnterPasscodePanel.SetActive(false);
     }
 
     // Update is called once per frame
@@ -32,11 +39,43 @@ public class LaunchManager : MonoBehaviourPunCallbacks
             ConnectionStatusPanel.SetActive(true);
             EnterEventPanel.SetActive(false);
             AvatarPanel.SetActive(false);
+            EnterPasscodePanel.SetActive(false);
         }
     }
 
     public void JoinRandomRoom() {
+        createNew = true;
         PhotonNetwork.JoinRandomRoom();
+    }
+
+    public void DisplayPasscodePanel() {
+        joinExisting = true;
+        EnterPasscodePanel.SetActive(true);
+    }
+
+    public void JoinExistingRoom()
+    {
+        if (string.IsNullOrEmpty(passcodeInput))
+        {
+            Debug.Log("Room name is empty");
+            return;
+        }
+
+        PhotonNetwork.JoinRoom(passcodeInput);
+    
+
+    }
+
+    public void SetPasscode(string passcode)
+    {
+        if (string.IsNullOrEmpty(passcode))
+        {
+            Debug.Log("Passcode is empty");
+            return;
+        }
+
+        Debug.Log("passcode: " + passcode);
+        passcodeInput = passcode;
     }
 
     #endregion
@@ -45,9 +84,19 @@ public class LaunchManager : MonoBehaviourPunCallbacks
     #region Photon Callbacks
     public override void OnConnectedToMaster() {
         Debug.Log("Connected! " + PhotonNetwork.NickName);
-        AvatarPanel.SetActive(true);
-        ConnectionStatusPanel.SetActive(false);
-        JoinRandomRoom();
+        Debug.Log("Is creating new event: " + createNew);
+        Debug.Log("Is joining existing event: " + joinExisting);
+        if (createNew)
+        {
+            AvatarPanel.SetActive(true);
+            ConnectionStatusPanel.SetActive(false);
+            JoinRandomRoom();
+        } else if (joinExisting)
+        {
+            ConnectionStatusPanel.SetActive(false);
+            EnterPasscodePanel.SetActive(true);
+        }
+        
     }
 
     // This method is called when we have internet connection (before OnConnectedToMaster)
@@ -57,24 +106,51 @@ public class LaunchManager : MonoBehaviourPunCallbacks
 
     public override void OnJoinRandomFailed(short returnCode, string message) {
         Debug.Log("No room exists!");
-        CreateAndJoinRoom();
+        if (!joinExisting)
+        {
+            CreateAndJoinRoom();
+        } else
+        {
+            Debug.Log("Cannot join room");
+        }
+        
     }
 
+
     public override void OnJoinedRoom() {
-        Debug.Log(PhotonNetwork.CurrentRoom.Name);
+        Debug.Log("Joined room successfully!");
+        if (joinExisting)
+        {
+            EnterPasscodePanel.SetActive(false);
+        }
+        AvatarPanel.SetActive(true);
     }
+
+    public override void OnPlayerEnteredRoom(Player newPlayer)
+    {
+        Debug.Log(newPlayer.NickName + " joined " + PhotonNetwork.CurrentRoom.Name + "!");
+    }
+
 
     #endregion
 
     #region Private Methods
 
     void CreateAndJoinRoom() {
+
         string randomRoomName = "" + Random.Range(0, 10000);
 
         RoomOptions roomOptions = new RoomOptions();
         roomOptions.IsOpen = true;
         roomOptions.MaxPlayers = 20;
         PhotonNetwork.CreateRoom(randomRoomName, roomOptions);
+        Debug.Log("This is the newly created room name: " + randomRoomName);
+
+    }
+
+    void OnPhotonRandomJoinFailed()
+    {
+        Debug.Log("Testing callback");
     }
     #endregion
 }
