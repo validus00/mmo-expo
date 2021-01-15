@@ -280,6 +280,64 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 195205966}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &727287414
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 727287416}
+  - component: {fileID: 727287415}
+  - component: {fileID: 727287417}
+  m_Layer: 0
+  m_Name: ExpoEventManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &727287415
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 727287414}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 366579bfd2dedf54f9f58b2ff73a2571, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &727287416
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 727287414}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 5.0999317, y: -0.671885, z: 3.4091635}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 12
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &727287417
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 727287414}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f737f94e3ba04e4f9ca7915ebb4fd65, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  userPrefab: {fileID: 689106400205376668, guid: 68c58ccb6472dc64bb48482815d0541f,
+    type: 3}
 --- !u!1 &897073612
 GameObject:
   m_ObjectHideFlags: 0
@@ -729,6 +787,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Student
+      objectReference: {fileID: 0}
+    - target: {fileID: 1991100644789613932, guid: 68c58ccb6472dc64bb48482815d0541f,
+        type: 3}
+      propertyPath: viewIdField
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5711072283027373933, guid: 68c58ccb6472dc64bb48482815d0541f,
         type: 3}
