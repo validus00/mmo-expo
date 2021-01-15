@@ -29,6 +29,9 @@ public class LaunchManager : MonoBehaviourPunCallbacks
         
     }
 
+    private void Awake() {
+        PhotonNetwork.AutomaticallySyncScene = true;
+    }
     #endregion
 
 
@@ -74,6 +77,10 @@ public class LaunchManager : MonoBehaviourPunCallbacks
 
         Debug.Log("passcode: " + passcode);
         passcodeInput = passcode;
+    }
+
+    public void LoadEvent() {
+        PhotonNetwork.LoadLevel("MainHall");
     }
 
     #endregion
