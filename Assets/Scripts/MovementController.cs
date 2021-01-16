@@ -1,34 +1,36 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class MovementController : MonoBehaviour {
     // Player movement speed
     [SerializeField]
-    private float speed = 10f;
+    private float __speed = 10f;
 
     // Mouse look sensitivity
     [SerializeField]
-    private float lookSensitivity = 3f;
+    private float __lookSensitivity = 2.5f;
 
     // FPS camera
     [SerializeField]
-    private GameObject fpsCamera;
+    private GameObject __fpsCamera;
 
-    private Rigidbody rb;
+    private Rigidbody __rb;
     // velocity = Player movement horizontal velocity
-    private Vector3 velocity = Vector3.zero;
+    private Vector3 __velocity;
     // rotation = Player rotation
-    private Vector3 rotation = Vector3.zero;
+    private Vector3 __rotation;
     // cameraUpDownRotation = FPS camera horizontal free look input
-    private float cameraUpDownRotation = 0f;
+    private float __cameraUpDownRotation;
     // currentCameraUpAndDownRotation = current FPS camera horizontal position
-    private float currentCameraUpAndDownRotation = 0f;
+    private float __currentCameraUpAndDownRotation;
 
     // Start is called before the first frame update
     void Start() {
         // Assign to player Rigidbody in order to move it
-        rb = GetComponent<Rigidbody>();
+        __rb = GetComponent<Rigidbody>();
+        __velocity = Vector3.zero;
+        __rotation = Vector3.zero;
+        __cameraUpDownRotation = 0f;
+        __currentCameraUpAndDownRotation = 0f;
     }
 
     // Update is called once per frame
@@ -39,7 +41,7 @@ public class MovementController : MonoBehaviour {
         // Calculate movement as a 3D vector
         Vector3 movementHorizontal = transform.right * xMovement;
         Vector3 movementVertical = transform.forward * zMovement;
-        Vector3 movementVelocity = (movementHorizontal + movementVertical).normalized * speed;
+        Vector3 movementVelocity = (movementHorizontal + movementVertical).normalized * __speed;
 
         float yRotation = 0f;
         float cameraUpAndDownRotation = 0f;
@@ -52,47 +54,47 @@ public class MovementController : MonoBehaviour {
             yRotation = Input.GetAxis("Mouse X");
 
             // Calculate look up and down camera rotation
-            cameraUpAndDownRotation = Input.GetAxis("Mouse Y") * lookSensitivity;
+            cameraUpAndDownRotation = Input.GetAxis("Mouse Y") * __lookSensitivity;
         } else {
             // Otherwise, show the mouse cursory on screen
             Cursor.visible = true;
         }
 
         // Apply movement
-        Move(movementVelocity);
+        __Move(movementVelocity);
 
         // Apply rotation
-        Vector3 rotationVector = new Vector3(0, yRotation, 0) * lookSensitivity;
-        Rotate(rotationVector);
+        Vector3 rotationVector = new Vector3(0, yRotation, 0) * __lookSensitivity;
+        __Rotate(rotationVector);
 
         // Apply horizontal mouse free look
-        RotateCamera(cameraUpAndDownRotation);
+        __RotateCamera(cameraUpAndDownRotation);
     }
 
     // For updates when using Rigidbody
     void FixedUpdate() {
-        if (velocity != Vector3.zero) {
-            rb.MovePosition(rb.position + velocity * Time.fixedDeltaTime);
+        if (__velocity != Vector3.zero) {
+            __rb.MovePosition(__rb.position + __velocity * Time.fixedDeltaTime);
         }
 
-        rb.MoveRotation(rb.rotation * Quaternion.Euler(rotation));
+        __rb.MoveRotation(__rb.rotation * Quaternion.Euler(__rotation));
 
-        if (fpsCamera != null) {
-            currentCameraUpAndDownRotation -= cameraUpDownRotation;
-            currentCameraUpAndDownRotation = Mathf.Clamp(currentCameraUpAndDownRotation, -85, 85);
-            fpsCamera.transform.localEulerAngles = new Vector3(currentCameraUpAndDownRotation, 0, 0);
+        if (__fpsCamera != null) {
+            __currentCameraUpAndDownRotation -= __cameraUpDownRotation;
+            __currentCameraUpAndDownRotation = Mathf.Clamp(__currentCameraUpAndDownRotation, -85, 85);
+            __fpsCamera.transform.localEulerAngles = new Vector3(__currentCameraUpAndDownRotation, 0, 0);
         }
     }
 
-    private void Move(Vector3 movementVelocity) {
-        velocity = movementVelocity;
+    private void __Move(Vector3 movementVelocity) {
+        __velocity = movementVelocity;
     }
 
-    private void Rotate(Vector3 rotationVector) {
-        rotation = rotationVector;
+    private void __Rotate(Vector3 rotationVector) {
+        __rotation = rotationVector;
     }
 
-    private void RotateCamera(float cameraUpAndDownRotation) {
-        cameraUpDownRotation = cameraUpAndDownRotation;
+    private void __RotateCamera(float cameraUpAndDownRotation) {
+        __cameraUpDownRotation = cameraUpAndDownRotation;
     }
 }
