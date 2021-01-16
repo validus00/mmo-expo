@@ -45,9 +45,18 @@ public class LaunchManager : MonoBehaviourPunCallbacks {
         }
     }
 
-    public void JoinRandomRoom() {
-        createNew = true;
-        PhotonNetwork.JoinRandomRoom();
+    public void CreateNewRoom() {
+        if (!string.IsNullOrWhiteSpace(PhotonNetwork.NickName)) {
+            createNew = true;
+            ConnectToPhotonServer();
+        }
+    }
+
+    public void JoinCreatedRoom() {
+        if (!string.IsNullOrWhiteSpace(PhotonNetwork.NickName)) {
+            ConnectToPhotonServer();
+            DisplayPasscodePanel();
+        }
     }
 
     public void DisplayPasscodePanel() {
@@ -92,7 +101,7 @@ public class LaunchManager : MonoBehaviourPunCallbacks {
         if (createNew) {
             AvatarPanel.SetActive(true);
             ConnectionStatusPanel.SetActive(false);
-            JoinRandomRoom();
+            CreateAndJoinRoom();
         } else if (joinExisting) {
             ConnectionStatusPanel.SetActive(false);
             EnterPasscodePanel.SetActive(true);
@@ -104,16 +113,6 @@ public class LaunchManager : MonoBehaviourPunCallbacks {
     // This method is called when we have internet connection (before OnConnectedToMaster)
     public override void OnConnected() {
         Debug.Log("Internet!!");
-    }
-
-    public override void OnJoinRandomFailed(short returnCode, string message) {
-        Debug.Log("No room exists!");
-        if (!joinExisting) {
-            CreateAndJoinRoom();
-        } else {
-            Debug.Log("Cannot join room");
-        }
-        
     }
 
     // Called when PhotonNetwork.JoinRoom fails
