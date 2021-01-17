@@ -14,15 +14,9 @@ public class UserSetup : MonoBehaviourPunCallbacks {
 
     // Start is called before the first frame update
     void Start() {
-        if (photonView.IsMine) {
-            transform.GetComponent<MovementController>().enabled = true;
-            FPSCamera.GetComponent<Camera>().enabled = true;
-            FPSCamera.GetComponent<AudioListener>().enabled = true;
-
-        } else {
-            transform.GetComponent<MovementController>().enabled = false;
-            FPSCamera.GetComponent<Camera>().enabled = false;
-            FPSCamera.GetComponent<AudioListener>().enabled = false;
+        if (!photonView.IsMine) {
+            Destroy(transform.GetComponent<MovementController>());
+            Destroy(FPSCamera);
         }
 
         SetUserUI();

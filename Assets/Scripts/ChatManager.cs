@@ -32,6 +32,8 @@ public class ChatManager : MonoBehaviour, IChatClientListener {
 
     // Start is called before the first frame update
     void Start() {
+        string passcodeMessage = string.Format("Passcode: {0}", PhotonNetwork.CurrentRoom.Name);
+        __SendMessageToChat(passcodeMessage, Message.MessageType.info);
         __joinedChannels = new string[] { "Main Hall" };
         __username = PhotonNetwork.NickName;
 

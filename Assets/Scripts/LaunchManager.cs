@@ -138,7 +138,7 @@ public class LaunchManager : MonoBehaviourPunCallbacks {
 
     void CreateAndJoinRoom() {
 
-        string randomRoomName = "" + Random.Range(0, 10000);
+        string randomRoomName = "" + Random.Range(1000, 9999);
 
         RoomOptions roomOptions = new RoomOptions();
         roomOptions.IsOpen = true;
