@@ -17,6 +17,8 @@ public class UserSetup : MonoBehaviourPunCallbacks {
         if (!photonView.IsMine) {
             Destroy(transform.GetComponent<MovementController>());
             Destroy(FPSCamera);
+        } else {
+            Destroy(userNameText);
         }
 
         SetUserUI();

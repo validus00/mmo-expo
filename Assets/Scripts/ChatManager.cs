@@ -127,7 +127,7 @@ public class ChatManager : MonoBehaviour, IChatClientListener {
     public void OnSubscribed(string[] channels, bool[] results) {
         // Notify about connecting to new channels
         for (int i = 0; i < channels.Length; i++) {
-            string subscriptionMessage = string.Format("Connected to {0} channel.", channels[i]);
+            string subscriptionMessage = string.Format("You entered the {0} channel.", channels[i]);
             Debug.Log(subscriptionMessage);
             __SendMessageToChat(subscriptionMessage, Message.MessageType.info);
         }
