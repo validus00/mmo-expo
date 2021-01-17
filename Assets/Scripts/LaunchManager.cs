@@ -54,13 +54,12 @@ public class LaunchManager : MonoBehaviourPunCallbacks {
 
     public void JoinCreatedRoom() {
         if (!string.IsNullOrWhiteSpace(PhotonNetwork.NickName)) {
+            joinExisting = true;
             ConnectToPhotonServer();
-            DisplayPasscodePanel();
         }
     }
 
     public void DisplayPasscodePanel() {
-        joinExisting = true;
         EnterPasscodePanel.SetActive(true);
         InvalidPasscodeText.SetActive(false);
     }
@@ -98,14 +97,12 @@ public class LaunchManager : MonoBehaviourPunCallbacks {
         Debug.Log("Connected! " + PhotonNetwork.NickName);
         Debug.Log("Is creating new event: " + createNew);
         Debug.Log("Is joining existing event: " + joinExisting);
+        ConnectionStatusPanel.SetActive(false);
         if (createNew) {
             AvatarPanel.SetActive(true);
-            ConnectionStatusPanel.SetActive(false);
             CreateAndJoinRoom();
         } else if (joinExisting) {
-            ConnectionStatusPanel.SetActive(false);
-            EnterPasscodePanel.SetActive(true);
-            InvalidPasscodeText.SetActive(false);
+            DisplayPasscodePanel();
         }
         
     }

@@ -83,7 +83,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   __speed: 10
   __lookSensitivity: 1
-  __fpsCamera: {fileID: 0}
+  __fpsCamera: {fileID: 3738747043427511086}
 --- !u!114 &1991100644789613932
 MonoBehaviour:
   m_ObjectHideFlags: 0
