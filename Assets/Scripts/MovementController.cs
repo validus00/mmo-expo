@@ -80,6 +80,7 @@ public class MovementController : MonoBehaviour {
 
         // If right mouse button is held down, then hide the mouse cursor and allow mouse free look
         if (Input.GetButton("Fire2")) {
+            Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
 
             // Calculate rotation as a 3D vector for turning around
@@ -89,6 +90,7 @@ public class MovementController : MonoBehaviour {
             cameraUpAndDownRotation = Input.GetAxis("Mouse Y") * __lookSensitivity;
         } else {
             // Otherwise, show the mouse cursory on screen
+            Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
         }
 
