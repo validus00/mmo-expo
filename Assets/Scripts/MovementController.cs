@@ -16,7 +16,8 @@ public class MovementController : MonoBehaviour {
     // FPS camera
     [SerializeField]
     private GameObject __fpsCamera;
-    
+
+    private Animator __animator;
     // Chat input field
     private InputField __chatBox;
     // For handling disabling horizontal user movement during chat
@@ -33,10 +34,14 @@ public class MovementController : MonoBehaviour {
     private float __cameraUpDownRotation;
     // currentCameraUpAndDownRotation = current FPS camera horizontal position
     private float __currentCameraUpAndDownRotation;
+    // For passing animator blend trees horizontal and vertical values
+    private float __horizontalInput;
+    private float __verticalInput;
 
     // Start is called before the first frame update
     void Start() {
         __rigidbody = GetComponent<Rigidbody>();
+        __animator = GetComponent<Animator>();
         __chatBox = GameObject.Find("MessageInputField").GetComponent<InputField>();
         __canMove = true;
         __delay = 0;
@@ -54,6 +59,9 @@ public class MovementController : MonoBehaviour {
             float xMovement = Input.GetAxis("Horizontal");
             float zMovement = Input.GetAxis("Vertical");
 
+            __horizontalInput = xMovement;
+            __verticalInput = zMovement;
+
             // Calculate movement as a 3D vector
             Vector3 movementHorizontal = transform.right * xMovement;
             Vector3 movementVertical = transform.forward * zMovement;
@@ -63,6 +71,8 @@ public class MovementController : MonoBehaviour {
             __Move(movementVelocity);
         } else {
             __Move(Vector3.zero);
+            __horizontalInput = 0;
+            __verticalInput = 0;
         }
 
         float yRotation = 0f;
@@ -112,6 +122,8 @@ public class MovementController : MonoBehaviour {
 
         // Apply new horizontal rotation
         __rigidbody.MoveRotation(__rigidbody.rotation * Quaternion.Euler(__rotation));
+        __animator.SetFloat("Horizontal", __horizontalInput);
+        __animator.SetFloat("Vertical", __verticalInput);
 
         // Apply vertical camera rotation
         if (__fpsCamera != null) {
