@@ -11,9 +11,9 @@ public class LaunchManager : MonoBehaviourPunCallbacks {
     public GameObject AvatarPanel;
     public GameObject EnterPasscodePanel;
     public GameObject InvalidPasscodeText;
-    public bool createNew;
-    public bool joinExisting;
-    public string passcodeInput;
+    private bool __createNew;
+    private bool __joinExisting;
+    private string __passcodeInput;
 
     #region Unity Methods
     void Start() {
@@ -47,33 +47,29 @@ public class LaunchManager : MonoBehaviourPunCallbacks {
 
     public void CreateNewRoom() {
         if (!string.IsNullOrWhiteSpace(PhotonNetwork.NickName)) {
-            createNew = true;
+            __createNew = true;
             ConnectToPhotonServer();
         }
     }
 
     public void JoinCreatedRoom() {
         if (!string.IsNullOrWhiteSpace(PhotonNetwork.NickName)) {
-            joinExisting = true;
+            __joinExisting = true;
             ConnectToPhotonServer();
         }
     }
 
-    public void DisplayPasscodePanel() {
+    public void DisplayAvatarPanel() {
         AvatarPanel.SetActive(true);
-        //EnterPasscodePanel.SetActive(true);
-        //InvalidPasscodeText.SetActive(false);
     }
 
     public void JoinExistingRoom() {
-        if (string.IsNullOrEmpty(passcodeInput)) {
+        if (string.IsNullOrEmpty(__passcodeInput)) {
             Debug.Log("Room name is empty");
             return;
         }
 
-        PhotonNetwork.JoinRoom(passcodeInput);
-        EnterPasscodePanel.SetActive(false);
-        AvatarPanel.SetActive(true);
+        PhotonNetwork.JoinRoom(__passcodeInput);
     }
 
     public void SetPasscode(string passcode) {
@@ -83,23 +79,24 @@ public class LaunchManager : MonoBehaviourPunCallbacks {
         }
 
         Debug.Log("passcode: " + passcode);
-        passcodeInput = passcode;
+        __passcodeInput = passcode;
     }
 
-
-    public void nextPanel() {
-        if (joinExisting) {
+    // Used to determine which panel gets loaded after the avatar panel
+    // Joining existing will load passcode panel and creating new will load level
+    public void NextPanel() {
+        if (__joinExisting) {
             EnterPasscodePanel.SetActive(true);
+            InvalidPasscodeText.SetActive(false);
             AvatarPanel.SetActive(false);
         } else {
             LoadEvent();
         }
     }
     public void LoadEvent() {
-        //if (PhotonNetwork.IsMasterClient) {
+        if (PhotonNetwork.IsMasterClient) {
             PhotonNetwork.LoadLevel("MainHall");
-        //}
-        
+        }
     }
 
     #endregion
@@ -108,12 +105,12 @@ public class LaunchManager : MonoBehaviourPunCallbacks {
     #region Photon Callbacks
     public override void OnConnectedToMaster() {
         Debug.Log("Connected! " + PhotonNetwork.NickName);
-        Debug.Log("Is creating new event: " + createNew);
-        Debug.Log("Is joining existing event: " + joinExisting);
-        if (createNew) {
+        Debug.Log("Is creating new event: " + __createNew);
+        Debug.Log("Is joining existing event: " + __joinExisting);
+        if (__createNew) {
             CreateAndJoinRoom();
-        } else if (joinExisting) {
-            DisplayPasscodePanel();
+        } else if (__joinExisting) {
+            DisplayAvatarPanel();
         }
         
     }
@@ -132,15 +129,11 @@ public class LaunchManager : MonoBehaviourPunCallbacks {
 
     public override void OnJoinedRoom() {
         Debug.Log("Joined room successfully!");
-        if (joinExisting) {
-            EnterPasscodePanel.SetActive(false);
-        }
-        AvatarPanel.SetActive(true);
+        DisplayAvatarPanel();
         ConnectionStatusPanel.SetActive(false);
     }
 
-    public override void OnPlayerEnteredRoom(Player newPlayer)
-    {
+    public override void OnPlayerEnteredRoom(Player newPlayer) {
         Debug.Log(newPlayer.NickName + " joined " + PhotonNetwork.CurrentRoom.Name + "!");
     }
 
@@ -149,15 +142,12 @@ public class LaunchManager : MonoBehaviourPunCallbacks {
     #region Private Methods
 
     void CreateAndJoinRoom() {
-
         string randomRoomName = "" + Random.Range(1000, 9999);
-
         RoomOptions roomOptions = new RoomOptions();
         roomOptions.IsOpen = true;
         roomOptions.MaxPlayers = 20;
         PhotonNetwork.CreateRoom(randomRoomName, roomOptions);
         Debug.Log("This is the newly created room name: " + randomRoomName);
-
     }
 
 
