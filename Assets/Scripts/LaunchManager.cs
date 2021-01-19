@@ -71,8 +71,6 @@ public class LaunchManager : MonoBehaviourPunCallbacks {
         }
 
         PhotonNetwork.JoinRoom(passcodeInput);
-    
-
     }
 
     public void SetPasscode(string passcode) {
@@ -123,6 +121,7 @@ public class LaunchManager : MonoBehaviourPunCallbacks {
         Debug.Log("Joined room successfully!");
         if (joinExisting) {
             EnterPasscodePanel.SetActive(false);
+            AvatarPanel.SetActive(true);
         }
         AvatarPanel.SetActive(true);
     }
