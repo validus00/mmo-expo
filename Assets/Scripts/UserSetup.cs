@@ -18,6 +18,8 @@ public class UserSetup : MonoBehaviourPunCallbacks {
             Destroy(transform.GetComponent<MovementController>());
             Destroy(FPSCamera);
         } else {
+            // Differentiate user's own User clone from other clones with a different name
+            transform.name = "MyUser";
             Destroy(userNameText);
         }
 

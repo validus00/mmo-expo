@@ -61,8 +61,8 @@ public class ChatManager : MonoBehaviour, IChatClientListener {
 
     // This method is for displaying received messages in chat panel
     private void __SendMessageToChat(string text, Message.MessageType messageType) {
-        // Keep only 100 most recent messages
-        if (__messageList.Count >= __maxMessages) {
+        // Keep only 99 most recent messages before adding a new message to list
+        if (__messageList.Count + 1 >= __maxMessages) {
             Destroy(__messageList[0].textObject.gameObject);
             __messageList.Remove(__messageList[0]);
         }
