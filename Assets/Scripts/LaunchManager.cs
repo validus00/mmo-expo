@@ -95,9 +95,7 @@ public class LaunchManager : MonoBehaviourPunCallbacks {
         Debug.Log("Connected! " + PhotonNetwork.NickName);
         Debug.Log("Is creating new event: " + createNew);
         Debug.Log("Is joining existing event: " + joinExisting);
-        ConnectionStatusPanel.SetActive(false);
         if (createNew) {
-            AvatarPanel.SetActive(true);
             CreateAndJoinRoom();
         } else if (joinExisting) {
             DisplayPasscodePanel();
@@ -124,6 +122,7 @@ public class LaunchManager : MonoBehaviourPunCallbacks {
             AvatarPanel.SetActive(true);
         }
         AvatarPanel.SetActive(true);
+        ConnectionStatusPanel.SetActive(false);
     }
 
     public override void OnPlayerEnteredRoom(Player newPlayer)
