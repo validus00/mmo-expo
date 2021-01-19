@@ -60,8 +60,9 @@ public class LaunchManager : MonoBehaviourPunCallbacks {
     }
 
     public void DisplayPasscodePanel() {
-        EnterPasscodePanel.SetActive(true);
-        InvalidPasscodeText.SetActive(false);
+        AvatarPanel.SetActive(true);
+        //EnterPasscodePanel.SetActive(true);
+        //InvalidPasscodeText.SetActive(false);
     }
 
     public void JoinExistingRoom() {
@@ -71,6 +72,8 @@ public class LaunchManager : MonoBehaviourPunCallbacks {
         }
 
         PhotonNetwork.JoinRoom(passcodeInput);
+        EnterPasscodePanel.SetActive(false);
+        AvatarPanel.SetActive(true);
     }
 
     public void SetPasscode(string passcode) {
@@ -83,8 +86,20 @@ public class LaunchManager : MonoBehaviourPunCallbacks {
         passcodeInput = passcode;
     }
 
+
+    public void nextPanel() {
+        if (joinExisting) {
+            EnterPasscodePanel.SetActive(true);
+            AvatarPanel.SetActive(false);
+        } else {
+            LoadEvent();
+        }
+    }
     public void LoadEvent() {
-        PhotonNetwork.LoadLevel("MainHall");
+        //if (PhotonNetwork.IsMasterClient) {
+            PhotonNetwork.LoadLevel("MainHall");
+        //}
+        
     }
 
     #endregion
@@ -119,7 +134,6 @@ public class LaunchManager : MonoBehaviourPunCallbacks {
         Debug.Log("Joined room successfully!");
         if (joinExisting) {
             EnterPasscodePanel.SetActive(false);
-            AvatarPanel.SetActive(true);
         }
         AvatarPanel.SetActive(true);
         ConnectionStatusPanel.SetActive(false);

@@ -1462,7 +1462,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 329913328}
-        m_MethodName: LoadEvent
+        m_MethodName: nextPanel
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
