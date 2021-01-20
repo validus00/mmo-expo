@@ -9,13 +9,25 @@ using UnityEngine.UI;
  * ChatManager class is for implementing Photon Chat and displaying messages in the chat panel
  */
 public class ChatManager : MonoBehaviour, IChatClientListener {
+    // For handling different 
+    public enum ChannelType {
+        hallChannel,
+        boothChannel
+    }
+
     // max number of channels
     private const int __maxMessages = 100;
     // Photon Chat client
     private ChatClient __chatClient;
-    // List of names of joined channels
-    private string[] __joinedChannels;
     private string __username;
+    // Showcase-wide channel
+    private const string __announcementChannel = "Announcements";
+    // Booth specific channel
+    private string __boothChannel;
+    // Hall specific channel
+    private string __hallChannel;
+    // For handling race condition if the user enters a channel prior to connecting to Photon Chat
+    private bool __isConnected = false;
 
     [SerializeField]
     private GameObject __chatPanel, __textObject;
@@ -34,7 +46,7 @@ public class ChatManager : MonoBehaviour, IChatClientListener {
     void Start() {
         string passcodeMessage = string.Format("Passcode: {0}", PhotonNetwork.CurrentRoom.Name);
         __SendMessageToChat(passcodeMessage, Message.MessageType.info);
-        __joinedChannels = new string[] { "Main Hall" };
+        __hallChannel = "Main Hall";
         __username = PhotonNetwork.NickName;
 
         // Create new Photon Chat client
@@ -51,11 +63,36 @@ public class ChatManager : MonoBehaviour, IChatClientListener {
         // Enter key either sends a message or activates the chat input field
         if (Input.GetKeyDown(KeyCode.Return)) {
             if (!string.IsNullOrEmpty(__chatBox.text)) {
-                __chatClient.PublishMessage(__joinedChannels[0], __chatBox.text);
+                __chatClient.PublishMessage(__hallChannel, __chatBox.text);
                 __chatBox.text = string.Empty;
             } else {
                 __chatBox.ActivateInputField();
             }
+        }
+    }
+
+    public void UpdateChannel(string channelName, ChatManager.ChannelType channelType) {
+        switch (channelType) {
+            case ChatManager.ChannelType.hallChannel:
+                __hallChannel = channelName;
+                break;
+            case ChatManager.ChannelType.boothChannel:
+                __boothChannel = channelName;
+                break;
+        }
+    }
+
+    // For leaving specific channels
+    public void LeaveChannel(string channelName) {
+        if (__isConnected) {
+            __chatClient.Unsubscribe(new string[] { channelName });
+        }
+    }
+
+    // For entering specific channels
+    public void EnterChannel(string channelName) {
+        if (__isConnected) {
+            __chatClient.Subscribe(new string[] { channelName });
         }
     }
 
@@ -100,8 +137,13 @@ public class ChatManager : MonoBehaviour, IChatClientListener {
     }
 
     public void OnConnected() {
+        __isConnected = true;
         Debug.Log("Connected to Photon Chat.");
-        __chatClient.Subscribe(__joinedChannels);
+        if (!string.IsNullOrWhiteSpace(__boothChannel)) {
+            __chatClient.Subscribe(new string[] { __announcementChannel, __hallChannel, __boothChannel });
+        } else {
+            __chatClient.Subscribe(new string[] { __announcementChannel, __hallChannel });
+        }
     }
 
     public void OnChatStateChange(ChatState state) {
@@ -134,6 +176,12 @@ public class ChatManager : MonoBehaviour, IChatClientListener {
     }
 
     public void OnUnsubscribed(string[] channels) {
+        // Notify about connecting to new channels
+        for (int i = 0; i < channels.Length; i++) {
+            string unsubscriptionMessage = string.Format("You left the {0} channel.", channels[i]);
+            Debug.Log(unsubscriptionMessage);
+            __SendMessageToChat(unsubscriptionMessage, Message.MessageType.info);
+        }
     }
 
     public void OnStatusUpdate(string user, int status, bool gotMessage, object message) {

@@ -3,7 +3,7 @@
 public class PlayerInputHandler : MonoBehaviour {
     // Mouse look sensitivity
     [SerializeField]
-    private float __lookSensitivity = 0.25f;
+    private float __lookSensitivity = 1f;
     private Animator __animator;
 
     void Start() {
@@ -18,8 +18,10 @@ public class PlayerInputHandler : MonoBehaviour {
         float horizontalInput = Input.GetAxisRaw("Horizontal");
         float verticalInput = Input.GetAxisRaw("Vertical");
 
-        __animator.SetFloat("Horizontal", horizontalInput);
-        __animator.SetFloat("Vertical", verticalInput);
+        if (__animator != null) {
+            __animator.SetFloat("Horizontal", horizontalInput);
+            __animator.SetFloat("Vertical", verticalInput);
+        }
 
         Vector3 move = new Vector3(horizontalInput, 0f, verticalInput);
         // Prevents diagonal movement value from exceeding 1
@@ -27,19 +29,17 @@ public class PlayerInputHandler : MonoBehaviour {
     }
 
     public float GetLookInputsHorizontal() {
-        return Input.GetAxisRaw("Mouse X") * __GetPlatformSensitivityMultiplier() * 0.01f;
+        return Input.GetAxisRaw("Mouse X") * __GetLookSensitivityMultiplier() * __lookSensitivity * 0.01f;
     }
 
     public float GetLookInputsVertical() {
-        return Input.GetAxisRaw("Mouse Y") * __GetPlatformSensitivityMultiplier() * -0.01f;
+        return Input.GetAxisRaw("Mouse Y") * __GetLookSensitivityMultiplier() * __lookSensitivity * -0.01f;
     }
 
-    private float __GetPlatformSensitivityMultiplier() {
+    private float __GetLookSensitivityMultiplier() {
 #if UNITY_WEBGL
-        Debug.Log("25");
         return 0.25f;
 #else
-        Debug.Log("1f");
         return 1f;
 #endif
     }
