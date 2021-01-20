@@ -5,104 +5,48 @@ using UnityEngine.UI;
  * MovementController class is for implementing user movement controls
  */
 public class MovementController : MonoBehaviour {
-    // Player movement speed
+    // Maximum player move speed value
     [SerializeField]
-    private float __speed = 10f;
-
-    // Mouse look sensitivity
-    [SerializeField]
-    private float __lookSensitivity = 2.5f;
-
+    private float __maxSpeedOnGround = 20f;
+    // Player acceleration and deceleration value
+    private readonly float __movementSharpnessOnGround = 15f;
+    // Camera rotation speed value
+    private readonly float __rotationSpeed = 200f;
+    // Player velocity vector
+    private Vector3 __characterVelocity;
+    // Camera vertical angle
+    private float __cameraVerticalAngle = 0f;
     // FPS camera
     [SerializeField]
     private GameObject __fpsCamera;
-
-    private Animator __animator;
+    private CharacterController __characterController;
+    // For handling user movement inputs
+    private PlayerInputHandler __playerInputHandler;
     // Chat input field
     private InputField __chatBox;
     // For handling disabling horizontal user movement during chat
-    private bool __canMove;
+    private bool __canMove = true;
     // For adding a little delay between chatting and horizontal user movement
-    private int __delay;
-    // For accessing the rigidbody to move it
-    private Rigidbody __rigidbody;
-    // velocity = Player movement horizontal velocity
-    private Vector3 __velocity;
-    // rotation = Player rotation
-    private Vector3 __rotation;
-    // cameraUpDownRotation = FPS camera horizontal free look input
-    private float __cameraUpDownRotation;
-    // currentCameraUpAndDownRotation = current FPS camera horizontal position
-    private float __currentCameraUpAndDownRotation;
-    // For passing animator blend trees horizontal and vertical values
-    private float __horizontalInput;
-    private float __verticalInput;
+    private int __delay = 0;
 
     // Start is called before the first frame update
     void Start() {
-        __rigidbody = GetComponent<Rigidbody>();
-        __animator = GetComponent<Animator>();
+        __characterController = GetComponent<CharacterController>();
+        __playerInputHandler = GetComponent<PlayerInputHandler>();
         __chatBox = GameObject.Find("MessageInputField").GetComponent<InputField>();
-        __canMove = true;
-        __delay = 0;
-        __velocity = Vector3.zero;
-        __rotation = Vector3.zero;
-        __cameraUpDownRotation = 0f;
-        __currentCameraUpAndDownRotation = 0f;
+        // Prevent User object from overlapping with another object
+        __characterController.enableOverlapRecovery = true;
     }
 
     // Update is called once per frame
     void Update() {
         // Apply velocity only if user is allowed to move
         if (__canMove) {
-            // Get user inputs
-            float xMovement = Input.GetAxis("Horizontal");
-            float zMovement = Input.GetAxis("Vertical");
-
-            __horizontalInput = xMovement;
-            __verticalInput = zMovement;
-
-            // Calculate movement as a 3D vector
-            Vector3 movementHorizontal = transform.right * xMovement;
-            Vector3 movementVertical = transform.forward * zMovement;
-            Vector3 movementVelocity = (movementHorizontal + movementVertical).normalized * __speed;
-
-            // Apply movement
-            __Move(movementVelocity);
-        } else {
-            __Move(Vector3.zero);
-            __horizontalInput = 0;
-            __verticalInput = 0;
+            HandleCharacterMovement();
         }
-
-        float yRotation = 0f;
-        float cameraUpAndDownRotation = 0f;
-
-        // If right mouse button is held down, then hide the mouse cursor and allow mouse free look
-        if (Input.GetButton("Fire2")) {
-            Cursor.lockState = CursorLockMode.Locked;
-            Cursor.visible = false;
-
-            // Calculate rotation as a 3D vector for turning around
-            yRotation = Input.GetAxis("Mouse X");
-
-            // Calculate look up and down camera rotation
-            cameraUpAndDownRotation = Input.GetAxis("Mouse Y") * __lookSensitivity;
-        } else {
-            // Otherwise, show the mouse cursory on screen
-            Cursor.lockState = CursorLockMode.None;
-            Cursor.visible = true;
-        }
-
-        // Apply rotation
-        Vector3 rotationVector = new Vector3(0, yRotation, 0) * __lookSensitivity;
-        __Rotate(rotationVector);
-
-        // Apply horizontal mouse free look
-        __RotateCamera(cameraUpAndDownRotation);
     }
 
-    // For updates when using Rigidbody
+    // For consistently periodic updates
     void FixedUpdate() {
         // If chat input field is selected, disable movement and apply a delay
         if (__chatBox.isFocused) {
@@ -111,43 +55,32 @@ public class MovementController : MonoBehaviour {
         } else if (__delay > 0) {
             __delay--;
         }
-
         // Allow movement if no delay
         if (0 >= __delay) {
             __canMove = true;
         }
+    }
 
-        // Apply new horizontal position
-        if (__velocity != Vector3.zero) {
-            __rigidbody.MovePosition(__rigidbody.position + __velocity * Time.fixedDeltaTime);
+    private void HandleCharacterMovement() {
+        // If right mouse button is held down, then hide the mouse cursor and allow mouse free look
+        if (__playerInputHandler.GetRightClickInputHeld()) {
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+            // Rotate user horizontally
+            transform.Rotate(new Vector3(0f, (__playerInputHandler.GetLookInputsHorizontal() * __rotationSpeed), 0f), Space.Self);
+            // Rotate user camera vertically
+            __cameraVerticalAngle += __playerInputHandler.GetLookInputsVertical() * __rotationSpeed;
+            // Limit vertical camera rotation angle of up to +/- 89 degrees
+            __cameraVerticalAngle = Mathf.Clamp(__cameraVerticalAngle, -89f, 89f);
+            __fpsCamera.transform.localEulerAngles = new Vector3(__cameraVerticalAngle, 0, 0);
+        } else {
+            // Otherwise, show the mouse cursory on screen
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
         }
-
-        // Apply new horizontal rotation
-        __rigidbody.MoveRotation(__rigidbody.rotation * Quaternion.Euler(__rotation));
-        __animator.SetFloat("Horizontal", __horizontalInput);
-        __animator.SetFloat("Vertical", __verticalInput);
-
-        // Apply vertical camera rotation
-        if (__fpsCamera != null) {
-            __currentCameraUpAndDownRotation -= __cameraUpDownRotation;
-            // Set a max +/- 85 rotational view from midpoint of the screen
-            __currentCameraUpAndDownRotation = Mathf.Clamp(__currentCameraUpAndDownRotation, -85, 85);
-            __fpsCamera.transform.localEulerAngles = new Vector3(__currentCameraUpAndDownRotation, 0, 0);
-        }
-    }
-
-    // Helper function for updating horizontal velocity value
-    private void __Move(Vector3 movementVelocity) {
-        __velocity = movementVelocity;
-    }
-
-    // Helper function for updating horizontal rotation value
-    private void __Rotate(Vector3 rotationVector) {
-        __rotation = rotationVector;
-    }
-
-    // Helper function for updating vertical camera rotation value
-    private void __RotateCamera(float cameraUpAndDownRotation) {
-        __cameraUpDownRotation = cameraUpAndDownRotation;
+        // Apply velocity to User object
+        Vector3 targetVelocity = __maxSpeedOnGround * transform.TransformVector(__playerInputHandler.GetMoveInput());
+        __characterVelocity = Vector3.Lerp(__characterVelocity, targetVelocity, __movementSharpnessOnGround * Time.deltaTime);
+        __characterController.Move(__characterVelocity * Time.deltaTime);
     }
 }
