@@ -95,7 +95,7 @@ public class LaunchManager : MonoBehaviourPunCallbacks {
     }
     public void LoadEvent() {
         if (PhotonNetwork.IsMasterClient) {
-            PhotonNetwork.LoadLevel("MainHall");
+            PhotonNetwork.LoadLevel("ShowcaseHalls");
         }
     }
 
