@@ -22,6 +22,8 @@ public class MovementController : MonoBehaviour {
     private CharacterController __characterController;
     // For handling user movement inputs
     private PlayerInputHandler __playerInputHandler;
+    // Channel name input field
+    private InputField __channelBox;
     // Chat input field
     private InputField __chatBox;
     // For handling disabling horizontal user movement during chat
@@ -33,6 +35,7 @@ public class MovementController : MonoBehaviour {
     void Start() {
         __characterController = GetComponent<CharacterController>();
         __playerInputHandler = GetComponent<PlayerInputHandler>();
+        __channelBox = GameObject.Find("ChannelInputField").GetComponent<InputField>();
         __chatBox = GameObject.Find("MessageInputField").GetComponent<InputField>();
         // Prevent User object from overlapping with another object
         __characterController.enableOverlapRecovery = true;
@@ -49,7 +52,7 @@ public class MovementController : MonoBehaviour {
     // For consistently periodic updates
     void FixedUpdate() {
         // If chat input field is selected, disable movement and apply a delay
-        if (__chatBox.isFocused) {
+        if (__chatBox.isFocused || __channelBox.isFocused) {
             __delay = 20;
             __canMove = false;
         } else if (__delay > 0) {

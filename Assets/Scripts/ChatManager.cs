@@ -31,7 +31,10 @@ public class ChatManager : MonoBehaviour, IChatClientListener {
 
     [SerializeField]
     private GameObject __chatPanel, __textObject;
-    
+
+    [SerializeField]
+    private InputField __channelBox;
+
     [SerializeField]
     private InputField __chatBox;
 
@@ -60,15 +63,38 @@ public class ChatManager : MonoBehaviour, IChatClientListener {
         // Maintain service connection to Photon
         __chatClient.Service();
 
+        string channelName = __channelBox.text;
+        string message = __chatBox.text;
         // Enter key either sends a message or activates the chat input field
         if (Input.GetKeyDown(KeyCode.Return)) {
-            if (!string.IsNullOrEmpty(__chatBox.text)) {
-                __chatClient.PublishMessage(__hallChannel, __chatBox.text);
+            if (!string.IsNullOrEmpty(message)) {
+                // Check if channel name or username is given
+                if (string.IsNullOrWhiteSpace(channelName)) {
+                    __SendMessageToChat("No channel or username specified.", Message.MessageType.info);
+                    return;
+                }
+                // check if connected to Photon Chat
+                if (!__isConnected) {
+                    __SendMessageToChat("Not connected to chat yet.", Message.MessageType.info);
+                    return;
+                }
+                // Check if given channel name is correct
+                if (__CheckChannelBox(channelName)) {
+                    string warning = string.Format("You are not in \"{0}\" channel. Cannot send message.", channelName);
+                    __SendMessageToChat(warning, Message.MessageType.info);
+                    return;
+                }
+                // Send message
+                __chatClient.PublishMessage(channelName, message);
                 __chatBox.text = string.Empty;
             } else {
                 __chatBox.ActivateInputField();
             }
         }
+    }
+
+    private bool __CheckChannelBox(string channelName) {
+        return channelName != __announcementChannel && channelName != __hallChannel && channelName != __boothChannel;
     }
 
     public void UpdateChannel(string channelName, ChatManager.ChannelType channelType) {
@@ -158,7 +184,7 @@ public class ChatManager : MonoBehaviour, IChatClientListener {
             } else {
                 sender = senders[0];
             }
-            string message = string.Format("{0}: {1}", sender, messages[0]);
+            string message = string.Format("[{0}] {1}: {2}", channelName, sender, messages[0]);
             __SendMessageToChat(message, Message.MessageType.playerMessage);
         }
     }
