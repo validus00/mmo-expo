@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Photon.Pun;
+using UnityEngine;
 using UnityEngine.UI;
 
 /*
@@ -30,6 +31,8 @@ public class MovementController : MonoBehaviour {
     private bool __canMove = true;
     // For adding a little delay between chatting and horizontal user movement
     private int __delay = 0;
+    // For keeping track of broadcasted Character Controller enable value
+    private bool isCharacterControlledEnabled = true;
 
     // Start is called before the first frame update
     void Start() {
@@ -43,7 +46,11 @@ public class MovementController : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
-        // Apply velocity only if user is allowed to move
+        if (__characterController.enabled != isCharacterControlledEnabled) {
+            isCharacterControlledEnabled = __characterController.enabled;
+            GetComponent<PhotonView>().RPC("FreeRoamingToggle", RpcTarget.AllBuffered, isCharacterControlledEnabled);
+        }
+
         if (__canMove) {
             HandleCharacterMovement();
         }
@@ -73,17 +80,36 @@ public class MovementController : MonoBehaviour {
             transform.Rotate(new Vector3(0f, (__playerInputHandler.GetLookInputsHorizontal() * __rotationSpeed), 0f), Space.Self);
             // Rotate user camera vertically
             __cameraVerticalAngle += __playerInputHandler.GetLookInputsVertical() * __rotationSpeed;
-            // Limit vertical camera rotation angle of up to +/- 89 degrees
-            __cameraVerticalAngle = Mathf.Clamp(__cameraVerticalAngle, -89f, 89f);
+            // Limit vertical camera rotation angle
+            float maxAngle = 90f;
+            if (__characterController.enabled) {
+                maxAngle = 89f;
+            }
+            __cameraVerticalAngle = Mathf.Clamp(__cameraVerticalAngle, -maxAngle, maxAngle);
             __fpsCamera.transform.localEulerAngles = new Vector3(__cameraVerticalAngle, 0, 0);
         } else {
             // Otherwise, show the mouse cursory on screen
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
         }
-        // Apply velocity to User object
-        Vector3 targetVelocity = __maxSpeedOnGround * transform.TransformVector(__playerInputHandler.GetMoveInput());
-        __characterVelocity = Vector3.Lerp(__characterVelocity, targetVelocity, __movementSharpnessOnGround * Time.deltaTime);
-        __characterController.Move(__characterVelocity * Time.deltaTime);
+        // If the user is in god mode, they can roam freely throughout the scene
+        if (__characterController.enabled) {
+            // Apply velocity to User object
+            Vector3 targetVelocity = __maxSpeedOnGround * transform.TransformVector(__playerInputHandler.GetMoveInput());
+            __characterVelocity = Vector3.Lerp(__characterVelocity, targetVelocity, __movementSharpnessOnGround * Time.deltaTime);
+            __characterController.Move(__characterVelocity * Time.deltaTime);
+        } else {
+            // Get a camera vector that is relative to the user
+            Vector3 localCameraVector = transform.InverseTransformVector(__fpsCamera.transform.forward);
+
+            float y = localCameraVector.y;
+            float z = localCameraVector.z;
+            float horizontalInput = Input.GetAxisRaw("Horizontal");
+            float verticalInput = Input.GetAxisRaw("Vertical");
+
+            transform.Translate(new Vector3(horizontalInput, verticalInput * y, verticalInput * z));
+        }
     }
+
+
 }
