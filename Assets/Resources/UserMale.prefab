@@ -1006,14 +1006,14 @@ GameObject:
   m_Component:
   - component: {fileID: 2537268446203661148}
   - component: {fileID: 2537268446195885338}
-  - component: {fileID: 2537268446203269241}
-  - component: {fileID: 2537268446203269188}
   - component: {fileID: 2537268446203269190}
   - component: {fileID: 2481931936570246436}
   - component: {fileID: 734963087591819756}
   - component: {fileID: 1193339298232331860}
   - component: {fileID: 6694544518763626640}
   - component: {fileID: 3168980051461763583}
+  - component: {fileID: 196389606}
+  - component: {fileID: 196389607}
   m_Layer: 0
   m_Name: UserMale
   m_TagString: Untagged
@@ -1058,36 +1058,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!54 &2537268446203269241
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2537268446203303740}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 1
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 112
-  m_CollisionDetection: 0
---- !u!136 &2537268446203269188
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2537268446203303740}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: 0.34
-  m_Height: 1.65
-  m_Direction: 1
-  m_Center: {x: 0, y: 0.83, z: 0}
 --- !u!114 &2537268446203269190
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1100,8 +1070,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b0fd32b1646164445bf3f1388ea77ef7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  __speed: 10
-  __lookSensitivity: 2.5
+  __maxSpeedOnGround: 20
   __fpsCamera: {fileID: 2537268446147669783}
 --- !u!114 &2481931936570246436
 MonoBehaviour:
@@ -1195,6 +1164,37 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   avatarValue: 0
   myAvatar: {fileID: 0}
+--- !u!143 &196389606
+CharacterController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2537268446203303740}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Height: 1.65
+  m_Radius: 0.34
+  m_SlopeLimit: 45
+  m_StepOffset: 0.3
+  m_SkinWidth: 0.001
+  m_MinMoveDistance: 0
+  m_Center: {x: 0, y: 0.83, z: 0}
+--- !u!114 &196389607
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2537268446203303740}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa55a5ff61f52f84184fdd648ba1f0a5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  __lookSensitivity: 1
 --- !u!1 &2537268446203304000
 GameObject:
   m_ObjectHideFlags: 0
