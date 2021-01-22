@@ -102,15 +102,21 @@ public class ChatManager : MonoBehaviour, IChatClientListener {
     }
 
     public void UpdateChannel(string channelName, ChannelType channelType) {
-        if (!string.IsNullOrWhiteSpace(channelName)) {
-            switch (channelType) {
-                case ChannelType.hallChannel:
-                    __hallChannel = __AppendRoomName(channelName);
-                    break;
-                case ChannelType.boothChannel:
-                    __boothChannel = __AppendRoomName(channelName);
-                    break;
-            }
+        string newChannelName;
+        // Channel name can be empty: booth name, for example, when leaving a booth
+        if (string.IsNullOrEmpty(channelName)) {
+            newChannelName = channelName;
+        } else {
+            newChannelName = __AppendRoomName(channelName);
+        }
+
+        switch (channelType) {
+            case ChannelType.hallChannel:
+                __hallChannel = newChannelName;
+                break;
+            case ChannelType.boothChannel:
+                __boothChannel = newChannelName;
+                break;
         }
     }
 
