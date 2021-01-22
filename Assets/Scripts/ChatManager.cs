@@ -15,13 +15,15 @@ public class ChatManager : MonoBehaviour, IChatClientListener {
         boothChannel
     }
 
+    // Current room name
+    private string __roomName;
     // max number of channels
     private const int __maxMessages = 100;
     // Photon Chat client
     private ChatClient __chatClient;
     private string __username;
     // Showcase-wide channel
-    private const string __announcementChannel = "Announcements";
+    private string __announcementChannel;
     // Booth specific channel
     private string __boothChannel;
     // Hall specific channel
@@ -47,9 +49,11 @@ public class ChatManager : MonoBehaviour, IChatClientListener {
 
     // Start is called before the first frame update
     void Start() {
-        string passcodeMessage = string.Format("Passcode: {0}", PhotonNetwork.CurrentRoom.Name);
+        __roomName = PhotonNetwork.CurrentRoom.Name;
+        string passcodeMessage = string.Format("Passcode: {0}", __roomName);
         __SendMessageToChat(passcodeMessage, Message.MessageType.info);
-        __hallChannel = "Main Hall";
+        __hallChannel = __AppendRoomName("Main Hall");
+        __announcementChannel = __AppendRoomName("Announcements");
         __username = PhotonNetwork.NickName;
 
         // Create new Photon Chat client
@@ -63,13 +67,13 @@ public class ChatManager : MonoBehaviour, IChatClientListener {
         // Maintain service connection to Photon
         __chatClient.Service();
 
-        string channelName = __channelBox.text;
+        string channelName = __AppendRoomName(__channelBox.text);
         string message = __chatBox.text;
         // Enter key either sends a message or activates the chat input field
         if (Input.GetKeyDown(KeyCode.Return)) {
             if (!string.IsNullOrEmpty(message)) {
                 // Check if channel name or username is given
-                if (string.IsNullOrWhiteSpace(channelName)) {
+                if (string.IsNullOrWhiteSpace(__channelBox.text)) {
                     __SendMessageToChat("No channel or username specified.", Message.MessageType.info);
                     return;
                 }
@@ -80,7 +84,7 @@ public class ChatManager : MonoBehaviour, IChatClientListener {
                 }
                 // Check if given channel name is correct
                 if (__CheckChannelBox(channelName)) {
-                    string warning = string.Format("You are not in \"{0}\" channel. Cannot send message.", channelName);
+                    string warning = string.Format("You are not in \"{0}\" channel. Cannot send message.", __channelBox.text);
                     __SendMessageToChat(warning, Message.MessageType.info);
                     return;
                 }
@@ -97,29 +101,39 @@ public class ChatManager : MonoBehaviour, IChatClientListener {
         return channelName != __announcementChannel && channelName != __hallChannel && channelName != __boothChannel;
     }
 
-    public void UpdateChannel(string channelName, ChatManager.ChannelType channelType) {
-        switch (channelType) {
-            case ChatManager.ChannelType.hallChannel:
-                __hallChannel = channelName;
-                break;
-            case ChatManager.ChannelType.boothChannel:
-                __boothChannel = channelName;
-                break;
+    public void UpdateChannel(string channelName, ChannelType channelType) {
+        if (!string.IsNullOrWhiteSpace(channelName)) {
+            switch (channelType) {
+                case ChannelType.hallChannel:
+                    __hallChannel = __AppendRoomName(channelName);
+                    break;
+                case ChannelType.boothChannel:
+                    __boothChannel = __AppendRoomName(channelName);
+                    break;
+            }
         }
     }
 
     // For leaving specific channels
     public void LeaveChannel(string channelName) {
-        if (__isConnected) {
-            __chatClient.Unsubscribe(new string[] { channelName });
+        if (__isConnected && !string.IsNullOrWhiteSpace(channelName)) {
+            __chatClient.Unsubscribe(new string[] { __AppendRoomName(channelName) });
         }
     }
 
     // For entering specific channels
     public void EnterChannel(string channelName) {
-        if (__isConnected) {
-            __chatClient.Subscribe(new string[] { channelName });
+        if (__isConnected && !string.IsNullOrWhiteSpace(channelName)) {
+            __chatClient.Subscribe(new string[] { __AppendRoomName(channelName) });
         }
+    }
+
+    private string __AppendRoomName(string channelName) {
+        return channelName + __roomName;
+    }
+
+    private string __RemoveRoomName(string channelName) {
+        return channelName.Replace(__roomName, string.Empty);
     }
 
     // This method is for displaying received messages in chat panel
@@ -184,7 +198,7 @@ public class ChatManager : MonoBehaviour, IChatClientListener {
             } else {
                 sender = senders[0];
             }
-            string message = string.Format("[{0}] {1}: {2}", channelName, sender, messages[0]);
+            string message = string.Format("[{0}] {1}: {2}", __RemoveRoomName(channelName), sender, messages[0]);
             __SendMessageToChat(message, Message.MessageType.playerMessage);
         }
     }
@@ -195,7 +209,12 @@ public class ChatManager : MonoBehaviour, IChatClientListener {
     public void OnSubscribed(string[] channels, bool[] results) {
         // Notify about connecting to new channels
         for (int i = 0; i < channels.Length; i++) {
-            string subscriptionMessage = string.Format("You entered the {0} channel.", channels[i]);
+            string subscriptionMessage;
+            if (results[i]) {
+                subscriptionMessage = string.Format("You entered the {0} channel.", __RemoveRoomName(channels[i]));
+            } else {
+                subscriptionMessage = string.Format("You failed to join the {0} channel.", __RemoveRoomName(channels[i]));
+            }
             Debug.Log(subscriptionMessage);
             __SendMessageToChat(subscriptionMessage, Message.MessageType.info);
         }
@@ -204,7 +223,7 @@ public class ChatManager : MonoBehaviour, IChatClientListener {
     public void OnUnsubscribed(string[] channels) {
         // Notify about connecting to new channels
         for (int i = 0; i < channels.Length; i++) {
-            string unsubscriptionMessage = string.Format("You left the {0} channel.", channels[i]);
+            string unsubscriptionMessage = string.Format("You left the {0} channel.", __RemoveRoomName(channels[i]));
             Debug.Log(unsubscriptionMessage);
             __SendMessageToChat(unsubscriptionMessage, Message.MessageType.info);
         }

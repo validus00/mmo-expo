@@ -1216,7 +1216,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   __chatPanel: {fileID: 492985573996540562}
-  __textObject: {fileID: 1839075795804184924, guid: 2c61f1eb877efbe49b84ca6919cf69b4,
+  __textObject: {fileID: 4405345945222537773, guid: 2c61f1eb877efbe49b84ca6919cf69b4,
     type: 3}
   __channelBox: {fileID: 7723019544791249950}
   __chatBox: {fileID: 133935874}
@@ -2702,8 +2702,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 492985574518587468}
   m_HandleRect: {fileID: 492985574518587467}
   m_Direction: 0
-  m_Value: 1
-  m_Size: 0.9999999
+  m_Value: 0
+  m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
