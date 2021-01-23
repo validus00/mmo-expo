@@ -46,6 +46,7 @@ public class MovementController : MonoBehaviour {
         // Apply velocity only if user is allowed to move
         if (__canMove) {
             HandleCharacterMovement();
+            __characterController.enabled = true;
         }
     }
 

@@ -121,6 +121,36 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &69590173
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 69590174}
+  m_Layer: 0
+  m_Name: BoothsHallNorthSpawn
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &69590174
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 69590173}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 74.895}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 897073613}
+  m_RootOrder: 8
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &87419633
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -306,6 +336,11 @@ PrefabInstance:
       propertyPath: m_RootOrder
       value: 20
       objectReference: {fileID: 0}
+    - target: {fileID: 532761523403833161, guid: 8ff87ef0d81a2954aa11ec7aa3d9f5fb,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1835773684677866908, guid: 8ff87ef0d81a2954aa11ec7aa3d9f5fb,
         type: 3}
       propertyPath: m_RootOrder
@@ -449,6 +484,38 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 132818569}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &132818571 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 532761523403833162, guid: 8ff87ef0d81a2954aa11ec7aa3d9f5fb,
+    type: 3}
+  m_PrefabInstance: {fileID: 132818569}
+  m_PrefabAsset: {fileID: 0}
+--- !u!65 &132818572
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 132818571}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &132818573
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 132818571}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8ff047b9bab60ca408f1597199328928, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  teleportTarget: {fileID: 1202497621}
 --- !u!1 &133935872
 GameObject:
   m_ObjectHideFlags: 0
@@ -660,6 +727,36 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 195205966}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &300045389
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 300045390}
+  m_Layer: 0
+  m_Name: BoothsHallWestSpawn
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &300045390
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 300045389}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 74.51, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 897073613}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &382933601
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -685,7 +782,7 @@ PrefabInstance:
     - target: {fileID: 6723780258966803956, guid: 6da8d30e50288b745890c973fd893c7d,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6723780258966803956, guid: 6da8d30e50288b745890c973fd893c7d,
         type: 3}
@@ -740,6 +837,38 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 382933601}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &382933603 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6723780258966803959, guid: 6da8d30e50288b745890c973fd893c7d,
+    type: 3}
+  m_PrefabInstance: {fileID: 382933601}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &382933604
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 382933603}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8ff047b9bab60ca408f1597199328928, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  teleportTarget: {fileID: 1149726131}
+--- !u!65 &382933605
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 382933603}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &536355644
 GameObject:
   m_ObjectHideFlags: 0
@@ -915,6 +1044,11 @@ PrefabInstance:
       propertyPath: m_RootOrder
       value: 20
       objectReference: {fileID: 0}
+    - target: {fileID: 532761523403833161, guid: 8ff87ef0d81a2954aa11ec7aa3d9f5fb,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1835773684677866908, guid: 8ff87ef0d81a2954aa11ec7aa3d9f5fb,
         type: 3}
       propertyPath: m_RootOrder
@@ -1058,6 +1192,38 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 629489260}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &629489262 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 532761523403833162, guid: 8ff87ef0d81a2954aa11ec7aa3d9f5fb,
+    type: 3}
+  m_PrefabInstance: {fileID: 629489260}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &629489263
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 629489262}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8ff047b9bab60ca408f1597199328928, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  teleportTarget: {fileID: 1202497621}
+--- !u!65 &629489264
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 629489262}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &717565756
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1255,6 +1421,11 @@ Transform:
   - {fileID: 1521085283}
   - {fileID: 629489261}
   - {fileID: 132818570}
+  - {fileID: 300045390}
+  - {fileID: 1149726131}
+  - {fileID: 1608050071}
+  - {fileID: 69590174}
+  - {fileID: 1202497621}
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1485,6 +1656,36 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1082416961}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1149726130
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1149726131}
+  m_Layer: 0
+  m_Name: BoothsHallEastSpawn
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1149726131
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1149726130}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -75.487, y: 0.232, z: 0.034}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 897073613}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1179528672
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1564,6 +1765,36 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1179528672}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1202497620
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1202497621}
+  m_Layer: 0
+  m_Name: MainHallSpawn
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1202497621
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1202497620}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 897073613}
+  m_RootOrder: 9
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1209911380
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1757,15 +1988,40 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 5153914890490944997}
     m_Modifications:
+    - target: {fileID: 2725760457087451163, guid: 6da8d30e50288b745890c973fd893c7d,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6723780258194653258, guid: 6da8d30e50288b745890c973fd893c7d,
         type: 3}
       propertyPath: m_text
       value: Booths Hall West
       objectReference: {fileID: 0}
+    - target: {fileID: 6723780258412603647, guid: 6da8d30e50288b745890c973fd893c7d,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6723780258966803956, guid: 6da8d30e50288b745890c973fd893c7d,
         type: 3}
       propertyPath: m_RootOrder
       value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 6723780258966803956, guid: 6da8d30e50288b745890c973fd893c7d,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.88465
+      objectReference: {fileID: 0}
+    - target: {fileID: 6723780258966803956, guid: 6da8d30e50288b745890c973fd893c7d,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.88465
+      objectReference: {fileID: 0}
+    - target: {fileID: 6723780258966803956, guid: 6da8d30e50288b745890c973fd893c7d,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.88465
       objectReference: {fileID: 0}
     - target: {fileID: 6723780258966803956, guid: 6da8d30e50288b745890c973fd893c7d,
         type: 3}
@@ -1775,7 +2031,7 @@ PrefabInstance:
     - target: {fileID: 6723780258966803956, guid: 6da8d30e50288b745890c973fd893c7d,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6723780258966803956, guid: 6da8d30e50288b745890c973fd893c7d,
         type: 3}
@@ -1822,6 +2078,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: PortalWest
       objectReference: {fileID: 0}
+    - target: {fileID: 7195507715867295824, guid: 6da8d30e50288b745890c973fd893c7d,
+        type: 3}
+      propertyPath: m_IsTrigger
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8281154342633377920, guid: 6da8d30e50288b745890c973fd893c7d,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6da8d30e50288b745890c973fd893c7d, type: 3}
 --- !u!4 &1301895598 stripped
@@ -1830,6 +2096,38 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1301895597}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1301895599 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6723780258966803959, guid: 6da8d30e50288b745890c973fd893c7d,
+    type: 3}
+  m_PrefabInstance: {fileID: 1301895597}
+  m_PrefabAsset: {fileID: 0}
+--- !u!65 &1301895600
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1301895599}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1301895601
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1301895599}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8ff047b9bab60ca408f1597199328928, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  teleportTarget: {fileID: 300045390}
 --- !u!1001 &1313012865
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1837,6 +2135,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 897073613}
     m_Modifications:
+    - target: {fileID: 532761523403833161, guid: 8ff87ef0d81a2954aa11ec7aa3d9f5fb,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3319354799826205718, guid: 8ff87ef0d81a2954aa11ec7aa3d9f5fb,
         type: 3}
       propertyPath: m_text
@@ -1920,6 +2223,38 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1313012865}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1313012867 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 532761523403833162, guid: 8ff87ef0d81a2954aa11ec7aa3d9f5fb,
+    type: 3}
+  m_PrefabInstance: {fileID: 1313012865}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1313012868
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1313012867}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8ff047b9bab60ca408f1597199328928, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  teleportTarget: {fileID: 1202497621}
+--- !u!65 &1313012869
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1313012867}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1321488074
 GameObject:
   m_ObjectHideFlags: 0
@@ -2076,6 +2411,11 @@ PrefabInstance:
       propertyPath: m_RootOrder
       value: 20
       objectReference: {fileID: 0}
+    - target: {fileID: 532761523403833161, guid: 8ff87ef0d81a2954aa11ec7aa3d9f5fb,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1835773684677866908, guid: 8ff87ef0d81a2954aa11ec7aa3d9f5fb,
         type: 3}
       propertyPath: m_RootOrder
@@ -2219,6 +2559,68 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1521085282}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1521085284 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 532761523403833162, guid: 8ff87ef0d81a2954aa11ec7aa3d9f5fb,
+    type: 3}
+  m_PrefabInstance: {fileID: 1521085282}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1521085285
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1521085284}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8ff047b9bab60ca408f1597199328928, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  teleportTarget: {fileID: 1202497621}
+--- !u!65 &1521085286
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1521085284}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!1 &1608050070
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1608050071}
+  m_Layer: 0
+  m_Name: BoothsHallSouthSpawn
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1608050071
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1608050070}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: -74.289}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 897073613}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1642495288
 GameObject:
   m_ObjectHideFlags: 0
@@ -3279,7 +3681,7 @@ PrefabInstance:
     - target: {fileID: 6723780258966803956, guid: 6da8d30e50288b745890c973fd893c7d,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6723780258966803956, guid: 6da8d30e50288b745890c973fd893c7d,
         type: 3}
@@ -3334,6 +3736,38 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 6723780257873627250}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &6723780257873627252 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6723780258966803959, guid: 6da8d30e50288b745890c973fd893c7d,
+    type: 3}
+  m_PrefabInstance: {fileID: 6723780257873627250}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &6723780257873627253
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6723780257873627252}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8ff047b9bab60ca408f1597199328928, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  teleportTarget: {fileID: 69590174}
+--- !u!65 &6723780257873627254
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6723780257873627252}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &7350992685376477883
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3359,7 +3793,7 @@ PrefabInstance:
     - target: {fileID: 6723780258966803956, guid: 6da8d30e50288b745890c973fd893c7d,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6723780258966803956, guid: 6da8d30e50288b745890c973fd893c7d,
         type: 3}
@@ -3414,6 +3848,38 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 7350992685376477883}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &7350992685376477885 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6723780258966803959, guid: 6da8d30e50288b745890c973fd893c7d,
+    type: 3}
+  m_PrefabInstance: {fileID: 7350992685376477883}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &7350992685376477886
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7350992685376477885}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8ff047b9bab60ca408f1597199328928, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  teleportTarget: {fileID: 1608050071}
+--- !u!65 &7350992685376477887
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7350992685376477885}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &7723019544609607904
 MonoBehaviour:
   m_ObjectHideFlags: 0
