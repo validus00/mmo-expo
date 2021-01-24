@@ -1013,7 +1013,7 @@ GameObject:
   - component: {fileID: 6694544518763626640}
   - component: {fileID: 3168980051461763583}
   - component: {fileID: 196389606}
-  - component: {fileID: 196389607}
+  - component: {fileID: 8107871846106714341}
   m_Layer: 0
   m_Name: UserMale
   m_TagString: Untagged
@@ -1182,7 +1182,7 @@ CharacterController:
   m_SkinWidth: 0.001
   m_MinMoveDistance: 0
   m_Center: {x: 0, y: 0.83, z: 0}
---- !u!114 &196389607
+--- !u!114 &8107871846106714341
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

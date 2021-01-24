@@ -20,6 +20,7 @@ public class MovementController : MonoBehaviour {
     [SerializeField]
     private GameObject __fpsCamera;
     private CharacterController __characterController;
+    private Animator __animator;
     // For handling user movement inputs
     private PlayerInputHandler __playerInputHandler;
     // Channel name input field
@@ -35,6 +36,7 @@ public class MovementController : MonoBehaviour {
     void Start() {
         __characterController = GetComponent<CharacterController>();
         __playerInputHandler = GetComponent<PlayerInputHandler>();
+        __animator = GetComponent<Animator>();
         __channelBox = GameObject.Find("ChannelInputField").GetComponent<InputField>();
         __chatBox = GameObject.Find("MessageInputField").GetComponent<InputField>();
         // Prevent User object from overlapping with another object
@@ -45,7 +47,7 @@ public class MovementController : MonoBehaviour {
     void Update() {
         // Apply velocity only if user is allowed to move
         if (__canMove) {
-            HandleCharacterMovement();
+            __HandleCharacterMovement();
         }
     }
 
@@ -64,7 +66,7 @@ public class MovementController : MonoBehaviour {
         }
     }
 
-    private void HandleCharacterMovement() {
+    private void __HandleCharacterMovement() {
         // If right mouse button is held down, then hide the mouse cursor and allow mouse free look
         if (__playerInputHandler.GetRightClickInputHeld()) {
             Cursor.lockState = CursorLockMode.Locked;
@@ -82,8 +84,23 @@ public class MovementController : MonoBehaviour {
             Cursor.visible = true;
         }
         // Apply velocity to User object
-        Vector3 targetVelocity = __maxSpeedOnGround * transform.TransformVector(__playerInputHandler.GetMoveInput());
+
+        Vector3 move = __playerInputHandler.GetMoveInput();
+        __animator.SetFloat("Horizontal", __GetAnimatorValue(move.x));
+        __animator.SetFloat("Vertical", __GetAnimatorValue(move.z));
+
+        Vector3 targetVelocity = __maxSpeedOnGround * transform.TransformVector(move);
         __characterVelocity = Vector3.Lerp(__characterVelocity, targetVelocity, __movementSharpnessOnGround * Time.deltaTime);
         __characterController.Move(__characterVelocity * Time.deltaTime);
+    }
+
+    private float __GetAnimatorValue(float input) {
+        if (input > 0) {
+            return 1f;
+        } else if (0 > input) {
+            return -1f;
+        } else {
+            return 0;
+        }
     }
 }
