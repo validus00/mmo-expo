@@ -324,7 +324,6 @@ GameObject:
   - component: {fileID: -7483804426195189717}
   - component: {fileID: -6339705135640882192}
   - component: {fileID: 1346584965419313239}
-  - component: {fileID: 4022235238918472623}
   m_Layer: 0
   m_Name: UserFemale
   m_TagString: Untagged
@@ -493,19 +492,6 @@ CharacterController:
   m_SkinWidth: 0.001
   m_MinMoveDistance: 0
   m_Center: {x: 0, y: 0.83, z: 0}
---- !u!114 &4022235238918472623
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6601386651165192743}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa55a5ff61f52f84184fdd648ba1f0a5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  __lookSensitivity: 1
 --- !u!1 &6601386651165192745
 GameObject:
   m_ObjectHideFlags: 0

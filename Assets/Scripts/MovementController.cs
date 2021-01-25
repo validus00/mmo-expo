@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using UnityEngine.UI;
 
 /*
  * MovementController class is for implementing user movement controls
@@ -22,23 +21,48 @@ public class MovementController : MonoBehaviour {
     private CharacterController __characterController;
     private Animator __animator;
     // For handling user movement inputs
-    private PlayerInputHandler __playerInputHandler;
+    private IPlayerInputHandler __playerInputHandler;
     // Channel name input field
-    private InputField __channelBox;
+    private IInputFieldHandler __channelBoxHandler;
     // Chat input field
-    private InputField __chatBox;
+    private IInputFieldHandler __chatBoxHandler;
     // For handling disabling horizontal user movement during chat
     private bool __canMove = true;
     // For adding a little delay between chatting and horizontal user movement
     private int __delay = 0;
+    // For setting up channelBoxHandler and chatBoxHandler
+    private bool __isInputFieldInitialized = false;
+
+    // For initializing playerInputHandler
+    public void InitializePlayerInputHandler(IPlayerInputHandler playerInputHandler) {
+        __playerInputHandler = playerInputHandler;
+    }
+
+    // For initalizing channelBoxHandler and chatBoxHandler
+    public void InitializeInputFieldHandlers(IInputFieldHandler channelBoxHandler, IInputFieldHandler chatBoxHandler) {
+        __channelBoxHandler = channelBoxHandler;
+        __chatBoxHandler = chatBoxHandler;
+        __isInputFieldInitialized = true;
+    }
+
+    // For setting up fpsCamera
+    public void InitializeCamera(GameObject camera) {
+        __fpsCamera = camera;
+    }
 
     // Start is called before the first frame update
     void Start() {
+        if (__playerInputHandler == null) {
+            __playerInputHandler = new PlayerInputHandler();
+        }
+
+        if (!__isInputFieldInitialized) {
+            __channelBoxHandler = GameObject.Find("ChannelInputField").GetComponent<InputFieldHandler>();
+            __chatBoxHandler = GameObject.Find("MessageInputField").GetComponent<InputFieldHandler>();
+            __isInputFieldInitialized = true;
+        }
         __characterController = GetComponent<CharacterController>();
-        __playerInputHandler = GetComponent<PlayerInputHandler>();
         __animator = GetComponent<Animator>();
-        __channelBox = GameObject.Find("ChannelInputField").GetComponent<InputField>();
-        __chatBox = GameObject.Find("MessageInputField").GetComponent<InputField>();
         // Prevent User object from overlapping with another object
         __characterController.enableOverlapRecovery = true;
     }
@@ -54,7 +78,7 @@ public class MovementController : MonoBehaviour {
     // For consistently periodic updates
     void FixedUpdate() {
         // If chat input field is selected, disable movement and apply a delay
-        if (__chatBox.isFocused || __channelBox.isFocused) {
+        if (__chatBoxHandler.isFocused() || __channelBoxHandler.isFocused()) {
             __delay = 20;
             __canMove = false;
         } else if (__delay > 0) {

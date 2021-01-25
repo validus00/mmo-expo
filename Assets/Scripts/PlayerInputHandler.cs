@@ -1,8 +1,6 @@
 ﻿using UnityEngine;
 
-public class PlayerInputHandler : MonoBehaviour {
-    // Mouse look sensitivity
-    [SerializeField]
+public class PlayerInputHandler : IPlayerInputHandler {
     private float __lookSensitivity = 1f;
 
     public bool GetRightClickInputHeld() {
