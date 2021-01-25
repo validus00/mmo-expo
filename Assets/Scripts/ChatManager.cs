@@ -109,6 +109,9 @@ public class ChatManager : MonoBehaviour {
             case ChannelType.boothChannel:
                 __boothChannel = channelName;
                 break;
+            case ChannelType.announcementChannel:
+                // Changing announcements channel is not allowed
+                return;
         }
 
         if (!photonChatHandler.IsConnected()) {

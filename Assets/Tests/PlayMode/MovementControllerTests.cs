@@ -114,6 +114,8 @@ namespace Tests {
 
             yield return null;
 
+            Assert.IsFalse(Cursor.visible);
+            Assert.AreEqual(CursorLockMode.Locked, Cursor.lockState);
             Assert.AreNotEqual(originalRotation, user.transform.rotation);
             Assert.AreEqual(0, user.transform.position.x);
             Assert.AreEqual(0, user.transform.position.y);
@@ -138,6 +140,8 @@ namespace Tests {
 
             yield return null;
 
+            Assert.IsTrue(Cursor.visible);
+            Assert.AreEqual(CursorLockMode.None, Cursor.lockState);
             Assert.AreEqual(originalRotation, user.transform.rotation);
             Assert.AreEqual(0, user.transform.position.x);
             Assert.AreEqual(0, user.transform.position.y);
