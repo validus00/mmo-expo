@@ -45,6 +45,9 @@ public class MovementController : MonoBehaviour {
     // Update is called once per frame 
     void Update() {
         // Apply velocity only if user is allowed to move
+        if (!__characterController.enabled) {
+            GetComponent<PhotonView>().RPC("CharacterControllerToggle", RpcTarget.AllBuffered, __characterController.enabled);
+        }
         if (__canMove) {
             HandleCharacterMovement();
         }
@@ -52,7 +55,6 @@ public class MovementController : MonoBehaviour {
 
     // For consistently periodic updates
     void FixedUpdate() {
-
         // If chat input field is selected, disable movement and apply a delay
         if (__chatBox.isFocused || __channelBox.isFocused) {
             __delay = 20;
@@ -67,6 +69,10 @@ public class MovementController : MonoBehaviour {
     }
 
     private void HandleCharacterMovement() {
+        if (!__characterController.enabled) {
+            __characterController.enabled = true;
+            GetComponent<PhotonView>().RPC("CharacterControllerToggle", RpcTarget.AllBuffered, __characterController.enabled);
+        }
         // If right mouse button is held down, then hide the mouse cursor and allow mouse free look
         if (__playerInputHandler.GetRightClickInputHeld()) {
             Cursor.lockState = CursorLockMode.Locked;
@@ -89,5 +95,3 @@ public class MovementController : MonoBehaviour {
         __characterController.Move(__characterVelocity * Time.deltaTime);
     }
 }
-
-

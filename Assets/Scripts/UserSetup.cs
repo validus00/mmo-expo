@@ -11,8 +11,12 @@ public class UserSetup : MonoBehaviourPunCallbacks {
     [SerializeField]
     TextMeshProUGUI userNameText;
 
+    private CharacterController __characterController;
+
     // Start is called before the first frame update
     void Start() {
+        __characterController = GetComponent<CharacterController>();
+
         if (!photonView.IsMine) {
             Destroy(transform.GetComponent<MovementController>());
             Destroy(FPSCamera);
@@ -28,6 +32,14 @@ public class UserSetup : MonoBehaviourPunCallbacks {
     void SetUserUI() {
         if (userNameText != null) {
             userNameText.text = photonView.Owner.NickName;
+        }
+    }
+
+
+    [PunRPC]
+    public void CharacterControllerToggle(bool value) {
+        if (!GetComponent<PhotonView>().IsMine) {
+            __characterController.enabled = value;
         }
     }
 
