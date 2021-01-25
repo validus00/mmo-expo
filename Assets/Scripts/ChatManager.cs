@@ -14,9 +14,9 @@ public class ChatManager : MonoBehaviour {
     }
 
     // For chat client handling
-    private IPhotonChatHandler __photonChatHandler;
+    public IPhotonChatHandler photonChatHandler;
     // For handling user inputs
-    private IPlayerInputHandler __playerInputHandler;
+    public IPlayerInputHandler playerInputHandler;
     // max number of channels
     private const int __maxMessages = 100;
     // Showcase-wide channel
@@ -25,62 +25,22 @@ public class ChatManager : MonoBehaviour {
     private string __hallChannel = "Main Hall";
     // Booth specific channel
     private string __boothChannel = string.Empty;
-
-    [SerializeField]
-    private GameObject __chatPanel, __textObject;
-
-    [SerializeField]
-    private InputField __channelBox;
-
-    [SerializeField]
-    private InputField __chatBox;
-
-    [SerializeField]
-    private Color __playerMessage, __info;
+    // Chat panel
+    public GameObject chatPanel;
+    // Text objects to populate chat panel
+    public GameObject textObject;
+    // Channel name input field
+    public InputField channelBox;
+    // message input field
+    public InputField chatBox;
+    // Color for general chat messages
+    public Color playerMessageColor;
+    // Color for informational messages
+    public Color infoColor;
 
     // messageList keeps tracks of recent messages
     [SerializeField]
     readonly private List<Message> __messageList = new List<Message>();
-
-    // For initializing playerInputHandler
-    public void InitializePlayerInputHandler(IPlayerInputHandler playerInputHandler) {
-        __playerInputHandler = playerInputHandler;
-    }
-
-    // For initializing playerInputHandler
-    public void InitializePhotonChatHandler(IPhotonChatHandler photonChatHandler) {
-        __photonChatHandler = photonChatHandler;
-    }
-
-    // For initializing chatPanel
-    public void InitializeChatPanel(GameObject gameObject) {
-        __chatPanel = gameObject;
-    }
-
-    // For initializing textObject
-    public void InitializeTextObject(GameObject gameObject) {
-        __textObject = gameObject;
-    }
-
-    // For initializing channelBox
-    public void InitializeChannelBox(InputField inputField) {
-        __channelBox = inputField;
-    }
-
-    // For initializing chatBox
-    public void InitializeChatBox(InputField inputField) {
-        __chatBox = inputField;
-    }
-
-    // For initializing playerMessage color
-    public void InitializePlayerMessageColor(Color color) {
-        __playerMessage = color;
-    }
-
-    // For initializing info color
-    public void InitializeInfoColor(Color color) {
-        __info = color;
-    }
 
     // Returns current messages
     public List<Message> GetMessages() {
@@ -89,37 +49,37 @@ public class ChatManager : MonoBehaviour {
 
     // Start is called before the first frame update
     void Start() {
-        if (__photonChatHandler == null) {
-            __photonChatHandler = new PhotonChatHandler();
-            __photonChatHandler.Initialize();
+        if (photonChatHandler == null) {
+            photonChatHandler = new PhotonChatHandler();
+            photonChatHandler.Initialize();
         }
-        if (__playerInputHandler == null) {
-            __playerInputHandler = new PlayerInputHandler();
+        if (playerInputHandler == null) {
+            playerInputHandler = new PlayerInputHandler();
         }
 
-        __photonChatHandler.InitializeChannels(new string[] { __announcementChannel, __hallChannel });
+        photonChatHandler.InitializeChannels(new string[] { __announcementChannel, __hallChannel });
     }
 
     // Update is called once per frame
     void Update() {
         // Maintain service connection to Photon
-        __photonChatHandler.MaintainService();
+        photonChatHandler.MaintainService();
 
         // Get new messages from chat client
-        List<Message> messages = __photonChatHandler.GetNewMessages();
+        List<Message> messages = photonChatHandler.GetNewMessages();
         foreach (Message message in messages) {
             __SendMessageToChat(message);
         }
 
-        string channelName = __channelBox.text;
-        string messageText = __chatBox.text;
+        string channelName = channelBox.text;
+        string messageText = chatBox.text;
         // Enter key either sends a message or activates the chat input field
-        if (__playerInputHandler.GetReturnKey()) {
+        if (playerInputHandler.GetReturnKey()) {
             if (!string.IsNullOrEmpty(messageText)) {
                 if (string.IsNullOrWhiteSpace(channelName)) {
                     // channel name not given
                     __SendMessageToChat("No channel or username specified.", Message.MessageType.info);
-                } else if (!__photonChatHandler.IsConnected()) {
+                } else if (!photonChatHandler.IsConnected()) {
                     // Chat client not connected
                     __SendMessageToChat("Not connected to chat yet.", Message.MessageType.info);
                 } else if (__CheckChannelBox(channelName)) {
@@ -128,11 +88,11 @@ public class ChatManager : MonoBehaviour {
                     __SendMessageToChat(warning, Message.MessageType.info);
                 } else {
                     // Send message
-                    __photonChatHandler.SendChannelMessage(channelName, messageText);
-                    __chatBox.text = string.Empty;
+                    photonChatHandler.SendChannelMessage(channelName, messageText);
+                    chatBox.text = string.Empty;
                 }
             } else {
-                __chatBox.ActivateInputField();
+                chatBox.ActivateInputField();
             }
         }
     }
@@ -151,11 +111,11 @@ public class ChatManager : MonoBehaviour {
                 break;
         }
 
-        if (!__photonChatHandler.IsConnected()) {
+        if (!photonChatHandler.IsConnected()) {
             if (!string.IsNullOrEmpty(__boothChannel)) {
-                __photonChatHandler.InitializeChannels(new string[] { __announcementChannel, __hallChannel, __boothChannel });
+                photonChatHandler.InitializeChannels(new string[] { __announcementChannel, __hallChannel, __boothChannel });
             } else {
-                __photonChatHandler.InitializeChannels(new string[] { __announcementChannel, __hallChannel });
+                photonChatHandler.InitializeChannels(new string[] { __announcementChannel, __hallChannel });
             }
         }
     }
@@ -163,14 +123,14 @@ public class ChatManager : MonoBehaviour {
     // For leaving a specific channel
     public void LeaveChannel(string channelName) {
         if (!string.IsNullOrWhiteSpace(channelName)) {
-            __photonChatHandler.LeaveChannel(channelName);
+            photonChatHandler.LeaveChannel(channelName);
         }
     }
 
     // For entering a specific channel
     public void EnterChannel(string channelName) {
         if (!string.IsNullOrWhiteSpace(channelName)) {
-            __photonChatHandler.EnterChannel(channelName);
+            photonChatHandler.EnterChannel(channelName);
         }
     }
 
@@ -195,7 +155,7 @@ public class ChatManager : MonoBehaviour {
 
         // Create new Message object and add to list of messages
         Message message = new Message();
-        GameObject newText = Instantiate(__textObject, __chatPanel.transform);
+        GameObject newText = Instantiate(textObject, chatPanel.transform);
         message.messageText = text;
         message.messageType = messageType;
         message.textObject = newText.GetComponent<Text>();
@@ -210,7 +170,7 @@ public class ChatManager : MonoBehaviour {
         // Limit number of messages
         __LimitNumberOfMessages();
 
-        GameObject newText = Instantiate(__textObject, __chatPanel.transform);
+        GameObject newText = Instantiate(textObject, chatPanel.transform);
         message.textObject = newText.GetComponent<Text>();
         message.textObject.text = message.messageText;
         message.textObject.color = __MessageTypeColor(message.messageType);
@@ -229,11 +189,11 @@ public class ChatManager : MonoBehaviour {
     // This method is for determining which color the message type is
     private Color __MessageTypeColor(Message.MessageType messageType) {
         // Default color
-        Color color = __info;
+        Color color = infoColor;
 
         switch (messageType) {
             case Message.MessageType.playerMessage:
-                color = __playerMessage;
+                color = playerMessageColor;
                 break;
         }
 

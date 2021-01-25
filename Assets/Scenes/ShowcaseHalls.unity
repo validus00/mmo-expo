@@ -1228,14 +1228,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 580fb3cafa01b6946937b3e246d572e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  __chatPanel: {fileID: 492985573996540562}
-  __textObject: {fileID: 4405345945222537773, guid: 2c61f1eb877efbe49b84ca6919cf69b4,
+  chatPanel: {fileID: 492985573996540562}
+  textObject: {fileID: 4405345945222537773, guid: 2c61f1eb877efbe49b84ca6919cf69b4,
     type: 3}
-  __channelBox: {fileID: 7723019544791249950}
-  __chatBox: {fileID: 133935874}
-  __playerMessage: {r: 1, g: 1, b: 1, a: 1}
-  __info: {r: 1, g: 1, b: 0, a: 1}
-  __messageList: []
+  channelBox: {fileID: 7723019544791249950}
+  chatBox: {fileID: 133935874}
+  playerMessageColor: {r: 1, g: 1, b: 1, a: 1}
+  infoColor: {r: 1, g: 1, b: 0, a: 1}
 --- !u!1 &897073612
 GameObject:
   m_ObjectHideFlags: 0
@@ -2716,7 +2715,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 492985574518587467}
   m_Direction: 0
   m_Value: 0
-  m_Size: 0.9999999
+  m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:

@@ -19,7 +19,7 @@ namespace Tests {
             IPlayerInputHandler playerInputHandler = Substitute.For<IPlayerInputHandler>();
             playerInputHandler.GetMoveInput().Returns(new Vector3(0, 0, 1));
             MovementController movementController = user.AddComponent<MovementController>();
-            movementController.InitializePlayerInputHandler(playerInputHandler);
+            movementController.playerInputHandler = playerInputHandler;
             user.transform.position = Vector3.zero;
 
             yield return null;
@@ -46,8 +46,9 @@ namespace Tests {
             chatBoxHandler.isFocused().Returns(true);
 
             MovementController movementController = user.AddComponent<MovementController>();
-            movementController.InitializePlayerInputHandler(playerInputHandler);
-            movementController.InitializeInputFieldHandlers(channelBoxHandler, chatBoxHandler);
+            movementController.playerInputHandler = playerInputHandler;
+            movementController.channelBoxHandler = channelBoxHandler;
+            movementController.chatBoxHandler = chatBoxHandler;
             user.transform.position = Vector3.zero;
 
             yield return null;
@@ -76,9 +77,9 @@ namespace Tests {
             Quaternion originalRotation = user.transform.rotation;
 
             MovementController movementController = user.AddComponent<MovementController>();
-            movementController.InitializePlayerInputHandler(playerInputHandler);
+            movementController.playerInputHandler = playerInputHandler;
             GameObject camera = new GameObject("Camera");
-            movementController.InitializeCamera(camera);
+            movementController.fpsCamera = camera;
             user.transform.position = Vector3.zero;
 
             yield return null;
@@ -108,9 +109,9 @@ namespace Tests {
             Quaternion originalRotation = user.transform.rotation;
 
             MovementController movementController = user.AddComponent<MovementController>();
-            movementController.InitializePlayerInputHandler(playerInputHandler);
+            movementController.playerInputHandler = playerInputHandler;
             GameObject camera = new GameObject("Camera");
-            movementController.InitializeCamera(camera);
+            movementController.fpsCamera = camera;
             user.transform.position = Vector3.zero;
 
             yield return null;

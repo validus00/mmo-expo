@@ -14,26 +14,9 @@ namespace Tests {
             ChatManager chatManager = eventManager.AddComponent<ChatManager>();
 
             IPhotonChatHandler photonChatHandler = Substitute.For<IPhotonChatHandler>();
-            chatManager.InitializePhotonChatHandler(photonChatHandler);
             photonChatHandler.GetNewMessages().Returns(new List<Message>());
 
-            GameObject chatPanel = new GameObject("ChatPanel");
-            chatManager.InitializeChatPanel(chatPanel);
-
-            GameObject textObject = new GameObject("Text");
-            textObject.AddComponent<Text>();
-            chatManager.InitializeTextObject(textObject);
-
-            GameObject channelBoxObject = new GameObject("ChannelBoxObject");
-            InputField channelBox = channelBoxObject.AddComponent<InputField>();
-            chatManager.InitializeChannelBox(channelBox);
-
-            GameObject chatBoxObject = new GameObject("ChatBoxObject");
-            InputField chatBox = chatBoxObject.AddComponent<InputField>();
-            chatManager.InitializeChatBox(chatBox);
-
-            chatManager.InitializePlayerMessageColor(new Color(255, 255, 255));
-            chatManager.InitializeInfoColor(new Color(255, 255, 0));
+            __SetUpChatManager(chatManager, null, photonChatHandler, null, null);
 
             yield return null;
 
@@ -49,11 +32,9 @@ namespace Tests {
             ChatManager chatManager = eventManager.AddComponent<ChatManager>();
 
             IPlayerInputHandler playerInputHandler = Substitute.For<IPlayerInputHandler>();
-            chatManager.InitializePlayerInputHandler(playerInputHandler);
             playerInputHandler.GetReturnKey().Returns(true);
 
             IPhotonChatHandler photonChatHandler = Substitute.For<IPhotonChatHandler>();
-            chatManager.InitializePhotonChatHandler(photonChatHandler);
             List<Message> messages = new List<Message>();
             Message newMessage = new Message();
             newMessage.messageText = "Hi there";
@@ -62,25 +43,7 @@ namespace Tests {
             photonChatHandler.GetNewMessages().Returns(messages);
             photonChatHandler.IsConnected().Returns(true);
 
-            GameObject chatPanel = new GameObject("ChatPanel");
-            chatManager.InitializeChatPanel(chatPanel);
-
-            GameObject textObject = new GameObject("Text");
-            textObject.AddComponent<Text>();
-            chatManager.InitializeTextObject(textObject);
-
-            GameObject channelBoxObject = new GameObject("ChannelBoxObject");
-            InputField channelBox = channelBoxObject.AddComponent<InputField>();
-            channelBox.text = "Main Hall";
-            chatManager.InitializeChannelBox(channelBox);
-
-            GameObject chatBoxObject = new GameObject("ChatBoxObject");
-            InputField chatBox = chatBoxObject.AddComponent<InputField>();
-            chatBox.text = "Hi there";
-            chatManager.InitializeChatBox(chatBox);
-
-            chatManager.InitializePlayerMessageColor(new Color(255, 255, 255));
-            chatManager.InitializeInfoColor(new Color(255, 255, 0));
+            __SetUpChatManager(chatManager, null, photonChatHandler, "Main Hall", "Hi there");
 
             yield return null;
 
@@ -96,11 +59,9 @@ namespace Tests {
             ChatManager chatManager = eventManager.AddComponent<ChatManager>();
 
             IPlayerInputHandler playerInputHandler = Substitute.For<IPlayerInputHandler>();
-            chatManager.InitializePlayerInputHandler(playerInputHandler);
             playerInputHandler.GetReturnKey().Returns(true);
 
             IPhotonChatHandler photonChatHandler = Substitute.For<IPhotonChatHandler>();
-            chatManager.InitializePhotonChatHandler(photonChatHandler);
             List<Message> messages = new List<Message>();
             for (int i = 0; i < 200; i++) {
                 Message newMessage = new Message();
@@ -111,25 +72,7 @@ namespace Tests {
             photonChatHandler.GetNewMessages().Returns(messages);
             photonChatHandler.IsConnected().Returns(true);
 
-            GameObject chatPanel = new GameObject("ChatPanel");
-            chatManager.InitializeChatPanel(chatPanel);
-
-            GameObject textObject = new GameObject("Text");
-            textObject.AddComponent<Text>();
-            chatManager.InitializeTextObject(textObject);
-
-            GameObject channelBoxObject = new GameObject("ChannelBoxObject");
-            InputField channelBox = channelBoxObject.AddComponent<InputField>();
-            channelBox.text = "Main Hall";
-            chatManager.InitializeChannelBox(channelBox);
-
-            GameObject chatBoxObject = new GameObject("ChatBoxObject");
-            InputField chatBox = chatBoxObject.AddComponent<InputField>();
-            chatBox.text = "Hi there";
-            chatManager.InitializeChatBox(chatBox);
-
-            chatManager.InitializePlayerMessageColor(new Color(255, 255, 255));
-            chatManager.InitializeInfoColor(new Color(255, 255, 0));
+            __SetUpChatManager(chatManager, playerInputHandler, photonChatHandler, "Main Hall", "Hi there");
 
             yield return null;
 
@@ -145,33 +88,13 @@ namespace Tests {
             ChatManager chatManager = eventManager.AddComponent<ChatManager>();
 
             IPlayerInputHandler playerInputHandler = Substitute.For<IPlayerInputHandler>();
-            chatManager.InitializePlayerInputHandler(playerInputHandler);
             playerInputHandler.GetReturnKey().Returns(true);
 
             IPhotonChatHandler photonChatHandler = Substitute.For<IPhotonChatHandler>();
-            chatManager.InitializePhotonChatHandler(photonChatHandler);
             photonChatHandler.GetNewMessages().Returns(new List<Message>());
             photonChatHandler.IsConnected().Returns(true);
 
-            GameObject chatPanel = new GameObject("ChatPanel");
-            chatManager.InitializeChatPanel(chatPanel);
-
-            GameObject textObject = new GameObject("Text");
-            textObject.AddComponent<Text>();
-            chatManager.InitializeTextObject(textObject);
-
-            GameObject channelBoxObject = new GameObject("ChannelBoxObject");
-            InputField channelBox = channelBoxObject.AddComponent<InputField>();
-            channelBox.text = string.Empty;
-            chatManager.InitializeChannelBox(channelBox);
-
-            GameObject chatBoxObject = new GameObject("ChatBoxObject");
-            InputField chatBox = chatBoxObject.AddComponent<InputField>();
-            chatBox.text = "Hi there";
-            chatManager.InitializeChatBox(chatBox);
-
-            chatManager.InitializePlayerMessageColor(new Color(255, 255, 255));
-            chatManager.InitializeInfoColor(new Color(255, 255, 0));
+            __SetUpChatManager(chatManager, playerInputHandler, photonChatHandler, null, "Hi there");
 
             yield return null;
 
@@ -189,33 +112,13 @@ namespace Tests {
             ChatManager chatManager = eventManager.AddComponent<ChatManager>();
 
             IPlayerInputHandler playerInputHandler = Substitute.For<IPlayerInputHandler>();
-            chatManager.InitializePlayerInputHandler(playerInputHandler);
             playerInputHandler.GetReturnKey().Returns(true);
 
             IPhotonChatHandler photonChatHandler = Substitute.For<IPhotonChatHandler>();
-            chatManager.InitializePhotonChatHandler(photonChatHandler);
             photonChatHandler.GetNewMessages().Returns(new List<Message>());
             photonChatHandler.IsConnected().Returns(false);
 
-            GameObject chatPanel = new GameObject("ChatPanel");
-            chatManager.InitializeChatPanel(chatPanel);
-
-            GameObject textObject = new GameObject("Text");
-            textObject.AddComponent<Text>();
-            chatManager.InitializeTextObject(textObject);
-
-            GameObject channelBoxObject = new GameObject("ChannelBoxObject");
-            InputField channelBox = channelBoxObject.AddComponent<InputField>();
-            channelBox.text = "Announcements";
-            chatManager.InitializeChannelBox(channelBox);
-
-            GameObject chatBoxObject = new GameObject("ChatBoxObject");
-            InputField chatBox = chatBoxObject.AddComponent<InputField>();
-            chatBox.text = "Hi there";
-            chatManager.InitializeChatBox(chatBox);
-
-            chatManager.InitializePlayerMessageColor(new Color(255, 255, 255));
-            chatManager.InitializeInfoColor(new Color(255, 255, 0));
+            __SetUpChatManager(chatManager, playerInputHandler, photonChatHandler, "Announcements", "Hi there");
 
             yield return null;
 
@@ -233,33 +136,13 @@ namespace Tests {
             ChatManager chatManager = eventManager.AddComponent<ChatManager>();
 
             IPlayerInputHandler playerInputHandler = Substitute.For<IPlayerInputHandler>();
-            chatManager.InitializePlayerInputHandler(playerInputHandler);
             playerInputHandler.GetReturnKey().Returns(true);
 
             IPhotonChatHandler photonChatHandler = Substitute.For<IPhotonChatHandler>();
-            chatManager.InitializePhotonChatHandler(photonChatHandler);
             photonChatHandler.GetNewMessages().Returns(new List<Message>());
             photonChatHandler.IsConnected().Returns(true);
 
-            GameObject chatPanel = new GameObject("ChatPanel");
-            chatManager.InitializeChatPanel(chatPanel);
-
-            GameObject textObject = new GameObject("Text");
-            textObject.AddComponent<Text>();
-            chatManager.InitializeTextObject(textObject);
-
-            GameObject channelBoxObject = new GameObject("ChannelBoxObject");
-            InputField channelBox = channelBoxObject.AddComponent<InputField>();
-            channelBox.text = "Test";
-            chatManager.InitializeChannelBox(channelBox);
-
-            GameObject chatBoxObject = new GameObject("ChatBoxObject");
-            InputField chatBox = chatBoxObject.AddComponent<InputField>();
-            chatBox.text = "Hi there";
-            chatManager.InitializeChatBox(chatBox);
-
-            chatManager.InitializePlayerMessageColor(new Color(255, 255, 255));
-            chatManager.InitializeInfoColor(new Color(255, 255, 0));
+            __SetUpChatManager(chatManager, playerInputHandler, photonChatHandler, "Test", "Hi there");
 
             yield return null;
 
@@ -277,31 +160,11 @@ namespace Tests {
             GameObject eventManager = new GameObject("ExpoEventManager");
             ChatManager chatManager = eventManager.AddComponent<ChatManager>();
 
-            IPlayerInputHandler playerInputHandler = Substitute.For<IPlayerInputHandler>();
-            chatManager.InitializePlayerInputHandler(playerInputHandler);
-
             IPhotonChatHandler photonChatHandler = Substitute.For<IPhotonChatHandler>();
-            chatManager.InitializePhotonChatHandler(photonChatHandler);
             photonChatHandler.GetNewMessages().Returns(new List<Message>());
             photonChatHandler.IsConnected().Returns(false);
 
-            GameObject chatPanel = new GameObject("ChatPanel");
-            chatManager.InitializeChatPanel(chatPanel);
-
-            GameObject textObject = new GameObject("Text");
-            textObject.AddComponent<Text>();
-            chatManager.InitializeTextObject(textObject);
-
-            GameObject channelBoxObject = new GameObject("ChannelBoxObject");
-            InputField channelBox = channelBoxObject.AddComponent<InputField>();
-            chatManager.InitializeChannelBox(channelBox);
-
-            GameObject chatBoxObject = new GameObject("ChatBoxObject");
-            InputField chatBox = chatBoxObject.AddComponent<InputField>();
-            chatManager.InitializeChatBox(chatBox);
-
-            chatManager.InitializePlayerMessageColor(new Color(255, 255, 255));
-            chatManager.InitializeInfoColor(new Color(255, 255, 0));
+            __SetUpChatManager(chatManager, null, photonChatHandler, null, null);
 
             chatManager.UpdateChannel("MMO Expo", ChatManager.ChannelType.boothChannel);
 
@@ -319,31 +182,11 @@ namespace Tests {
             GameObject eventManager = new GameObject("ExpoEventManager");
             ChatManager chatManager = eventManager.AddComponent<ChatManager>();
 
-            IPlayerInputHandler playerInputHandler = Substitute.For<IPlayerInputHandler>();
-            chatManager.InitializePlayerInputHandler(playerInputHandler);
-
             IPhotonChatHandler photonChatHandler = Substitute.For<IPhotonChatHandler>();
-            chatManager.InitializePhotonChatHandler(photonChatHandler);
             photonChatHandler.GetNewMessages().Returns(new List<Message>());
             photonChatHandler.IsConnected().Returns(false);
 
-            GameObject chatPanel = new GameObject("ChatPanel");
-            chatManager.InitializeChatPanel(chatPanel);
-
-            GameObject textObject = new GameObject("Text");
-            textObject.AddComponent<Text>();
-            chatManager.InitializeTextObject(textObject);
-
-            GameObject channelBoxObject = new GameObject("ChannelBoxObject");
-            InputField channelBox = channelBoxObject.AddComponent<InputField>();
-            chatManager.InitializeChannelBox(channelBox);
-
-            GameObject chatBoxObject = new GameObject("ChatBoxObject");
-            InputField chatBox = chatBoxObject.AddComponent<InputField>();
-            chatManager.InitializeChatBox(chatBox);
-
-            chatManager.InitializePlayerMessageColor(new Color(255, 255, 255));
-            chatManager.InitializeInfoColor(new Color(255, 255, 0));
+            __SetUpChatManager(chatManager, null, photonChatHandler, null, null);
 
             chatManager.UpdateChannel("Booths Hall North", ChatManager.ChannelType.hallChannel);
 
@@ -361,31 +204,11 @@ namespace Tests {
             GameObject eventManager = new GameObject("ExpoEventManager");
             ChatManager chatManager = eventManager.AddComponent<ChatManager>();
 
-            IPlayerInputHandler playerInputHandler = Substitute.For<IPlayerInputHandler>();
-            chatManager.InitializePlayerInputHandler(playerInputHandler);
-
             IPhotonChatHandler photonChatHandler = Substitute.For<IPhotonChatHandler>();
-            chatManager.InitializePhotonChatHandler(photonChatHandler);
             photonChatHandler.GetNewMessages().Returns(new List<Message>());
             photonChatHandler.IsConnected().Returns(false);
 
-            GameObject chatPanel = new GameObject("ChatPanel");
-            chatManager.InitializeChatPanel(chatPanel);
-
-            GameObject textObject = new GameObject("Text");
-            textObject.AddComponent<Text>();
-            chatManager.InitializeTextObject(textObject);
-
-            GameObject channelBoxObject = new GameObject("ChannelBoxObject");
-            InputField channelBox = channelBoxObject.AddComponent<InputField>();
-            chatManager.InitializeChannelBox(channelBox);
-
-            GameObject chatBoxObject = new GameObject("ChatBoxObject");
-            InputField chatBox = chatBoxObject.AddComponent<InputField>();
-            chatManager.InitializeChatBox(chatBox);
-
-            chatManager.InitializePlayerMessageColor(new Color(255, 255, 255));
-            chatManager.InitializeInfoColor(new Color(255, 255, 0));
+            __SetUpChatManager(chatManager, null, photonChatHandler, null, null);
 
             chatManager.UpdateChannel("Test", ChatManager.ChannelType.boothChannel);
             chatManager.LeaveChannel("Test");
@@ -403,31 +226,11 @@ namespace Tests {
             GameObject eventManager = new GameObject("ExpoEventManager");
             ChatManager chatManager = eventManager.AddComponent<ChatManager>();
 
-            IPlayerInputHandler playerInputHandler = Substitute.For<IPlayerInputHandler>();
-            chatManager.InitializePlayerInputHandler(playerInputHandler);
-
             IPhotonChatHandler photonChatHandler = Substitute.For<IPhotonChatHandler>();
-            chatManager.InitializePhotonChatHandler(photonChatHandler);
             photonChatHandler.GetNewMessages().Returns(new List<Message>());
             photonChatHandler.IsConnected().Returns(false);
 
-            GameObject chatPanel = new GameObject("ChatPanel");
-            chatManager.InitializeChatPanel(chatPanel);
-
-            GameObject textObject = new GameObject("Text");
-            textObject.AddComponent<Text>();
-            chatManager.InitializeTextObject(textObject);
-
-            GameObject channelBoxObject = new GameObject("ChannelBoxObject");
-            InputField channelBox = channelBoxObject.AddComponent<InputField>();
-            chatManager.InitializeChannelBox(channelBox);
-
-            GameObject chatBoxObject = new GameObject("ChatBoxObject");
-            InputField chatBox = chatBoxObject.AddComponent<InputField>();
-            chatManager.InitializeChatBox(chatBox);
-
-            chatManager.InitializePlayerMessageColor(new Color(255, 255, 255));
-            chatManager.InitializeInfoColor(new Color(255, 255, 0));
+            __SetUpChatManager(chatManager, null, photonChatHandler, null, null);
 
             chatManager.EnterChannel("Test");
 
@@ -437,6 +240,35 @@ namespace Tests {
             Assert.AreEqual("Announcements", chatManager.GetChannelName(ChatManager.ChannelType.announcementChannel));
             Assert.AreEqual("Main Hall", chatManager.GetChannelName(ChatManager.ChannelType.hallChannel));
             photonChatHandler.Received().EnterChannel(Arg.Any<string>());
+        }
+
+        private void __SetUpChatManager(ChatManager chatManager, IPlayerInputHandler playerInputHandler,
+            IPhotonChatHandler photonChatHandler, string channelName, string message) {
+            chatManager.playerInputHandler = playerInputHandler;
+            chatManager.photonChatHandler = photonChatHandler;
+            chatManager.playerMessageColor = new Color(255, 255, 255);
+            chatManager.infoColor = new Color(255, 255, 0);
+
+            GameObject chatPanel = new GameObject("ChatPanel");
+            chatManager.chatPanel = chatPanel;
+
+            GameObject textObject = new GameObject("Text");
+            textObject.AddComponent<Text>();
+            chatManager.textObject = textObject;
+
+            GameObject channelBoxObject = new GameObject("ChannelBoxObject");
+            InputField channelBox = channelBoxObject.AddComponent<InputField>();
+            chatManager.channelBox = channelBox;
+            if (channelName != null) {
+                channelBox.text = channelName;
+            }
+
+            GameObject chatBoxObject = new GameObject("ChatBoxObject");
+            InputField chatBox = chatBoxObject.AddComponent<InputField>();
+            chatManager.chatBox = chatBox;
+            if (message != null) {
+                chatBox.text = message;
+            }
         }
     }
 }
