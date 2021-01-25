@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using Photon.Pun;
 
 /*
  * MovementController class is for implementing user movement controls
@@ -41,7 +42,7 @@ public class MovementController : MonoBehaviour {
         __characterController.enableOverlapRecovery = true;
     }
 
-    // Update is called once per frame
+    // Update is called once per frame 
     void Update() {
         // Apply velocity only if user is allowed to move
         if (__canMove) {
@@ -51,6 +52,7 @@ public class MovementController : MonoBehaviour {
 
     // For consistently periodic updates
     void FixedUpdate() {
+
         // If chat input field is selected, disable movement and apply a delay
         if (__chatBox.isFocused || __channelBox.isFocused) {
             __delay = 20;
@@ -87,3 +89,5 @@ public class MovementController : MonoBehaviour {
         __characterController.Move(__characterVelocity * Time.deltaTime);
     }
 }
+
+
