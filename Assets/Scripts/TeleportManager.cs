@@ -15,6 +15,8 @@ public class TeleportManager : MonoBehaviour {
 
         // Teleport the user
         other.transform.position = teleportTarget.transform.position;
+
+        // Turn on the character controller and the user will be able to pick up their coordinates
         controller.enabled = true;
     }
 }
