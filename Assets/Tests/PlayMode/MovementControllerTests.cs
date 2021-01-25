@@ -8,19 +8,30 @@ using UnityEngine.UI;
 namespace Tests {
     public class MovementControllerTests {
         [UnityTest]
-        public IEnumerator WhenUserInputsForwardMovementThenPositionChanges() {
-            __AddInputFields();
-
+        public IEnumerator WhenNoUserInputsThenPositionWillNotChange() {
             GameObject user = new GameObject("Player");
-            user.AddComponent<CharacterController>();
-            Animator animator = user.AddComponent<Animator>();
-            animator.runtimeAnimatorController = Resources.Load("GenericAnimationController") as RuntimeAnimatorController;
+
+            __SetUpMovementController(user, null);
+            Animator animator = user.GetComponent<Animator>();
+
+            yield return null;
+
+            Assert.AreEqual(0, user.transform.position.z);
+            Assert.AreEqual(0, user.transform.position.x);
+            Assert.AreEqual(0, user.transform.position.y);
+            Assert.AreEqual(0, animator.GetFloat("Horizontal"));
+            Assert.AreEqual(0, animator.GetFloat("Vertical"));
+        }
+
+        [UnityTest]
+        public IEnumerator WhenUserInputsForwardMovementThenPositionChanges() {
+            GameObject user = new GameObject("Player");
 
             IPlayerInputHandler playerInputHandler = Substitute.For<IPlayerInputHandler>();
             playerInputHandler.GetMoveInput().Returns(new Vector3(0, 0, 1));
-            MovementController movementController = user.AddComponent<MovementController>();
-            movementController.playerInputHandler = playerInputHandler;
-            user.transform.position = Vector3.zero;
+
+            __SetUpMovementController(user, playerInputHandler);
+            Animator animator = user.GetComponent<Animator>();
 
             yield return null;
 
@@ -32,11 +43,27 @@ namespace Tests {
         }
 
         [UnityTest]
-        public IEnumerator WhenChatInputFieldIsInFocusThenPositionWillNotChange() {
+        public IEnumerator WhenUserInputsLeftMovementThenPositionChanges() {
             GameObject user = new GameObject("Player");
-            user.AddComponent<CharacterController>();
-            Animator animator = user.AddComponent<Animator>();
-            animator.runtimeAnimatorController = Resources.Load("GenericAnimationController") as RuntimeAnimatorController;
+
+            IPlayerInputHandler playerInputHandler = Substitute.For<IPlayerInputHandler>();
+            playerInputHandler.GetMoveInput().Returns(new Vector3(-1, 0, 0));
+
+            __SetUpMovementController(user, playerInputHandler);
+            Animator animator = user.GetComponent<Animator>();
+
+            yield return null;
+
+            Assert.IsTrue(0 > user.transform.position.x);
+            Assert.AreEqual(0, user.transform.position.y);
+            Assert.AreEqual(0, user.transform.position.z);
+            Assert.AreEqual(-1f, animator.GetFloat("Horizontal"));
+            Assert.AreEqual(0, animator.GetFloat("Vertical"));
+        }
+
+        [UnityTest]
+        public IEnumerator WhenChatInputFieldIsInFocusThenNotInFocusThenPositionWillChange() {
+            GameObject user = new GameObject("Player");
 
             IPlayerInputHandler playerInputHandler = Substitute.For<IPlayerInputHandler>();
             playerInputHandler.GetMoveInput().Returns(new Vector3(0, 0, 1));
@@ -45,11 +72,11 @@ namespace Tests {
             channelBoxHandler.isFocused().Returns(false);
             chatBoxHandler.isFocused().Returns(true);
 
-            MovementController movementController = user.AddComponent<MovementController>();
-            movementController.playerInputHandler = playerInputHandler;
+            __SetUpMovementController(user, playerInputHandler);
+            Animator animator = user.GetComponent<Animator>();
+            MovementController movementController = user.GetComponent<MovementController>();
             movementController.channelBoxHandler = channelBoxHandler;
             movementController.chatBoxHandler = chatBoxHandler;
-            user.transform.position = Vector3.zero;
 
             yield return null;
 
@@ -58,16 +85,22 @@ namespace Tests {
             Assert.AreEqual(0, user.transform.position.z);
             Assert.AreEqual(0, animator.GetFloat("Horizontal"));
             Assert.AreEqual(0, animator.GetFloat("Vertical"));
+
+            channelBoxHandler.isFocused().Returns(false);
+            chatBoxHandler.isFocused().Returns(false);
+
+            yield return new WaitForSeconds(0.5f);
+
+            Assert.IsTrue(user.transform.position.z > 0);
+            Assert.AreEqual(0, user.transform.position.x);
+            Assert.AreEqual(0, user.transform.position.y);
+            Assert.AreEqual(0, animator.GetFloat("Horizontal"));
+            Assert.AreEqual(1f, animator.GetFloat("Vertical"));
         }
 
         [UnityTest]
         public IEnumerator WhenRightMouseButtonIsHeldDownThenCameraMoves() {
-            __AddInputFields();
-
             GameObject user = new GameObject("Player");
-            user.AddComponent<CharacterController>();
-            Animator animator = user.AddComponent<Animator>();
-            animator.runtimeAnimatorController = Resources.Load("GenericAnimationController") as RuntimeAnimatorController;
 
             IPlayerInputHandler playerInputHandler = Substitute.For<IPlayerInputHandler>();
             playerInputHandler.GetRightClickInputHeld().Returns(true);
@@ -76,11 +109,8 @@ namespace Tests {
 
             Quaternion originalRotation = user.transform.rotation;
 
-            MovementController movementController = user.AddComponent<MovementController>();
-            movementController.playerInputHandler = playerInputHandler;
-            GameObject camera = new GameObject("Camera");
-            movementController.fpsCamera = camera;
-            user.transform.position = Vector3.zero;
+            __SetUpMovementController(user, playerInputHandler);
+            Animator animator = user.GetComponent<Animator>();
 
             yield return null;
 
@@ -94,12 +124,7 @@ namespace Tests {
 
         [UnityTest]
         public IEnumerator WhenRightMouseButtonIsNotHeldDownThenCameraDoesNotMove() {
-            __AddInputFields();
-
             GameObject user = new GameObject("Player");
-            user.AddComponent<CharacterController>();
-            Animator animator = user.AddComponent<Animator>();
-            animator.runtimeAnimatorController = Resources.Load("GenericAnimationController") as RuntimeAnimatorController;
 
             IPlayerInputHandler playerInputHandler = Substitute.For<IPlayerInputHandler>();
             playerInputHandler.GetRightClickInputHeld().Returns(false);
@@ -108,11 +133,8 @@ namespace Tests {
 
             Quaternion originalRotation = user.transform.rotation;
 
-            MovementController movementController = user.AddComponent<MovementController>();
-            movementController.playerInputHandler = playerInputHandler;
-            GameObject camera = new GameObject("Camera");
-            movementController.fpsCamera = camera;
-            user.transform.position = Vector3.zero;
+            __SetUpMovementController(user, playerInputHandler);
+            Animator animator = user.GetComponent<Animator>();
 
             yield return null;
 
@@ -124,13 +146,24 @@ namespace Tests {
             Assert.AreEqual(0, animator.GetFloat("Vertical"));
         }
 
-        private void __AddInputFields() {
+        private void __SetUpMovementController(GameObject user, IPlayerInputHandler playerInputHandler) {
             GameObject channelBoxObject = new GameObject("ChannelInputField");
             channelBoxObject.AddComponent<InputField>();
             channelBoxObject.AddComponent<InputFieldHandler>();
+
             GameObject chatBoxObject = new GameObject("MessageInputField");
             chatBoxObject.AddComponent<InputField>();
             chatBoxObject.AddComponent<InputFieldHandler>();
+
+            user.AddComponent<CharacterController>();
+            user.AddComponent<Animator>().runtimeAnimatorController
+                = Resources.Load("GenericAnimationController") as RuntimeAnimatorController;
+
+            GameObject camera = new GameObject("Camera");
+            MovementController movementController = user.AddComponent<MovementController>();
+            movementController.playerInputHandler = playerInputHandler;
+            movementController.fpsCamera = camera;
+            user.transform.position = Vector3.zero;
         }
     }
 }
