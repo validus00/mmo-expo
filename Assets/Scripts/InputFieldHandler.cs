@@ -9,7 +9,6 @@ public class InputFieldHandler : MonoBehaviour, IInputFieldHandler {
         inputField = GetComponent<InputField>();
     }
 
-    // Returns whether InputField is in focus or not
     public bool isFocused() {
         return inputField.isFocused;
     }

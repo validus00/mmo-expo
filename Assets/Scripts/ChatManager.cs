@@ -8,12 +8,15 @@ using UnityEngine.UI;
 public class ChatManager : MonoBehaviour {
     // For handling different channel types
     public enum ChannelType {
+        announcementChannel,
         hallChannel,
         boothChannel
     }
 
     // For chat client handling
     private IPhotonChatHandler __photonChatHandler;
+    // For handling user inputs
+    private IPlayerInputHandler __playerInputHandler;
     // max number of channels
     private const int __maxMessages = 100;
     // Showcase-wide channel
@@ -21,7 +24,7 @@ public class ChatManager : MonoBehaviour {
     // Hall specific channel
     private string __hallChannel = "Main Hall";
     // Booth specific channel
-    private string __boothChannel;
+    private string __boothChannel = string.Empty;
 
     [SerializeField]
     private GameObject __chatPanel, __textObject;
@@ -40,8 +43,48 @@ public class ChatManager : MonoBehaviour {
     readonly private List<Message> __messageList = new List<Message>();
 
     // For initializing playerInputHandler
+    public void InitializePlayerInputHandler(IPlayerInputHandler playerInputHandler) {
+        __playerInputHandler = playerInputHandler;
+    }
+
+    // For initializing playerInputHandler
     public void InitializePhotonChatHandler(IPhotonChatHandler photonChatHandler) {
         __photonChatHandler = photonChatHandler;
+    }
+
+    // For initializing chatPanel
+    public void InitializeChatPanel(GameObject gameObject) {
+        __chatPanel = gameObject;
+    }
+
+    // For initializing textObject
+    public void InitializeTextObject(GameObject gameObject) {
+        __textObject = gameObject;
+    }
+
+    // For initializing channelBox
+    public void InitializeChannelBox(InputField inputField) {
+        __channelBox = inputField;
+    }
+
+    // For initializing chatBox
+    public void InitializeChatBox(InputField inputField) {
+        __chatBox = inputField;
+    }
+
+    // For initializing playerMessage color
+    public void InitializePlayerMessageColor(Color color) {
+        __playerMessage = color;
+    }
+
+    // For initializing info color
+    public void InitializeInfoColor(Color color) {
+        __info = color;
+    }
+
+    // Returns current messages
+    public List<Message> GetMessages() {
+        return __messageList;
     }
 
     // Start is called before the first frame update
@@ -49,6 +92,9 @@ public class ChatManager : MonoBehaviour {
         if (__photonChatHandler == null) {
             __photonChatHandler = new PhotonChatHandler();
             __photonChatHandler.Initialize();
+        }
+        if (__playerInputHandler == null) {
+            __playerInputHandler = new PlayerInputHandler();
         }
 
         __photonChatHandler.InitializeChannels(new string[] { __announcementChannel, __hallChannel });
@@ -68,7 +114,7 @@ public class ChatManager : MonoBehaviour {
         string channelName = __channelBox.text;
         string messageText = __chatBox.text;
         // Enter key either sends a message or activates the chat input field
-        if (Input.GetKeyDown(KeyCode.Return)) {
+        if (__playerInputHandler.GetReturnKey()) {
             if (!string.IsNullOrEmpty(messageText)) {
                 if (string.IsNullOrWhiteSpace(channelName)) {
                     // channel name not given
@@ -128,6 +174,20 @@ public class ChatManager : MonoBehaviour {
         }
     }
 
+    public string GetChannelName(ChannelType channelType) {
+        string channelName = __boothChannel;
+        switch (channelType) {
+            case ChannelType.announcementChannel:
+                channelName = __announcementChannel;
+                break;
+            case ChannelType.hallChannel:
+                channelName = __hallChannel;
+                break;
+        }
+
+        return channelName;
+    }
+
     // This method is for displaying received messages in chat panel
     private void __SendMessageToChat(string text, Message.MessageType messageType) {
         // Limit number of messages
@@ -135,8 +195,9 @@ public class ChatManager : MonoBehaviour {
 
         // Create new Message object and add to list of messages
         Message message = new Message();
-
         GameObject newText = Instantiate(__textObject, __chatPanel.transform);
+        message.messageText = text;
+        message.messageType = messageType;
         message.textObject = newText.GetComponent<Text>();
         message.textObject.text = text;
         message.textObject.color = __MessageTypeColor(messageType);
@@ -159,7 +220,7 @@ public class ChatManager : MonoBehaviour {
 
     private void __LimitNumberOfMessages() {
         // Keep only 99 most recent messages before adding a new message to list
-        if (__messageList.Count + 1 >= __maxMessages) {
+        if (__messageList.Count >= __maxMessages) {
             Destroy(__messageList[0].textObject.gameObject);
             __messageList.Remove(__messageList[0]);
         }

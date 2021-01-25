@@ -3,6 +3,10 @@
 public class PlayerInputHandler : IPlayerInputHandler {
     private float __lookSensitivity = 1f;
 
+    public bool GetReturnKey() {
+        return Input.GetKeyDown(KeyCode.Return);
+    }
+
     public bool GetRightClickInputHeld() {
         return Input.GetButton("Fire2");
     }

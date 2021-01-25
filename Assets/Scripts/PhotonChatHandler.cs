@@ -17,7 +17,6 @@ public class PhotonChatHandler : IChatClientListener, IPhotonChatHandler {
     // To keep track if connected to Photon Chat
     private bool __isConnected = false;
 
-    // For initial setup
     public void Initialize() {
         __roomName = PhotonNetwork.CurrentRoom.Name;
         __AddNewMessage(string.Format("Passcode: {0}", __roomName), Message.MessageType.info);
@@ -28,22 +27,18 @@ public class PhotonChatHandler : IChatClientListener, IPhotonChatHandler {
             new AuthenticationValues(__username));
     }
 
-    // For determining if connected to Photon Chat
     public bool IsConnected() {
         return __isConnected;
     }
 
-    // For maintaining connection to Photon Chat
     public void MaintainService() {
         __chatClient.Service();
     }
 
-    // For sending message to a specific channel
     public void SendChannelMessage(string channelName, string message) {
         __chatClient.PublishMessage(__AppendRoomName(channelName), message);
     }
 
-    // For setting up the initial channels when first connecting to service
     public void InitializeChannels(string[] channels) {
         for (int i = 0; i < channels.Length; i++) {
             channels[i] = __AppendRoomName(channels[i]);
@@ -51,14 +46,12 @@ public class PhotonChatHandler : IChatClientListener, IPhotonChatHandler {
         __initialChannels = channels;
     }
 
-    // For leaving a specific channel
     public void LeaveChannel(string channelName) {
         if (!string.IsNullOrWhiteSpace(channelName) && __isConnected) {
             __chatClient.Unsubscribe(new string[] { __AppendRoomName(channelName) });
         }
     }
 
-    // For entering a specific channel
     public void EnterChannel(string channelName) {
         if (!string.IsNullOrWhiteSpace(channelName) && __isConnected) {
             __chatClient.Subscribe(new string[] { __AppendRoomName(channelName) });
@@ -80,7 +73,6 @@ public class PhotonChatHandler : IChatClientListener, IPhotonChatHandler {
         __newMessages.Add(message);
     }
 
-    // Returns new messages and empty list of messages
     public List<Message> GetNewMessages() {
         List<Message> messages = __newMessages;
         __newMessages = new List<Message>();
