@@ -11,7 +11,6 @@ public class UserSetup : MonoBehaviourPunCallbacks {
     [SerializeField]
     TextMeshProUGUI userNameText;
 
-
     // Start is called before the first frame update
     void Start() {
         if (!photonView.IsMine) {
@@ -31,4 +30,5 @@ public class UserSetup : MonoBehaviourPunCallbacks {
             userNameText.text = photonView.Owner.NickName;
         }
     }
+
 }

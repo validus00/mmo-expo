@@ -15,8 +15,6 @@ public class TeleportManager : MonoBehaviour {
 
         // Teleport the user
         other.transform.position = teleportTarget.transform.position;
-
-        // When character controller is re-enabled, it will grab the new position
         controller.enabled = true;
     }
 }
