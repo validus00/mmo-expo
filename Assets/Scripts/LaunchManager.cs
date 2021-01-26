@@ -93,7 +93,6 @@ public class LaunchManager : MonoBehaviourPunCallbacks {
             InvalidPasscodeText.SetActive(false);
             AvatarPanel.SetActive(false);
         } else {
-            Debug.Log("WHAT " + PlayerPrefs.GetInt("myAvatar"));
             if (PlayerPrefs.GetInt("myAvatar") < __MAX_AVATAR_COUNT) {
                 LoadEvent();
             } else {
