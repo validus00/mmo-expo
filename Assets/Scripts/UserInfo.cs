@@ -19,11 +19,6 @@ public class UserInfo : MonoBehaviour {
     }
 
     void Start() {
-        if (PlayerPrefs.HasKey("myAvatar")) {
-            mySelectedAvatar = PlayerPrefs.GetInt("myAvatar");
-        } else {
-            mySelectedAvatar = 0;
-            PlayerPrefs.SetInt("myAvatar", mySelectedAvatar);
-        }
+        PlayerPrefs.SetInt("myAvatar", mySelectedAvatar);
     }
 }
