@@ -504,9 +504,10 @@ GameObject:
   - component: {fileID: 133935876}
   - component: {fileID: 133935875}
   - component: {fileID: 133935874}
+  - component: {fileID: 133935877}
   m_Layer: 5
   m_Name: MessageInputField
-  m_TagString: ChatBox
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -632,6 +633,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 133935872}
   m_CullTransparentMesh: 0
+--- !u!114 &133935877
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 133935872}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 40f3a32cce504584e9261dba61b49d52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &195205966
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1339,14 +1352,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 580fb3cafa01b6946937b3e246d572e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  __chatPanel: {fileID: 492985573996540562}
-  __textObject: {fileID: 4405345945222537773, guid: 2c61f1eb877efbe49b84ca6919cf69b4,
+  chatPanel: {fileID: 492985573996540562}
+  textObject: {fileID: 4405345945222537773, guid: 2c61f1eb877efbe49b84ca6919cf69b4,
     type: 3}
-  __channelBox: {fileID: 7723019544791249950}
-  __chatBox: {fileID: 133935874}
-  __playerMessage: {r: 1, g: 1, b: 1, a: 1}
-  __info: {r: 1, g: 1, b: 0, a: 1}
-  __messageList: []
+  channelBox: {fileID: 7723019544791249950}
+  chatBox: {fileID: 133935874}
+  playerMessageColor: {r: 1, g: 1, b: 1, a: 1}
+  infoColor: {r: 1, g: 1, b: 0, a: 1}
 --- !u!1 &897073612
 GameObject:
   m_ObjectHideFlags: 0
@@ -3973,9 +3985,10 @@ GameObject:
   - component: {fileID: 7723019544791249948}
   - component: {fileID: 7723019544791249951}
   - component: {fileID: 7723019544791249950}
+  - component: {fileID: 7723019544791250018}
   m_Layer: 5
   m_Name: ChannelInputField
-  m_TagString: ChatBox
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4001,6 +4014,18 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 25}
   m_SizeDelta: {x: 0, y: 18}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &7723019544791250018
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7723019544791250016}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 40f3a32cce504584e9261dba61b49d52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &7723019545645505290
 MonoBehaviour:
   m_ObjectHideFlags: 0

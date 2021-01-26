@@ -14,7 +14,7 @@ public class UserSetup : MonoBehaviourPunCallbacks {
     // Start is called before the first frame update
     void Start() {
         if (!photonView.IsMine) {
-            Destroy(transform.GetComponent<MovementController>());
+            Destroy(GetComponent<MovementController>());
             Destroy(FPSCamera);
         } else {
             // Differentiate user's own User clone from other clones with a different name
@@ -26,7 +26,7 @@ public class UserSetup : MonoBehaviourPunCallbacks {
     }
 
     void SetUserUI() {
-        if (userNameText != null) {
+        if (userNameText != null && photonView.Owner != null) {
             userNameText.text = photonView.Owner.NickName;
         }
     }
