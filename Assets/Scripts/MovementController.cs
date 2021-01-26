@@ -25,6 +25,7 @@ public class MovementController : MonoBehaviour {
     public IInputFieldHandler channelBoxHandler;
     // Chat input field
     public IInputFieldHandler chatBoxHandler;
+    private BoothManager __boothManager;
     // For handling disabling horizontal user movement during chat
     private bool __canMove = true;
     // For adding a little delay between chatting and horizontal user movement
@@ -35,14 +36,13 @@ public class MovementController : MonoBehaviour {
         if (playerInputHandler == null) {
             playerInputHandler = new PlayerInputHandler();
         }
-
         if (channelBoxHandler == null) {
             channelBoxHandler = GameObject.Find(GameConstants.k_ChannelInputField).GetComponent<InputFieldHandler>();
         }
-
         if (chatBoxHandler == null) {
             chatBoxHandler = GameObject.Find(GameConstants.k_MessageInputField).GetComponent<InputFieldHandler>();
         }
+        __boothManager = GameObject.Find("BoothManager").GetComponent<BoothManager>();
         __characterController = GetComponent<CharacterController>();
         __animator = GetComponent<Animator>();
         // Prevent User object from overlapping with another object
@@ -52,14 +52,13 @@ public class MovementController : MonoBehaviour {
     // Update is called once per frame 
     void Update() {
         // Apply velocity only if user is allowed to move
-        if (__canMove) {
+        if (__canMove && !__boothManager.IsBoothInfoPanelActive()) {
             __HandleCharacterMovement();
         }
     }
 
     // For consistently periodic updates
     void FixedUpdate() {
-
         // If chat input field is selected, disable movement and apply a delay
         if (chatBoxHandler.isFocused() || channelBoxHandler.isFocused()) {
             __delay = 20;
@@ -90,8 +89,8 @@ public class MovementController : MonoBehaviour {
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
         }
-        // Apply velocity to User object
 
+        // Apply velocity to User object
         Vector3 move = playerInputHandler.GetMoveInput();
         __animator.SetFloat(GameConstants.k_Horizontal, __GetAnimatorValue(move.x));
         __animator.SetFloat(GameConstants.k_Vertical, __GetAnimatorValue(move.z));
