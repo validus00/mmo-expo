@@ -6,12 +6,12 @@ public class PlayerInputHandler : IPlayerInputHandler {
     }
 
     public bool GetRightClickInputHeld() {
-        return Input.GetButton("Fire2");
+        return Input.GetButton(GameConstants.k_Fire2);
     }
 
     public Vector3 GetMoveInput() {
-        float horizontalInput = Input.GetAxisRaw("Horizontal");
-        float verticalInput = Input.GetAxisRaw("Vertical");
+        float horizontalInput = Input.GetAxisRaw(GameConstants.k_Horizontal);
+        float verticalInput = Input.GetAxisRaw(GameConstants.k_Vertical);
 
         Vector3 move = new Vector3(horizontalInput, 0f, verticalInput);
         // Prevents diagonal movement value from exceeding 1
@@ -19,11 +19,11 @@ public class PlayerInputHandler : IPlayerInputHandler {
     }
 
     public float GetLookInputsHorizontal() {
-        return Input.GetAxisRaw("Mouse X") * __GetLookSensitivityMultiplier() * 0.01f;
+        return Input.GetAxisRaw(GameConstants.k_MouseX) * __GetLookSensitivityMultiplier() * 0.01f;
     }
 
     public float GetLookInputsVertical() {
-        return Input.GetAxisRaw("Mouse Y") * __GetLookSensitivityMultiplier() * -0.01f;
+        return Input.GetAxisRaw(GameConstants.k_MouseY) * __GetLookSensitivityMultiplier() * -0.01f;
     }
 
     private float __GetLookSensitivityMultiplier() {

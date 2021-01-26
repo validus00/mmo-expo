@@ -20,9 +20,9 @@ public class ChatManager : MonoBehaviour {
     // max number of channels
     private const int __maxMessages = 100;
     // Showcase-wide channel
-    readonly private string __announcementChannelName = "Announcements";
+    readonly private string __announcementChannelName = GameConstants.k_AnnouncementChannelName;
     // Hall specific channel
-    private string __hallChannelName = "Main Hall";
+    private string __hallChannelName = GameConstants.k_HallChannelName;
     // Booth specific channel
     private string __boothChannelName = string.Empty;
     // Chat panel

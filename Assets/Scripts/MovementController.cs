@@ -37,11 +37,11 @@ public class MovementController : MonoBehaviour {
         }
 
         if (channelBoxHandler == null) {
-            channelBoxHandler = GameObject.Find("ChannelInputField").GetComponent<InputFieldHandler>();
+            channelBoxHandler = GameObject.Find(GameConstants.k_ChannelInputField).GetComponent<InputFieldHandler>();
         }
 
         if (chatBoxHandler == null) {
-            chatBoxHandler = GameObject.Find("MessageInputField").GetComponent<InputFieldHandler>();
+            chatBoxHandler = GameObject.Find(GameConstants.k_MessageInputField).GetComponent<InputFieldHandler>();
         }
         __characterController = GetComponent<CharacterController>();
         __animator = GetComponent<Animator>();
@@ -93,8 +93,8 @@ public class MovementController : MonoBehaviour {
         // Apply velocity to User object
 
         Vector3 move = playerInputHandler.GetMoveInput();
-        __animator.SetFloat("Horizontal", __GetAnimatorValue(move.x));
-        __animator.SetFloat("Vertical", __GetAnimatorValue(move.z));
+        __animator.SetFloat(GameConstants.k_Horizontal, __GetAnimatorValue(move.x));
+        __animator.SetFloat(GameConstants.k_Vertical, __GetAnimatorValue(move.z));
 
         Vector3 targetVelocity = __maxSpeedOnGround * transform.TransformVector(move);
         __characterVelocity = Vector3.Lerp(__characterVelocity, targetVelocity, __movementSharpnessOnGround * Time.deltaTime);

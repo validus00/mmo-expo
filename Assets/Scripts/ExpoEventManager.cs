@@ -12,7 +12,7 @@ public class ExpoEventManager : MonoBehaviourPunCallbacks {
     // Start is called before the first frame update
     void Start() {
         if (PhotonNetwork.IsConnected) {
-            int avatarPick = PlayerPrefs.GetInt("myAvatar");
+            int avatarPick = PlayerPrefs.GetInt(GameConstants.k_MyAvatar);
             GameObject user = listOfAvatars[avatarPick];
             if (user != null) {
                 int randomPoint = Random.Range(-20, 20); 
