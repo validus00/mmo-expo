@@ -192,7 +192,7 @@ namespace Tests {
             Assert.AreEqual(GameConstants.k_HallChannelName,
                 chatManager.GetChannelName(ChatManager.ChannelType.hallChannel));
             Assert.AreEqual(string.Empty, chatManager.GetChannelName(ChatManager.ChannelType.boothChannel));
-            photonChatHandler.Received(1).InitializeChannels(Arg.Any<string[]>());
+            photonChatHandler.Received(1).InitializeChannelNames(Arg.Any<string[]>());
         }
 
         [UnityTest]
@@ -216,7 +216,7 @@ namespace Tests {
             Assert.AreEqual(GameConstants.k_HallChannelName,
                 chatManager.GetChannelName(ChatManager.ChannelType.hallChannel));
             Assert.AreEqual(k_ProjectName, chatManager.GetChannelName(ChatManager.ChannelType.boothChannel));
-            photonChatHandler.Received(1).InitializeChannels(Arg.Any<string[]>());
+            photonChatHandler.Received(1).InitializeChannelNames(Arg.Any<string[]>());
         }
 
         [UnityTest]
@@ -240,7 +240,7 @@ namespace Tests {
             Assert.AreEqual(GameConstants.k_HallChannelName,
                 chatManager.GetChannelName(ChatManager.ChannelType.hallChannel));
             Assert.AreEqual(k_ProjectName, chatManager.GetChannelName(ChatManager.ChannelType.boothChannel));
-            photonChatHandler.Received(2).InitializeChannels(Arg.Any<string[]>());
+            photonChatHandler.Received(2).InitializeChannelNames(Arg.Any<string[]>());
         }
 
         [UnityTest]
@@ -263,7 +263,7 @@ namespace Tests {
                 chatManager.GetChannelName(ChatManager.ChannelType.announcementChannel));
             Assert.AreEqual(k_BoothsHallName, chatManager.GetChannelName(ChatManager.ChannelType.hallChannel));
             Assert.AreEqual(string.Empty, chatManager.GetChannelName(ChatManager.ChannelType.boothChannel));
-            photonChatHandler.Received(2).InitializeChannels(Arg.Any<string[]>());
+            photonChatHandler.Received(2).InitializeChannelNames(Arg.Any<string[]>());
         }
 
         [UnityTest]

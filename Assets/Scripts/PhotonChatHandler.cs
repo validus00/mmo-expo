@@ -17,7 +17,7 @@ public class PhotonChatHandler : IChatClientListener, IPhotonChatHandler {
     // Photon Chat client
     private ChatClient __chatClient;
     // Subscribed channels
-    private string[] __initialChannels;
+    private string[] __initialChannelNames;
     // To keep track if connected to Photon Chat
     private bool __isConnected = false;
 
@@ -44,11 +44,11 @@ public class PhotonChatHandler : IChatClientListener, IPhotonChatHandler {
         __chatClient.PublishMessage(__AppendRoomName(channelName), message);
     }
 
-    public void InitializeChannels(string[] channels) {
+    public void InitializeChannelNames(string[] channels) {
         for (int i = 0; i < channels.Length; i++) {
             channels[i] = __AppendRoomName(channels[i]);
         }
-        __initialChannels = channels;
+        __initialChannelNames = channels;
     }
 
     public void LeaveChannel(string channelName) {
@@ -96,7 +96,7 @@ public class PhotonChatHandler : IChatClientListener, IPhotonChatHandler {
     public void OnConnected() {
         __isConnected = true;
         Debug.Log("Connected to Photon Chat.");
-        __chatClient.Subscribe(__initialChannels);
+        __chatClient.Subscribe(__initialChannelNames);
     }
 
     public void OnDisconnected() {

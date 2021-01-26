@@ -11,7 +11,7 @@ public interface IPhotonChatHandler {
     // For leaving a specific channel
     void LeaveChannel(string channelName);
     // For initial setup
-    void InitializeChannels(string[] channels);
+    void InitializeChannelNames(string[] channels);
     // For determining if connected to Photon Chat
     bool IsConnected();
     // For maintaining connection to Photon Chat
