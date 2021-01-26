@@ -1,8 +1,6 @@
 ﻿using UnityEngine;
 
 public class PlayerInputHandler : IPlayerInputHandler {
-    private float __lookSensitivity = 1f;
-
     public bool GetReturnKey() {
         return Input.GetKeyDown(KeyCode.Return);
     }
@@ -21,11 +19,11 @@ public class PlayerInputHandler : IPlayerInputHandler {
     }
 
     public float GetLookInputsHorizontal() {
-        return Input.GetAxisRaw("Mouse X") * __GetLookSensitivityMultiplier() * __lookSensitivity * 0.01f;
+        return Input.GetAxisRaw("Mouse X") * __GetLookSensitivityMultiplier() * 0.01f;
     }
 
     public float GetLookInputsVertical() {
-        return Input.GetAxisRaw("Mouse Y") * __GetLookSensitivityMultiplier() * __lookSensitivity * -0.01f;
+        return Input.GetAxisRaw("Mouse Y") * __GetLookSensitivityMultiplier() * -0.01f;
     }
 
     private float __GetLookSensitivityMultiplier() {

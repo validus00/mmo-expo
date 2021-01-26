@@ -1,5 +1,8 @@
 ﻿using UnityEngine;
 
+/*
+ * BoothTrigger class is for implementing business logic surrounding entering and leaving booths
+ */
 public class BoothTrigger : MonoBehaviour {
     public string projectName;
 

@@ -40,7 +40,6 @@ namespace Tests {
                 messages.Add(newMessage);
             }
             photonChatHandler.GetNewMessages().Returns(messages);
-            photonChatHandler.IsConnected().Returns(true);
 
             __SetUpChatManager(chatManager, null, photonChatHandler, null, null);
 
@@ -77,7 +76,7 @@ namespace Tests {
             Assert.AreEqual("Announcements", chatManager.GetChannelName(ChatManager.ChannelType.announcementChannel));
             Assert.AreEqual("Main Hall", chatManager.GetChannelName(ChatManager.ChannelType.hallChannel));
             Assert.AreEqual(string.Empty, chatManager.GetChannelName(ChatManager.ChannelType.boothChannel));
-            photonChatHandler.Received(1).SendChannelMessage(Arg.Any<string>(), Arg.Any<string>());
+            photonChatHandler.Received(1).SendChannelMessage("Main Hall", "Hi there");
         }
 
         [UnityTest]
@@ -261,7 +260,7 @@ namespace Tests {
             Assert.AreEqual("Announcements", chatManager.GetChannelName(ChatManager.ChannelType.announcementChannel));
             Assert.AreEqual("Main Hall", chatManager.GetChannelName(ChatManager.ChannelType.hallChannel));
             Assert.AreEqual("Test", chatManager.GetChannelName(ChatManager.ChannelType.boothChannel));
-            photonChatHandler.Received(1).LeaveChannel(Arg.Any<string>());
+            photonChatHandler.Received(1).LeaveChannel("Test");
         }
 
         [UnityTest]
@@ -305,7 +304,7 @@ namespace Tests {
             Assert.AreEqual("Announcements", chatManager.GetChannelName(ChatManager.ChannelType.announcementChannel));
             Assert.AreEqual("Main Hall", chatManager.GetChannelName(ChatManager.ChannelType.hallChannel));
             Assert.AreEqual(string.Empty, chatManager.GetChannelName(ChatManager.ChannelType.boothChannel));
-            photonChatHandler.Received(1).EnterChannel(Arg.Any<string>());
+            photonChatHandler.Received(1).EnterChannel("Test");
         }
 
         [UnityTest]

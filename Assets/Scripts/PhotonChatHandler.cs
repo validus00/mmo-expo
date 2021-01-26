@@ -4,6 +4,10 @@ using Photon.Pun;
 using System.Collections.Generic;
 using UnityEngine;
 
+/*
+ * PhotonChatHandler class implements IChatClientListener and IPhotonChatHandler interfaces and handles
+ * Photon Chat functionalities
+ */
 public class PhotonChatHandler : IChatClientListener, IPhotonChatHandler {
     // For keeping track of new messages
     private List<Message> __newMessages = new List<Message>();
@@ -17,7 +21,8 @@ public class PhotonChatHandler : IChatClientListener, IPhotonChatHandler {
     // To keep track if connected to Photon Chat
     private bool __isConnected = false;
 
-    public void Initialize() {
+    // Contructor that initializes Photon Chat client and connection
+    public PhotonChatHandler() {
         __roomName = PhotonNetwork.CurrentRoom.Name;
         __AddNewMessage(string.Format("Passcode: {0}", __roomName), Message.MessageType.info);
         __username = PhotonNetwork.NickName;

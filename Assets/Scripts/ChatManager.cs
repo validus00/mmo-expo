@@ -20,11 +20,11 @@ public class ChatManager : MonoBehaviour {
     // max number of channels
     private const int __maxMessages = 100;
     // Showcase-wide channel
-    readonly private string __announcementChannel = "Announcements";
+    readonly private string __announcementChannelName = "Announcements";
     // Hall specific channel
-    private string __hallChannel = "Main Hall";
+    private string __hallChannelName = "Main Hall";
     // Booth specific channel
-    private string __boothChannel = string.Empty;
+    private string __boothChannelName = string.Empty;
     // Chat panel
     public GameObject chatPanel;
     // Text objects to populate chat panel
@@ -51,13 +51,12 @@ public class ChatManager : MonoBehaviour {
     void Start() {
         if (photonChatHandler == null) {
             photonChatHandler = new PhotonChatHandler();
-            photonChatHandler.Initialize();
         }
         if (playerInputHandler == null) {
             playerInputHandler = new PlayerInputHandler();
         }
 
-        photonChatHandler.InitializeChannels(new string[] { __announcementChannel, __hallChannel });
+        photonChatHandler.InitializeChannels(new string[] { __announcementChannelName, __hallChannelName });
     }
 
     // Update is called once per frame
@@ -98,16 +97,16 @@ public class ChatManager : MonoBehaviour {
     }
 
     private bool __CheckChannelBox(string channelName) {
-        return channelName != __announcementChannel && channelName != __hallChannel && channelName != __boothChannel;
+        return channelName != __announcementChannelName && channelName != __hallChannelName && channelName != __boothChannelName;
     }
 
     public void UpdateChannel(string channelName, ChannelType channelType) {
         switch (channelType) {
             case ChannelType.hallChannel:
-                __hallChannel = channelName;
+                __hallChannelName = channelName;
                 break;
             case ChannelType.boothChannel:
-                __boothChannel = channelName;
+                __boothChannelName = channelName;
                 break;
             case ChannelType.announcementChannel:
                 // Changing announcements channel is not allowed
@@ -115,10 +114,10 @@ public class ChatManager : MonoBehaviour {
         }
 
         if (!photonChatHandler.IsConnected()) {
-            if (!string.IsNullOrEmpty(__boothChannel)) {
-                photonChatHandler.InitializeChannels(new string[] { __announcementChannel, __hallChannel, __boothChannel });
+            if (!string.IsNullOrEmpty(__boothChannelName)) {
+                photonChatHandler.InitializeChannels(new string[] { __announcementChannelName, __hallChannelName, __boothChannelName });
             } else {
-                photonChatHandler.InitializeChannels(new string[] { __announcementChannel, __hallChannel });
+                photonChatHandler.InitializeChannels(new string[] { __announcementChannelName, __hallChannelName });
             }
         }
     }
@@ -138,13 +137,13 @@ public class ChatManager : MonoBehaviour {
     }
 
     public string GetChannelName(ChannelType channelType) {
-        string channelName = __boothChannel;
+        string channelName = __boothChannelName;
         switch (channelType) {
             case ChannelType.announcementChannel:
-                channelName = __announcementChannel;
+                channelName = __announcementChannelName;
                 break;
             case ChannelType.hallChannel:
-                channelName = __hallChannel;
+                channelName = __hallChannelName;
                 break;
         }
 

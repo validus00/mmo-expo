@@ -1,5 +1,8 @@
 ﻿using UnityEngine;
 
+/*
+ * This interface is for handling user movement and camera input changes
+ */
 public interface IPlayerInputHandler {
     // Returns value of any horizontal mouse movement
     float GetLookInputsHorizontal();
