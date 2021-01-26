@@ -1,13 +1,10 @@
 ﻿using UnityEngine;
 
-public class PlayerInputHandler : MonoBehaviour {
-    // Mouse look sensitivity
-    [SerializeField]
+public class PlayerInputHandler : IPlayerInputHandler {
     private float __lookSensitivity = 1f;
-    private Animator __animator;
 
-    void Start() {
-        __animator = GetComponent<Animator>();
+    public bool GetReturnKey() {
+        return Input.GetKeyDown(KeyCode.Return);
     }
 
     public bool GetRightClickInputHeld() {
@@ -17,11 +14,6 @@ public class PlayerInputHandler : MonoBehaviour {
     public Vector3 GetMoveInput() {
         float horizontalInput = Input.GetAxisRaw("Horizontal");
         float verticalInput = Input.GetAxisRaw("Vertical");
-
-        if (__animator != null) {
-            __animator.SetFloat("Horizontal", horizontalInput);
-            __animator.SetFloat("Vertical", verticalInput);
-        }
 
         Vector3 move = new Vector3(horizontalInput, 0f, verticalInput);
         // Prevents diagonal movement value from exceeding 1

@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using UnityEngine.UI;
 using Photon.Pun;
 
 /*
@@ -18,15 +17,15 @@ public class MovementController : MonoBehaviour {
     // Camera vertical angle
     private float __cameraVerticalAngle = 0f;
     // FPS camera
-    [SerializeField]
-    private GameObject __fpsCamera;
+    public GameObject fpsCamera;
     private CharacterController __characterController;
+    private Animator __animator;
     // For handling user movement inputs
-    private PlayerInputHandler __playerInputHandler;
+    public IPlayerInputHandler playerInputHandler;
     // Channel name input field
-    private InputField __channelBox;
+    public IInputFieldHandler channelBoxHandler;
     // Chat input field
-    private InputField __chatBox;
+    public IInputFieldHandler chatBoxHandler;
     // For handling disabling horizontal user movement during chat
     private bool __canMove = true;
     // For adding a little delay between chatting and horizontal user movement
@@ -34,10 +33,19 @@ public class MovementController : MonoBehaviour {
 
     // Start is called before the first frame update
     void Start() {
+        if (playerInputHandler == null) {
+            playerInputHandler = new PlayerInputHandler();
+        }
+
+        if (channelBoxHandler == null) {
+            channelBoxHandler = GameObject.Find("ChannelInputField").GetComponent<InputFieldHandler>();
+        }
+
+        if (chatBoxHandler == null) {
+            chatBoxHandler = GameObject.Find("MessageInputField").GetComponent<InputFieldHandler>();
+        }
         __characterController = GetComponent<CharacterController>();
-        __playerInputHandler = GetComponent<PlayerInputHandler>();
-        __channelBox = GameObject.Find("ChannelInputField").GetComponent<InputField>();
-        __chatBox = GameObject.Find("MessageInputField").GetComponent<InputField>();
+        __animator = GetComponent<Animator>();
         // Prevent User object from overlapping with another object
         __characterController.enableOverlapRecovery = true;
     }
@@ -45,18 +53,15 @@ public class MovementController : MonoBehaviour {
     // Update is called once per frame 
     void Update() {
         // Apply velocity only if user is allowed to move
-        if (!__characterController.enabled) {
-            GetComponent<PhotonView>().RPC("CharacterControllerToggle", RpcTarget.AllBuffered, __characterController.enabled);
-        }
         if (__canMove) {
-            HandleCharacterMovement();
+            __HandleCharacterMovement();
         }
     }
 
     // For consistently periodic updates
     void FixedUpdate() {
         // If chat input field is selected, disable movement and apply a delay
-        if (__chatBox.isFocused || __channelBox.isFocused) {
+        if (chatBoxHandler.isFocused() || channelBoxHandler.isFocused()) {
             __delay = 20;
             __canMove = false;
         } else if (__delay > 0) {
@@ -68,30 +73,51 @@ public class MovementController : MonoBehaviour {
         }
     }
 
-    private void HandleCharacterMovement() {
-        if (!__characterController.enabled) {
-            __characterController.enabled = true;
-            GetComponent<PhotonView>().RPC("CharacterControllerToggle", RpcTarget.AllBuffered, __characterController.enabled);
-        }
+
+    private void __HandleCharacterMovement() {
         // If right mouse button is held down, then hide the mouse cursor and allow mouse free look
-        if (__playerInputHandler.GetRightClickInputHeld()) {
+        if (playerInputHandler.GetRightClickInputHeld()) {
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
             // Rotate user horizontally
-            transform.Rotate(new Vector3(0f, (__playerInputHandler.GetLookInputsHorizontal() * __rotationSpeed), 0f), Space.Self);
+            transform.Rotate(new Vector3(0f, (playerInputHandler.GetLookInputsHorizontal() * __rotationSpeed), 0f), Space.Self);
             // Rotate user camera vertically
-            __cameraVerticalAngle += __playerInputHandler.GetLookInputsVertical() * __rotationSpeed;
+            __cameraVerticalAngle += playerInputHandler.GetLookInputsVertical() * __rotationSpeed;
             // Limit vertical camera rotation angle of up to +/- 89 degrees
             __cameraVerticalAngle = Mathf.Clamp(__cameraVerticalAngle, -89f, 89f);
-            __fpsCamera.transform.localEulerAngles = new Vector3(__cameraVerticalAngle, 0, 0);
+            fpsCamera.transform.localEulerAngles = new Vector3(__cameraVerticalAngle, 0, 0);
         } else {
             // Otherwise, show the mouse cursory on screen
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
         }
+
         // Apply velocity to User object
-        Vector3 targetVelocity = __maxSpeedOnGround * transform.TransformVector(__playerInputHandler.GetMoveInput());
+        Vector3 move = playerInputHandler.GetMoveInput();
+        
+        // If any movement detected, enable character controller
+        if (move.x != 0 || move.y != 0 || move.z != 0) {
+            Debug.Log("character velocity @@");
+            __characterController.enabled = true;
+            GetComponent<PhotonView>().RPC("CharacterControllerToggle", RpcTarget.AllBuffered, __characterController.enabled);
+        }
+
+        __animator.SetFloat("Horizontal", __GetAnimatorValue(move.x));
+        __animator.SetFloat("Vertical", __GetAnimatorValue(move.z));
+
+        Vector3 targetVelocity = __maxSpeedOnGround * transform.TransformVector(move);
         __characterVelocity = Vector3.Lerp(__characterVelocity, targetVelocity, __movementSharpnessOnGround * Time.deltaTime);
         __characterController.Move(__characterVelocity * Time.deltaTime);
     }
+    private float __GetAnimatorValue(float input) {
+        if (input > 0) {
+            return 1f;
+        } else if (0 > input) {
+            return -1f;
+        } else {
+            return 0;
+        }
+    }
 }
+
+

@@ -7,16 +7,13 @@ public class TeleportManager : MonoBehaviour {
     public Transform teleportTarget;
 
     public void OnTriggerEnter(Collider other) {
-        // Create a reference for the character controller
         CharacterController controller = other.GetComponent<CharacterController>();
+        if (other.gameObject.name.Equals("MyUser")) {
+            // Turn off the character controller so that the user can be teleported
+            controller.enabled = false;
+            other.GetComponent<PhotonView>().RPC("CharacterControllerToggle", RpcTarget.AllBuffered, controller.enabled);
+            other.transform.position = teleportTarget.transform.position;
+        }
 
-        // Turn off the character controller so that the user can be teleported
-        controller.enabled = false;
-
-        // Teleport the user
-        other.transform.position = teleportTarget.transform.position;
-
-        // Turn on the character controller and the user will be able to pick up their coordinates
-        controller.enabled = true;
     }
 }
