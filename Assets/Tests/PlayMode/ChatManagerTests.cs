@@ -363,6 +363,32 @@ namespace Tests {
             photonChatHandler.DidNotReceive().EnterChannel(Arg.Any<string>());
         }
 
+
+        [UnityTest]
+        public IEnumerator WhenPhotonChatHandlerAndPlayerInputHandlerAreNullThenGetNoError() {
+            GameObject eventManager = new GameObject(GameConstants.k_ExpoEventManager);
+            ChatManager chatManager = eventManager.AddComponent<ChatManager>();
+
+            IPhotonChatHandler photonChatHandler = Substitute.For<IPhotonChatHandler>();
+            photonChatHandler.GetNewMessages().Returns(new List<Message>());
+
+            __SetUpChatManager(chatManager, null, photonChatHandler, null, null);
+
+            yield return null;
+
+            chatManager.photonChatHandler = null;
+            chatManager.playerInputHandler = null;
+
+            yield return null;
+
+            Assert.AreEqual(0, chatManager.GetMessages().Count);
+            Assert.AreEqual(GameConstants.k_AnnouncementChannelName,
+                chatManager.GetChannelName(ChatManager.ChannelType.announcementChannel));
+            Assert.AreEqual(GameConstants.k_HallChannelName,
+                chatManager.GetChannelName(ChatManager.ChannelType.hallChannel));
+            Assert.AreEqual(string.Empty, chatManager.GetChannelName(ChatManager.ChannelType.boothChannel));
+        }
+
         private void __SetUpChatManager(ChatManager chatManager, IPlayerInputHandler playerInputHandler,
             IPhotonChatHandler photonChatHandler, string channelName, string message) {
             chatManager.playerInputHandler = playerInputHandler;

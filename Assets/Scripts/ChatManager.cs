@@ -61,24 +61,25 @@ public class ChatManager : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
-        // Maintain service connection to Photon
-        photonChatHandler.MaintainService();
-
-        // Get new messages from chat client
-        List<Message> messages = photonChatHandler.GetNewMessages();
-        foreach (Message message in messages) {
-            __SendMessageToChat(message);
+        if (photonChatHandler != null) {
+            // Maintain service connection to Photon
+            photonChatHandler.MaintainService();
+            // Get new messages from chat client
+            List<Message> messages = photonChatHandler.GetNewMessages();
+            foreach (Message message in messages) {
+                __SendMessageToChat(message);
+            }
         }
 
         string channelName = channelBox.text;
         string messageText = chatBox.text;
         // Enter key either sends a message or activates the chat input field
-        if (playerInputHandler.GetReturnKey()) {
+        if (playerInputHandler != null && playerInputHandler.GetReturnKey()) {
             if (!string.IsNullOrEmpty(messageText)) {
                 if (string.IsNullOrWhiteSpace(channelName)) {
                     // channel name not given
                     __SendMessageToChat("No channel or username specified.", Message.MessageType.info);
-                } else if (!photonChatHandler.IsConnected()) {
+                } else if (photonChatHandler != null && !photonChatHandler.IsConnected()) {
                     // Chat client not connected
                     __SendMessageToChat("Not connected to chat yet.", Message.MessageType.info);
                 } else if (__CheckChannelName(channelName)) {

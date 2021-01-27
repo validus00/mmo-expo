@@ -25,7 +25,7 @@ public class BoothSetup : MonoBehaviourPunCallbacks {
     }
 
     // This is called when the user first enters a booth area
-    private void OnTriggerEnter(Collider other) {
+    void OnTriggerEnter(Collider other) {
         if (__camera == null) {
             __camera = GameObject.Find(GameConstants.k_Camera).GetComponent<Camera>();
             GetComponentInChildren<Canvas>().worldCamera = __camera;
@@ -40,7 +40,7 @@ public class BoothSetup : MonoBehaviourPunCallbacks {
     }
 
     // This is called when the user leaves a booth area
-    private void OnTriggerExit(Collider other) {
+    void OnTriggerExit(Collider other) {
         if (other.name == GameConstants.k_MyUser) {
             __LeaveChannel();
             __isUserInBooth = false;
@@ -75,13 +75,13 @@ public class BoothSetup : MonoBehaviourPunCallbacks {
     [PunRPC]
     void SyncBooth(string projectName, string teamName, string projectDescription, string urlText) {
         boothText.text = projectName;
-        AssignBoothValues(projectName, teamName, projectDescription, urlText);
+        __AssignBoothValues(projectName, teamName, projectDescription, urlText);
         if (__isUserInBooth) {
             __JoinChannel();
         }
     }
 
-    private void AssignBoothValues(string projectName, string teamName, string projectDescription, string urlText) {
+    private void __AssignBoothValues(string projectName, string teamName, string projectDescription, string urlText) {
         __projectName = projectName;
         __teamName = teamName;
         __projectDescription = projectDescription;
@@ -99,6 +99,6 @@ public class BoothSetup : MonoBehaviourPunCallbacks {
             __LeaveChannel();
         }
         boothText.text = string.Empty;
-        AssignBoothValues(string.Empty, string.Empty, string.Empty, string.Empty);
+        __AssignBoothValues(string.Empty, string.Empty, string.Empty, string.Empty);
     }
 }
