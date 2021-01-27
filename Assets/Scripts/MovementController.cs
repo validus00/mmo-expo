@@ -1,5 +1,5 @@
-﻿using UnityEngine;
 using Photon.Pun;
+using UnityEngine;
 
 /*
  * MovementController class is for implementing user movement controls
@@ -26,23 +26,23 @@ public class MovementController : MonoBehaviour {
     public IInputFieldHandler channelBoxHandler;
     // Chat input field
     public IInputFieldHandler chatBoxHandler;
-    // For handling disabling horizontal user movement during chat
-    private bool __canMove = true;
-    // For adding a little delay between chatting and horizontal user movement
-    private int __delay = 0;
+    // For handling panel related logic
+    public IPanelManager panelManager;
+    public PhotonView photonView;
 
     // Start is called before the first frame update
     void Start() {
         if (playerInputHandler == null) {
             playerInputHandler = new PlayerInputHandler();
         }
-
         if (channelBoxHandler == null) {
-            channelBoxHandler = GameObject.Find("ChannelInputField").GetComponent<InputFieldHandler>();
+            channelBoxHandler = GameObject.Find(GameConstants.k_ChannelInputField).GetComponent<InputFieldHandler>();
         }
-
         if (chatBoxHandler == null) {
-            chatBoxHandler = GameObject.Find("MessageInputField").GetComponent<InputFieldHandler>();
+            chatBoxHandler = GameObject.Find(GameConstants.k_MessageInputField).GetComponent<InputFieldHandler>();
+        }
+        if (panelManager == null) {
+            panelManager = GameObject.Find(GameConstants.k_PanelManager).GetComponent<PanelManager>();
         }
         __characterController = GetComponent<CharacterController>();
         __animator = GetComponent<Animator>();
@@ -52,31 +52,23 @@ public class MovementController : MonoBehaviour {
 
     // Update is called once per frame 
     void Update() {
-        // Apply velocity only if user is allowed to move
-        if (__canMove) {
+        // Toggle exit event panel as active or inactive
+        if (playerInputHandler.GetTabKey()) {
+            // Show and unlock mouse cursor
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+            panelManager.ToggleExitEventPanel();
+        }
+        // Handle user and camera movement only when panels aren't active
+        if (!panelManager.IsAnyPanelActive()) {
             __HandleCharacterMovement();
         }
     }
 
-    // For consistently periodic updates
-    void FixedUpdate() {
-        // If chat input field is selected, disable movement and apply a delay
-        if (chatBoxHandler.isFocused() || channelBoxHandler.isFocused()) {
-            __delay = 20;
-            __canMove = false;
-        } else if (__delay > 0) {
-            __delay--;
-        }
-        // Allow movement if no delay
-        if (0 >= __delay) {
-            __canMove = true;
-        }
-    }
-
-
     private void __HandleCharacterMovement() {
         // If right mouse button is held down, then hide the mouse cursor and allow mouse free look
         if (playerInputHandler.GetRightClickInputHeld()) {
+            // Hide and lock mouse cursor
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
             // Rotate user horizontally
@@ -87,28 +79,34 @@ public class MovementController : MonoBehaviour {
             __cameraVerticalAngle = Mathf.Clamp(__cameraVerticalAngle, -89f, 89f);
             fpsCamera.transform.localEulerAngles = new Vector3(__cameraVerticalAngle, 0, 0);
         } else {
-            // Otherwise, show the mouse cursory on screen
+            // Show and unlock mouse cursor
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
         }
-
-        // Apply velocity to User object
-        Vector3 move = playerInputHandler.GetMoveInput();
-        
+        Vector3 move;
+        // Apply velocity only if user is allowed to move
+        if (!chatBoxHandler.isFocused() && !channelBoxHandler.isFocused()) {
+            move = playerInputHandler.GetMoveInput();
+        } else {
+            move = Vector3.zero;
+        }
         // If any movement detected, enable character controller
-        if (move.x != 0 || move.y != 0 || move.z != 0) {
+        if (__characterController.enabled == false && (move.x != 0 || move.y != 0 || move.z != 0)) {
             Debug.Log("character velocity @@");
             __characterController.enabled = true;
-            GetComponent<PhotonView>().RPC("CharacterControllerToggle", RpcTarget.AllBuffered, __characterController.enabled);
+            if (photonView != null) {
+                photonView.RPC("CharacterControllerToggle", RpcTarget.AllBuffered, __characterController.enabled);
+            }
         }
-
-        __animator.SetFloat("Horizontal", __GetAnimatorValue(move.x));
-        __animator.SetFloat("Vertical", __GetAnimatorValue(move.z));
-
+        // Set float values for animation controller
+        __animator.SetFloat(GameConstants.k_Horizontal, __GetAnimatorValue(move.x));
+        __animator.SetFloat(GameConstants.k_Vertical, __GetAnimatorValue(move.z));
+        // Apply velocity to User object
         Vector3 targetVelocity = __maxSpeedOnGround * transform.TransformVector(move);
         __characterVelocity = Vector3.Lerp(__characterVelocity, targetVelocity, __movementSharpnessOnGround * Time.deltaTime);
         __characterController.Move(__characterVelocity * Time.deltaTime);
     }
+
     private float __GetAnimatorValue(float input) {
         if (input > 0) {
             return 1f;
@@ -119,5 +117,3 @@ public class MovementController : MonoBehaviour {
         }
     }
 }
-
-

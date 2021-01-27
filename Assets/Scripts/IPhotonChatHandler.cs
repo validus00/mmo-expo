@@ -1,5 +1,8 @@
 ﻿using System.Collections.Generic;
 
+/*
+ * This interface is for handling and abstracting Photon Chat functionality
+ */
 public interface IPhotonChatHandler {
     // For entering a specific channel
     void EnterChannel(string channelName);
@@ -8,9 +11,7 @@ public interface IPhotonChatHandler {
     // For leaving a specific channel
     void LeaveChannel(string channelName);
     // For initial setup
-    void Initialize();
-    // For setting up the initial channels when first connecting to service
-    void InitializeChannels(string[] channels);
+    void InitializeChannelNames(string[] channels);
     // For determining if connected to Photon Chat
     bool IsConnected();
     // For maintaining connection to Photon Chat

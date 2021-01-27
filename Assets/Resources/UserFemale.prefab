@@ -382,6 +382,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   __maxSpeedOnGround: 20
   fpsCamera: {fileID: 8489506943346519909}
+  photonView: {fileID: -9044096528134971168}
 --- !u!114 &-9044096528134971168
 MonoBehaviour:
   m_ObjectHideFlags: 0

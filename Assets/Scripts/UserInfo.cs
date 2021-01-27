@@ -19,6 +19,6 @@ public class UserInfo : MonoBehaviour {
     }
 
     void Start() {
-        PlayerPrefs.SetInt("myAvatar", mySelectedAvatar);
+        PlayerPrefs.SetInt(GameConstants.k_MyAvatar, mySelectedAvatar);
     }
 }

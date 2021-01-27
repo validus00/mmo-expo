@@ -12,19 +12,18 @@ public class ChatManager : MonoBehaviour {
         hallChannel,
         boothChannel
     }
-
+    // For storing channel names
+    private readonly Dictionary<ChannelType, string> __channelNames = new Dictionary<ChannelType, string>() {
+        { ChannelType.announcementChannel, GameConstants.k_AnnouncementChannelName },
+        { ChannelType.hallChannel, GameConstants.k_HallChannelName },
+        { ChannelType.boothChannel, string.Empty }
+    };
     // For chat client handling
     public IPhotonChatHandler photonChatHandler;
     // For handling user inputs
     public IPlayerInputHandler playerInputHandler;
     // max number of channels
     private const int __maxMessages = 100;
-    // Showcase-wide channel
-    readonly private string __announcementChannel = "Announcements";
-    // Hall specific channel
-    private string __hallChannel = "Main Hall";
-    // Booth specific channel
-    private string __boothChannel = string.Empty;
     // Chat panel
     public GameObject chatPanel;
     // Text objects to populate chat panel
@@ -51,13 +50,13 @@ public class ChatManager : MonoBehaviour {
     void Start() {
         if (photonChatHandler == null) {
             photonChatHandler = new PhotonChatHandler();
-            photonChatHandler.Initialize();
         }
         if (playerInputHandler == null) {
             playerInputHandler = new PlayerInputHandler();
         }
 
-        photonChatHandler.InitializeChannels(new string[] { __announcementChannel, __hallChannel });
+        photonChatHandler.InitializeChannelNames(new string[] { __channelNames[ChannelType.announcementChannel],
+            __channelNames[ChannelType.hallChannel] });
     }
 
     // Update is called once per frame
@@ -82,7 +81,7 @@ public class ChatManager : MonoBehaviour {
                 } else if (!photonChatHandler.IsConnected()) {
                     // Chat client not connected
                     __SendMessageToChat("Not connected to chat yet.", Message.MessageType.info);
-                } else if (__CheckChannelBox(channelName)) {
+                } else if (__CheckChannelName(channelName)) {
                     // channel name not correct or does not exist
                     string warning = string.Format("You are not in \"{0}\" channel. Cannot send message.", channelName);
                     __SendMessageToChat(warning, Message.MessageType.info);
@@ -97,28 +96,27 @@ public class ChatManager : MonoBehaviour {
         }
     }
 
-    private bool __CheckChannelBox(string channelName) {
-        return channelName != __announcementChannel && channelName != __hallChannel && channelName != __boothChannel;
+    private bool __CheckChannelName(string channelName) {
+        return channelName != __channelNames[ChannelType.announcementChannel] &&
+            channelName != __channelNames[ChannelType.hallChannel] &&
+            channelName != __channelNames[ChannelType.boothChannel];
     }
 
     public void UpdateChannel(string channelName, ChannelType channelType) {
-        switch (channelType) {
-            case ChannelType.hallChannel:
-                __hallChannel = channelName;
-                break;
-            case ChannelType.boothChannel:
-                __boothChannel = channelName;
-                break;
-            case ChannelType.announcementChannel:
-                // Changing announcements channel is not allowed
-                return;
+        if (channelType == ChannelType.announcementChannel) {
+            return;
         }
 
+        __channelNames[channelType] = channelName;
+
         if (!photonChatHandler.IsConnected()) {
-            if (!string.IsNullOrEmpty(__boothChannel)) {
-                photonChatHandler.InitializeChannels(new string[] { __announcementChannel, __hallChannel, __boothChannel });
+            if (!string.IsNullOrEmpty(__channelNames[ChannelType.boothChannel])) {
+                photonChatHandler.InitializeChannelNames(new string[] {
+                    __channelNames[ChannelType.announcementChannel], __channelNames[ChannelType.hallChannel],
+                    __channelNames[ChannelType.boothChannel] });
             } else {
-                photonChatHandler.InitializeChannels(new string[] { __announcementChannel, __hallChannel });
+                photonChatHandler.InitializeChannelNames(new string[] {
+                    __channelNames[ChannelType.announcementChannel], __channelNames[ChannelType.hallChannel] });
             }
         }
     }
@@ -138,17 +136,7 @@ public class ChatManager : MonoBehaviour {
     }
 
     public string GetChannelName(ChannelType channelType) {
-        string channelName = __boothChannel;
-        switch (channelType) {
-            case ChannelType.announcementChannel:
-                channelName = __announcementChannel;
-                break;
-            case ChannelType.hallChannel:
-                channelName = __hallChannel;
-                break;
-        }
-
-        return channelName;
+        return __channelNames[channelType];
     }
 
     // This method is for displaying received messages in chat panel

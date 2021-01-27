@@ -1,5 +1,8 @@
 ﻿using UnityEngine;
 
+/*
+ * This interface is for handling user movement and camera input changes
+ */
 public interface IPlayerInputHandler {
     // Returns value of any horizontal mouse movement
     float GetLookInputsHorizontal();
@@ -11,4 +14,6 @@ public interface IPlayerInputHandler {
     bool GetReturnKey();
     // Returns whether the right mouse button is held down
     bool GetRightClickInputHeld();
+    // Returns whether the tab key is pressed
+    bool GetTabKey();
 }

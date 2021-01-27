@@ -11,7 +11,7 @@ public class FaceCamera : MonoBehaviour {
     void Update() {
         // set camera here since this script is loaded before camera object
         if (__target == null) {
-            __target = GameObject.Find("Camera").transform;
+            __target = GameObject.Find(GameConstants.k_Camera).transform;
         }
         transform.LookAt(__target);
         transform.Rotate(Vector3.up - new Vector3(0, 180, 0));
