@@ -152,6 +152,50 @@ namespace Tests {
             Assert.AreEqual(0, animator.GetFloat(GameConstants.k_Vertical));
         }
 
+        [UnityTest]
+        public IEnumerator WhenAPanelIsActiveThenPositionWillNotChange() {
+            GameObject user = new GameObject(k_Player);
+
+            IPlayerInputHandler playerInputHandler = Substitute.For<IPlayerInputHandler>();
+            playerInputHandler.GetMoveInput().Returns(new Vector3(0, 0, 1));
+
+            __SetUpMovementController(user, playerInputHandler);
+            Animator animator = user.GetComponent<Animator>();
+
+            MovementController movementController = user.GetComponent<MovementController>();
+            movementController.panelManager.IsAnyPanelActive().Returns(true);
+
+            yield return null;
+
+            Assert.AreEqual(0, user.transform.position.x);
+            Assert.AreEqual(0, user.transform.position.y);
+            Assert.AreEqual(0, user.transform.position.z);
+            Assert.AreEqual(0, animator.GetFloat(GameConstants.k_Horizontal));
+            Assert.AreEqual(0, animator.GetFloat(GameConstants.k_Vertical));
+        }
+
+        [UnityTest]
+        public IEnumerator WhenTabIsPressedThenCursorIsNormalAndToggleExitEventPanelIsCalled() {
+            GameObject user = new GameObject(k_Player);
+
+            IPlayerInputHandler playerInputHandler = Substitute.For<IPlayerInputHandler>();
+            playerInputHandler.GetTabKey().Returns(true);
+
+            __SetUpMovementController(user, playerInputHandler);
+            Animator animator = user.GetComponent<Animator>();
+
+            yield return null;
+
+            Assert.IsTrue(Cursor.visible);
+            Assert.AreEqual(CursorLockMode.None, Cursor.lockState);
+            Assert.AreEqual(0, user.transform.position.x);
+            Assert.AreEqual(0, user.transform.position.y);
+            Assert.AreEqual(0, user.transform.position.z);
+            Assert.AreEqual(0, animator.GetFloat(GameConstants.k_Horizontal));
+            Assert.AreEqual(0, animator.GetFloat(GameConstants.k_Vertical));
+            playerInputHandler.Received(1).GetTabKey();
+        }
+
         private void __SetUpMovementController(GameObject user, IPlayerInputHandler playerInputHandler) {
             GameObject channelBoxObject = new GameObject(GameConstants.k_ChannelInputField);
             channelBoxObject.AddComponent<InputField>();
@@ -170,6 +214,8 @@ namespace Tests {
             movementController.playerInputHandler = playerInputHandler;
             movementController.fpsCamera = camera;
             user.transform.position = Vector3.zero;
+
+            movementController.panelManager = Substitute.For<IPanelManager>();
         }
     }
 }

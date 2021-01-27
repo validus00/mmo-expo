@@ -25,9 +25,8 @@ public class MovementController : MonoBehaviour {
     public IInputFieldHandler channelBoxHandler;
     // Chat input field
     public IInputFieldHandler chatBoxHandler;
-    private BoothManager __boothManager;
-    // For handling disabling horizontal user movement during chat
-    private bool __canMove = true;
+    // For handling panel related logic
+    public IPanelManager panelManager;
     // For adding a little delay between chatting and horizontal user movement
     private int __delay = 0;
 
@@ -42,7 +41,9 @@ public class MovementController : MonoBehaviour {
         if (chatBoxHandler == null) {
             chatBoxHandler = GameObject.Find(GameConstants.k_MessageInputField).GetComponent<InputFieldHandler>();
         }
-        __boothManager = GameObject.Find("BoothManager").GetComponent<BoothManager>();
+        if (panelManager == null) {
+            panelManager = GameObject.Find(GameConstants.k_PanelManager).GetComponent<PanelManager>();
+        }
         __characterController = GetComponent<CharacterController>();
         __animator = GetComponent<Animator>();
         // Prevent User object from overlapping with another object
@@ -51,30 +52,23 @@ public class MovementController : MonoBehaviour {
 
     // Update is called once per frame 
     void Update() {
-        // Apply velocity only if user is allowed to move
-        if (__canMove && !__boothManager.IsAnyBoothPanelActive()) {
+        // Toggle exit event panel as active or inactive
+        if (playerInputHandler.GetTabKey()) {
+            // Show and unlock mouse cursor
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+            panelManager.ToggleExitEventPanel();
+        }
+        // Handle user and camera movement only when panels aren't active
+        if (!panelManager.IsAnyPanelActive()) {
             __HandleCharacterMovement();
-        }
-    }
-
-    // For consistently periodic updates
-    void FixedUpdate() {
-        // If chat input field is selected, disable movement and apply a delay
-        if (chatBoxHandler.isFocused() || channelBoxHandler.isFocused()) {
-            __delay = 20;
-            __canMove = false;
-        } else if (__delay > 0) {
-            __delay--;
-        }
-        // Allow movement if no delay
-        if (0 >= __delay) {
-            __canMove = true;
         }
     }
 
     private void __HandleCharacterMovement() {
         // If right mouse button is held down, then hide the mouse cursor and allow mouse free look
         if (playerInputHandler.GetRightClickInputHeld()) {
+            // Hide and lock mouse cursor
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
             // Rotate user horizontally
@@ -85,16 +79,21 @@ public class MovementController : MonoBehaviour {
             __cameraVerticalAngle = Mathf.Clamp(__cameraVerticalAngle, -89f, 89f);
             fpsCamera.transform.localEulerAngles = new Vector3(__cameraVerticalAngle, 0, 0);
         } else {
-            // Otherwise, show the mouse cursory on screen
+            // Show and unlock mouse cursor
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
         }
-
-        // Apply velocity to User object
-        Vector3 move = playerInputHandler.GetMoveInput();
+        Vector3 move;
+        // Apply velocity only if user is allowed to move
+        if (!chatBoxHandler.isFocused() && !channelBoxHandler.isFocused()) {
+            move = playerInputHandler.GetMoveInput();
+        } else {
+            move = Vector3.zero;
+        }
+        // Set float values for animation controller
         __animator.SetFloat(GameConstants.k_Horizontal, __GetAnimatorValue(move.x));
         __animator.SetFloat(GameConstants.k_Vertical, __GetAnimatorValue(move.z));
-
+        // Apply velocity to User object
         Vector3 targetVelocity = __maxSpeedOnGround * transform.TransformVector(move);
         __characterVelocity = Vector3.Lerp(__characterVelocity, targetVelocity, __movementSharpnessOnGround * Time.deltaTime);
         __characterController.Move(__characterVelocity * Time.deltaTime);

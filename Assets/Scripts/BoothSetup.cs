@@ -7,7 +7,7 @@ using UnityEngine;
  */
 public class BoothSetup : MonoBehaviourPunCallbacks {
     public TextMeshProUGUI boothText;
-    private BoothManager __boothManager;
+    private PanelManager __panelManager;
     private ChatManager __chatManager;
     private PhotonView __photonView;
     private Camera __camera;
@@ -20,7 +20,7 @@ public class BoothSetup : MonoBehaviourPunCallbacks {
     
     void Start() {
         __photonView = GetComponent<PhotonView>();
-        __boothManager = GameObject.Find("BoothManager").GetComponent<BoothManager>();
+        __panelManager = GameObject.Find(GameConstants.k_PanelManager).GetComponent<PanelManager>();
         __chatManager = GameObject.Find(GameConstants.k_ExpoEventManager).GetComponent<ChatManager>();
     }
 
@@ -57,11 +57,13 @@ public class BoothSetup : MonoBehaviourPunCallbacks {
         __chatManager.LeaveChannel(__projectName);
     }
 
-    public void OpenBoothInfoPanel() {
-        if (string.IsNullOrEmpty(__projectName)) {
-            __boothManager.OpenBoothFormPanel(this);
-        } else {
-            __boothManager.OpenBoothInfoPanel(this, __isOwner, __projectName, __teamName, __projectDescription, __urlText);
+    public void OpenBoothPanel() {
+        if (__isUserInBooth) {
+            if (string.IsNullOrEmpty(__projectName)) {
+                __panelManager.OpenBoothFormPanel(this);
+            } else {
+                __panelManager.OpenBoothInfoPanel(this, __isOwner, __projectName, __teamName, __projectDescription, __urlText);
+            }
         }
     }
 

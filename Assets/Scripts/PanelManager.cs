@@ -1,10 +1,11 @@
-﻿using Photon.Pun;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
-public class BoothManager : MonoBehaviour {
+public class PanelManager : MonoBehaviour, IPanelManager {
     public GameObject boothInfoPanel;
     public GameObject boothFormPanel;
+    public GameObject confirmBoothResetPanel;
+    public GameObject exitEventPanel;
     public Text teamNameText;
     public Text projectNameText;
     public Text descriptionText;
@@ -15,16 +16,7 @@ public class BoothManager : MonoBehaviour {
     public InputField urlInputField;
     private BoothSetup __boothSetup;
     public GameObject resetBoothButton;
-
-    // Start is called before the first frame update
-    void Start() {
-        
-    }
-
-    // Update is called once per frame
-    void Update() {
-        
-    }
+    public Text warningText;
 
     public void OpenURL() {
         if (urlText != null && !string.IsNullOrEmpty(urlText.text)) {
@@ -57,26 +49,44 @@ public class BoothManager : MonoBehaviour {
     }
 
     public void SubmitForm() {
-        if (__boothSetup != null && !string.IsNullOrWhiteSpace(teamNameInputField.text) &&
+        if (__boothSetup != null) {
+            if (!string.IsNullOrWhiteSpace(teamNameInputField.text) &&
             !string.IsNullOrWhiteSpace(projectNameInputField.text) &&
             !string.IsNullOrWhiteSpace(descriptionInputField.text) &&
             !string.IsNullOrWhiteSpace(urlInputField.text)) {
-            __boothSetup.SetUpBooth(teamNameInputField.text, projectNameInputField.text, descriptionInputField.text,
-                urlInputField.text);
-            boothFormPanel.SetActive(false);
+                __boothSetup.SetUpBooth(teamNameInputField.text, projectNameInputField.text, descriptionInputField.text,
+                    urlInputField.text);
+                CloseBoothFormPanel();
+            } else {
+                warningText.text = "Please fill out all fields";
+            }
         }
     }
 
     public void CloseBoothFormPanel() {
+        warningText.text = string.Empty;
         boothFormPanel.SetActive(false);
     }
 
-    public bool IsAnyBoothPanelActive() {
-        return boothInfoPanel.activeSelf || boothFormPanel.activeSelf;
+    public bool IsAnyPanelActive() {
+        return boothInfoPanel.activeSelf || boothFormPanel.activeSelf || confirmBoothResetPanel.activeSelf || exitEventPanel.activeSelf;
+    }
+
+    public void OpenConfirmBoothResetPanel() {
+        confirmBoothResetPanel.SetActive(true);
+    }
+
+    public void CloseConfirmBoothResetPanel() {
+        confirmBoothResetPanel.SetActive(false);
     }
 
     public void ResetBooth() {
         __boothSetup.ResetBooth();
-        boothInfoPanel.SetActive(false);
+        CloseConfirmBoothResetPanel();
+        CloseBoothInfoPanel();
+    }
+
+    public void ToggleExitEventPanel() {
+        exitEventPanel.SetActive(!exitEventPanel.activeSelf);
     }
 }
