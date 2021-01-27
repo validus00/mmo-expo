@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using Photon.Pun;
 
 /*
  * MovementController class is for implementing user movement controls
@@ -59,7 +60,6 @@ public class MovementController : MonoBehaviour {
 
     // For consistently periodic updates
     void FixedUpdate() {
-
         // If chat input field is selected, disable movement and apply a delay
         if (chatBoxHandler.isFocused() || channelBoxHandler.isFocused()) {
             __delay = 20;
@@ -72,6 +72,7 @@ public class MovementController : MonoBehaviour {
             __canMove = true;
         }
     }
+
 
     private void __HandleCharacterMovement() {
         // If right mouse button is held down, then hide the mouse cursor and allow mouse free look
@@ -90,9 +91,17 @@ public class MovementController : MonoBehaviour {
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
         }
-        // Apply velocity to User object
 
+        // Apply velocity to User object
         Vector3 move = playerInputHandler.GetMoveInput();
+        
+        // If any movement detected, enable character controller
+        if (move.x != 0 || move.y != 0 || move.z != 0) {
+            Debug.Log("character velocity @@");
+            __characterController.enabled = true;
+            GetComponent<PhotonView>().RPC("CharacterControllerToggle", RpcTarget.AllBuffered, __characterController.enabled);
+        }
+
         __animator.SetFloat("Horizontal", __GetAnimatorValue(move.x));
         __animator.SetFloat("Vertical", __GetAnimatorValue(move.z));
 
@@ -100,7 +109,6 @@ public class MovementController : MonoBehaviour {
         __characterVelocity = Vector3.Lerp(__characterVelocity, targetVelocity, __movementSharpnessOnGround * Time.deltaTime);
         __characterController.Move(__characterVelocity * Time.deltaTime);
     }
-
     private float __GetAnimatorValue(float input) {
         if (input > 0) {
             return 1f;

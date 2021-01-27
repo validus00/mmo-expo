@@ -11,9 +11,11 @@ public class LaunchManager : MonoBehaviourPunCallbacks {
     public GameObject AvatarPanel;
     public GameObject EnterPasscodePanel;
     public GameObject InvalidPasscodeText;
+    public GameObject UnselectedAvatarText;
     private bool __createNew;
     private bool __joinExisting;
     private string __passcodeInput;
+    private int __MAX_AVATAR_COUNT = 2;
 
     #region Unity Methods
     void Start() {
@@ -61,6 +63,7 @@ public class LaunchManager : MonoBehaviourPunCallbacks {
 
     public void DisplayAvatarPanel() {
         AvatarPanel.SetActive(true);
+        UnselectedAvatarText.SetActive(false);
     }
 
     public void JoinExistingRoom() {
@@ -90,7 +93,11 @@ public class LaunchManager : MonoBehaviourPunCallbacks {
             InvalidPasscodeText.SetActive(false);
             AvatarPanel.SetActive(false);
         } else {
-            LoadEvent();
+            if (PlayerPrefs.GetInt("myAvatar") < __MAX_AVATAR_COUNT) {
+                LoadEvent();
+            } else {
+                UnselectedAvatarText.SetActive(true);
+            }
         }
     }
     public void LoadEvent() {
