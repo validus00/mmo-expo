@@ -304,7 +304,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a5e945ddf777274290da4960caf60b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mySelectedAvatar: 0
+  mySelectedAvatar: 2
 --- !u!4 &194297979
 Transform:
   m_ObjectHideFlags: 0
@@ -507,6 +507,7 @@ RectTransform:
   - {fileID: 1962068231}
   - {fileID: 625982400}
   - {fileID: 415062170}
+  - {fileID: 835221981}
   m_Father: {fileID: 1479608107}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -683,6 +684,7 @@ MonoBehaviour:
   AvatarPanel: {fileID: 1479608106}
   EnterPasscodePanel: {fileID: 91822394}
   InvalidPasscodeText: {fileID: 1598908103}
+  UnselectedAvatarText: {fileID: 835221980}
 --- !u!1 &385407703
 GameObject:
   m_ObjectHideFlags: 0
@@ -1733,6 +1735,84 @@ CanvasRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 803322197}
+  m_CullTransparentMesh: 0
+--- !u!1 &835221980
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 835221981}
+  - component: {fileID: 835221983}
+  - component: {fileID: 835221982}
+  m_Layer: 5
+  m_Name: UnselectedAvatarText
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &835221981
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 835221980}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 307154017}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: -150}
+  m_SizeDelta: {x: 700, y: 50}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &835221982
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 835221980}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.7647059, g: 0.4392157, b: 0.44313726, a: 1}
+  m_RaycastTarget: 1
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FontData:
+    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_FontSize: 30
+    m_FontStyle: 0
+    m_BestFit: 0
+    m_MinSize: 3
+    m_MaxSize: 40
+    m_Alignment: 4
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: Please select an avatar before proceeding.
+--- !u!222 &835221983
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 835221980}
   m_CullTransparentMesh: 0
 --- !u!1 &1014218875
 GameObject:
@@ -2838,7 +2918,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.8113208, g: 0.31763974, b: 0.31763974, a: 1}
+  m_Color: {r: 0.764151, g: 0.43614277, b: 0.43935442, a: 1}
   m_RaycastTarget: 1
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -3360,6 +3440,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a1b38f320e2c84247a90ab7010487c77, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  female: {fileID: 1513108940}
+  male: {fileID: 1445861911}
 --- !u!4 &1948625197
 Transform:
   m_ObjectHideFlags: 0

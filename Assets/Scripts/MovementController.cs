@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+using Photon.Pun;
+using UnityEngine;
 
 /*
  * MovementController class is for implementing user movement controls
@@ -27,8 +28,7 @@ public class MovementController : MonoBehaviour {
     public IInputFieldHandler chatBoxHandler;
     // For handling panel related logic
     public IPanelManager panelManager;
-    // For adding a little delay between chatting and horizontal user movement
-    private int __delay = 0;
+    public PhotonView photonView;
 
     // Start is called before the first frame update
     void Start() {
@@ -90,6 +90,14 @@ public class MovementController : MonoBehaviour {
         } else {
             move = Vector3.zero;
         }
+        // If any movement detected, enable character controller
+        if (move.x != 0 || move.y != 0 || move.z != 0) {
+            Debug.Log("character velocity @@");
+            __characterController.enabled = true;
+            if (photonView != null) {
+                photonView.RPC("CharacterControllerToggle", RpcTarget.AllBuffered, __characterController.enabled);
+            }
+        }
         // Set float values for animation controller
         __animator.SetFloat(GameConstants.k_Horizontal, __GetAnimatorValue(move.x));
         __animator.SetFloat(GameConstants.k_Vertical, __GetAnimatorValue(move.z));
@@ -109,5 +117,3 @@ public class MovementController : MonoBehaviour {
         }
     }
 }
-
-
