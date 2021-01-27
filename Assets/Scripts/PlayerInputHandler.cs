@@ -6,7 +6,7 @@ public class PlayerInputHandler : IPlayerInputHandler {
     }
 
     public bool GetRightClickInputHeld() {
-        return Input.GetButton(GameConstants.k_Fire2);
+        return Input.GetMouseButton(1);
     }
 
     public Vector3 GetMoveInput() {

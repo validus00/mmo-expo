@@ -52,7 +52,7 @@ public class MovementController : MonoBehaviour {
     // Update is called once per frame 
     void Update() {
         // Apply velocity only if user is allowed to move
-        if (__canMove && !__boothManager.IsBoothInfoPanelActive()) {
+        if (__canMove && !__boothManager.IsAnyBoothPanelActive()) {
             __HandleCharacterMovement();
         }
     }

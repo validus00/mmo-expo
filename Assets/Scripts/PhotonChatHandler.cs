@@ -106,14 +106,17 @@ public class PhotonChatHandler : IChatClientListener, IPhotonChatHandler {
     public void OnGetMessages(string channelName, string[] senders, object[] messages) {
         // Process all public messages recevied
         for (int i = 0; i < senders.Length; i++) {
-            string sender;
-            if (senders[i] == __username) {
-                sender = string.Format("{0} (You)", __username);
-            } else {
-                sender = senders[0];
+            // Ensure that users with same username don't get each other's messages
+            if (channelName.Contains(__roomName)) {
+                string sender;
+                if (senders[i] == __username) {
+                    sender = string.Format("{0} (You)", __username);
+                } else {
+                    sender = senders[0];
+                }
+                string message = string.Format("[{0}] {1}: {2}", __RemoveRoomName(channelName), sender, messages[0]);
+                __AddNewMessage(message, Message.MessageType.playerMessage);
             }
-            string message = string.Format("[{0}] {1}: {2}", __RemoveRoomName(channelName), sender, messages[0]);
-            __AddNewMessage(message, Message.MessageType.playerMessage);
         }
     }
 
@@ -128,14 +131,17 @@ public class PhotonChatHandler : IChatClientListener, IPhotonChatHandler {
     public void OnSubscribed(string[] channels, bool[] results) {
         // Notify about connecting to new channels
         for (int i = 0; i < channels.Length; i++) {
-            string subscriptionMessage;
-            if (results[i]) {
-                subscriptionMessage = string.Format("You entered the {0} channel.", __RemoveRoomName(channels[i]));
-            } else {
-                subscriptionMessage = string.Format("You failed to join the {0} channel.", __RemoveRoomName(channels[i]));
+            // Ensure that users with same username don't get each other's messages
+            if (channels[i].Contains(__roomName)) {
+                string subscriptionMessage;
+                if (results[i]) {
+                    subscriptionMessage = string.Format("You entered the {0} channel.", __RemoveRoomName(channels[i]));
+                } else {
+                    subscriptionMessage = string.Format("You failed to join the {0} channel.", __RemoveRoomName(channels[i]));
+                }
+                Debug.Log(subscriptionMessage);
+                __AddNewMessage(subscriptionMessage, Message.MessageType.info);
             }
-            Debug.Log(subscriptionMessage);
-            __AddNewMessage(subscriptionMessage, Message.MessageType.info);
         }
     }
 

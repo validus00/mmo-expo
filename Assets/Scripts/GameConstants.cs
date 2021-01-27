@@ -10,7 +10,6 @@ public class GameConstants {
     public const string k_MessageInputField = "MessageInputField";
     public const string k_Horizontal = "Horizontal";
     public const string k_Vertical = "Vertical";
-    public const string k_Fire2 = "Fire2";
     public const string k_MouseX = "Mouse X";
     public const string k_MouseY = "Mouse Y";
     public const string k_AnimationController = "GenericAnimationController";
