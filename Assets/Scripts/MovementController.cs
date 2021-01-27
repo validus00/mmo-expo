@@ -91,7 +91,7 @@ public class MovementController : MonoBehaviour {
             move = Vector3.zero;
         }
         // If any movement detected, enable character controller
-        if (move.x != 0 || move.y != 0 || move.z != 0) {
+        if (__characterController.enabled == false && (move.x != 0 || move.y != 0 || move.z != 0)) {
             Debug.Log("character velocity @@");
             __characterController.enabled = true;
             if (photonView != null) {
