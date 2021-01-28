@@ -215,7 +215,6 @@ public class ChatManager : MonoBehaviour {
                 color = playerMessageColor;
                 break;
             case Message.MessageType.privateMessage:
-                Debug.Log("here? " + privateMessageColor);
                 color = privateMessageColor;
                 break;
         }
