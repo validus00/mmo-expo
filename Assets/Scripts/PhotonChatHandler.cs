@@ -125,24 +125,22 @@ public class PhotonChatHandler : IChatClientListener, IPhotonChatHandler {
     }
 
     public void OnPrivateMessage(string sender, object message, string channelName) {
-        //Debug.Log("OnPrivateMessage is not implemented yet.");
-        Debug.Log("OnPrivateMessage: " + channelName + " " + sender + " " + message);
+        // Display the private message
+
+        // Split channelName (ex: user1:user2) to extract sender/receiver information for formatting
         string[] users = channelName.Split(':');
+
+        // Determine who is the recipient
         string recipient = users[0].Equals(__username) ? users[1] : users[0];
         
-        string pm;
-
+        // Format the private message according to receiver/sender
+        string privateMessage;
         if (sender == __username) {
-            pm = string.Format("[Private] To {0}: {1}", recipient, message.ToString());
-
-            if (sender == recipient) {
-                __AddNewMessage(pm, Message.MessageType.privateMessage);
-                pm = string.Format("[Private] From {0}: {1}", sender, message.ToString());
-            }
+            privateMessage = string.Format("[Private] To {0}: {1}", recipient, message.ToString());
         } else {
-            pm = string.Format("[Private] From {0}: {1}", sender, message.ToString());
+            privateMessage = string.Format("[Private] From {0}: {1}", sender, message.ToString());
         }
-        __AddNewMessage(pm, Message.MessageType.privateMessage);
+        __AddNewMessage(privateMessage, Message.MessageType.privateMessage);
     }
 
 

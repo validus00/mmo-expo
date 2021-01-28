@@ -91,6 +91,8 @@ public class ChatManager : MonoBehaviour {
                     __SendMessageToChat("Not connected to chat yet.", Message.MessageType.info);
                 } else if (__CheckChannelName(channelName)) {
                     // If channel name does not exist in the channel list, assume private message attempt
+
+                    // Check to see if the receipient is a valid user
                     bool isValidUser = false;
                     foreach (Player player in PhotonNetwork.PlayerList) {
                         if (channelName.Equals(player.NickName)) {
@@ -98,12 +100,15 @@ public class ChatManager : MonoBehaviour {
                         }
                     }
                     if (isValidUser) {
+                        // Do not allow user to send private message to themselves
                         if (channelName == __username) {
                             __SendMessageToChat("Cannot send message to yourself.", Message.MessageType.info);
                         } else {
+                            // Send the private message
                             photonChatHandler.SendPrivateMessage(channelName, messageText);
                         }
                     } else {
+                        // Notify user that the recipient does not exist
                         __SendMessageToChat(channelName + " does not exist in the room.", Message.MessageType.info);
                     }
                     channelBox.text = string.Empty;
@@ -210,7 +215,7 @@ public class ChatManager : MonoBehaviour {
                 color = playerMessageColor;
                 break;
             case Message.MessageType.privateMessage:
-                Debug.Log("here?");
+                Debug.Log("here? " + privateMessageColor);
                 color = privateMessageColor;
                 break;
         }

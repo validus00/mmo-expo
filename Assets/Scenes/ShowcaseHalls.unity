@@ -2840,7 +2840,7 @@ MonoBehaviour:
   chatBox: {fileID: 133935874}
   playerMessageColor: {r: 1, g: 1, b: 1, a: 1}
   infoColor: {r: 1, g: 1, b: 0, a: 1}
-  privateMessageColor: {r: 0.77426314, g: 0.47472408, b: 0.7924528, a: 0}
+  privateMessageColor: {r: 0.7951699, g: 0.53039336, b: 0.8207547, a: 1}
 --- !u!1 &854102039
 GameObject:
   m_ObjectHideFlags: 0
@@ -8219,7 +8219,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 492985574018449143}
   m_HandleRect: {fileID: 492985574018449142}
   m_Direction: 2
-  m_Value: 1
+  m_Value: 0
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
