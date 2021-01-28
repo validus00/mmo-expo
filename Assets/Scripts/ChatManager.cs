@@ -97,6 +97,7 @@ public class ChatManager : MonoBehaviour {
                     foreach (Player player in PhotonNetwork.PlayerList) {
                         if (channelName.Equals(player.NickName)) {
                             isValidUser = true;
+                            break;
                         }
                     }
                     if (isValidUser) {
