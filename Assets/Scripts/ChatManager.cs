@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Photon.Pun;
+using Photon.Realtime;
 
 /*
  * ChatManager class is for implementing chat and displaying messages in the chat panel
@@ -36,6 +38,10 @@ public class ChatManager : MonoBehaviour {
     public Color playerMessageColor;
     // Color for informational messages
     public Color infoColor;
+    // Color for private messages
+    public Color privateMessageColor;
+    // Local player's name
+    private string __username;
 
     // messageList keeps tracks of recent messages
     [SerializeField]
@@ -57,35 +63,57 @@ public class ChatManager : MonoBehaviour {
 
         photonChatHandler.InitializeChannelNames(new string[] { __channelNames[ChannelType.announcementChannel],
             __channelNames[ChannelType.hallChannel] });
+
+        __username = PhotonNetwork.NickName;
     }
 
     // Update is called once per frame
     void Update() {
-        if (photonChatHandler != null) {
-            // Maintain service connection to Photon
-            photonChatHandler.MaintainService();
-            // Get new messages from chat client
-            List<Message> messages = photonChatHandler.GetNewMessages();
-            foreach (Message message in messages) {
-                __SendMessageToChat(message);
-            }
+        // Maintain service connection to Photon
+        photonChatHandler.MaintainService();
+
+        // Get new messages from chat client
+        List<Message> messages = photonChatHandler.GetNewMessages();
+        foreach (Message message in messages) {
+            __SendMessageToChat(message);
         }
 
         string channelName = channelBox.text;
         string messageText = chatBox.text;
         // Enter key either sends a message or activates the chat input field
-        if (playerInputHandler != null && playerInputHandler.GetReturnKey()) {
+        if (playerInputHandler.GetReturnKey()) {
             if (!string.IsNullOrEmpty(messageText)) {
                 if (string.IsNullOrWhiteSpace(channelName)) {
                     // channel name not given
                     __SendMessageToChat("No channel or username specified.", Message.MessageType.info);
-                } else if (photonChatHandler != null && !photonChatHandler.IsConnected()) {
+                } else if (!photonChatHandler.IsConnected()) {
                     // Chat client not connected
                     __SendMessageToChat("Not connected to chat yet.", Message.MessageType.info);
                 } else if (__CheckChannelName(channelName)) {
-                    // channel name not correct or does not exist
-                    string warning = string.Format("You are not in \"{0}\" channel. Cannot send message.", channelName);
-                    __SendMessageToChat(warning, Message.MessageType.info);
+                    // If channel name does not exist in the channel list, assume private message attempt
+
+                    // Check to see if the receipient is a valid user
+                    bool isValidUser = false;
+                    foreach (Player player in PhotonNetwork.PlayerList) {
+                        if (channelName.Equals(player.NickName)) {
+                            isValidUser = true;
+                            break;
+                        }
+                    }
+                    if (isValidUser) {
+                        // Do not allow user to send private message to themselves
+                        if (channelName == __username) {
+                            __SendMessageToChat("Cannot send message to yourself.", Message.MessageType.info);
+                        } else {
+                            // Send the private message
+                            photonChatHandler.SendPrivateMessage(channelName, messageText);
+                        }
+                    } else {
+                        // Notify user that the recipient does not exist
+                        __SendMessageToChat(channelName + " does not exist in the room.", Message.MessageType.info);
+                    }
+                    channelBox.text = string.Empty;
+                    chatBox.text = string.Empty;
                 } else {
                     // Send message
                     photonChatHandler.SendChannelMessage(channelName, messageText);
@@ -186,6 +214,9 @@ public class ChatManager : MonoBehaviour {
         switch (messageType) {
             case Message.MessageType.playerMessage:
                 color = playerMessageColor;
+                break;
+            case Message.MessageType.privateMessage:
+                color = privateMessageColor;
                 break;
         }
 
