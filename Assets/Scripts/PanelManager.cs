@@ -13,13 +13,14 @@ public class PanelManager : MonoBehaviour, IPanelManager {
     public InputField teamNameInputField;
     public InputField projectNameInputField;
     public InputField descriptionInputField;
-    public InputField urlInputField;
+    public InputField projectUrlInputField;
+    public InputField posterUrlInputField;
     private BoothSetup __boothSetup;
     public GameObject resetBoothButton;
     public Text warningText;
 
     public void OpenURL() {
-        if (urlText != null && !string.IsNullOrEmpty(urlText.text)) {
+        if (!string.IsNullOrEmpty(urlText.text)) {
             Application.ExternalEval($"window.open(\"{urlText.text}\",\"_blank\")");
         }
     }
@@ -53,10 +54,14 @@ public class PanelManager : MonoBehaviour, IPanelManager {
             if (!string.IsNullOrWhiteSpace(teamNameInputField.text) &&
             !string.IsNullOrWhiteSpace(projectNameInputField.text) &&
             !string.IsNullOrWhiteSpace(descriptionInputField.text) &&
-            !string.IsNullOrWhiteSpace(urlInputField.text)) {
-                __boothSetup.SetUpBooth(teamNameInputField.text, projectNameInputField.text, descriptionInputField.text,
-                    urlInputField.text);
-                CloseBoothFormPanel();
+            !string.IsNullOrWhiteSpace(projectUrlInputField.text)) {
+                bool isSuccessful = __boothSetup.SetUpBooth(teamNameInputField.text, projectNameInputField.text, descriptionInputField.text,
+                    projectUrlInputField.text, posterUrlInputField.text);
+                if (isSuccessful) {
+                    CloseBoothFormPanel();
+                } else {
+                    warningText.text = "This booth is already occupied";
+                }
             } else {
                 warningText.text = "Please fill out all fields";
             }

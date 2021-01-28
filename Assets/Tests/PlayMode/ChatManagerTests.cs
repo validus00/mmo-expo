@@ -161,7 +161,7 @@ namespace Tests {
             yield return null;
 
             Assert.AreEqual(1, chatManager.GetMessages().Count);
-            Assert.AreEqual("You are not in \"Test\" channel. Cannot send message.",
+            Assert.AreEqual("\"Test\" does not exist in the room.",
                 chatManager.GetMessages()[0].messageText);
             Assert.AreEqual(Message.MessageType.info, chatManager.GetMessages()[0].messageType);
             Assert.AreEqual(GameConstants.k_AnnouncementChannelName,

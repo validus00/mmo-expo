@@ -196,6 +196,35 @@ namespace Tests {
             playerInputHandler.Received(1).GetTabKey();
         }
 
+        [UnityTest]
+        public IEnumerator WhenCharacterControllerIsDiabledThenAnyMovementWillEnableIt() {
+            GameObject user = new GameObject(k_Player);
+
+            IPlayerInputHandler playerInputHandler = Substitute.For<IPlayerInputHandler>();
+
+
+            __SetUpMovementController(user, playerInputHandler);
+            Animator animator = user.GetComponent<Animator>();
+
+            CharacterController characterController = user.GetComponent<CharacterController>();
+            characterController.enabled = false;
+
+            yield return null;
+
+            Assert.IsFalse(characterController.enabled);
+
+            playerInputHandler.GetMoveInput().Returns(new Vector3(0, 0, 1));
+
+            yield return null;
+
+            Assert.IsTrue(characterController.enabled);
+            Assert.IsTrue(user.transform.position.z > 0);
+            Assert.AreEqual(0, user.transform.position.x);
+            Assert.AreEqual(0, user.transform.position.y);
+            Assert.AreEqual(0, animator.GetFloat(GameConstants.k_Horizontal));
+            Assert.AreEqual(1f, animator.GetFloat(GameConstants.k_Vertical));
+        }
+
         private void __SetUpMovementController(GameObject user, IPlayerInputHandler playerInputHandler) {
             GameObject channelBoxObject = new GameObject(GameConstants.k_ChannelInputField);
             channelBoxObject.AddComponent<InputField>();
