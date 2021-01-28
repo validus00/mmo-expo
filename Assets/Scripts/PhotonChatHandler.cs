@@ -84,6 +84,10 @@ public class PhotonChatHandler : IChatClientListener, IPhotonChatHandler {
         return messages;
     }
 
+    public void SendPrivateMessage(string username, string message) {
+        __chatClient.SendPrivateMessage(username, message);
+    }
+
     #region IChatClientListener Callbacks
     public void DebugReturn(DebugLevel level, string message) {
         Debug.Log("DebugReturn is not implemented yet.");
@@ -121,8 +125,25 @@ public class PhotonChatHandler : IChatClientListener, IPhotonChatHandler {
     }
 
     public void OnPrivateMessage(string sender, object message, string channelName) {
-        Debug.Log("OnPrivateMessage is not implemented yet.");
+        // Display the private message
+
+        // Split channelName (ex: user1:user2) to extract sender/receiver information for formatting
+        string[] users = channelName.Split(':');
+
+        // Determine who is the recipient
+        string recipient = users[0].Equals(__username) ? users[1] : users[0];
+        
+        // Format the private message according to receiver/sender
+        string privateMessage;
+        if (sender == __username) {
+            privateMessage = string.Format("[Private] To {0}: {1}", recipient, message.ToString());
+        } else {
+            privateMessage = string.Format("[Private] From {0}: {1}", sender, message.ToString());
+        }
+        __AddNewMessage(privateMessage, Message.MessageType.privateMessage);
     }
+
+
 
     public void OnStatusUpdate(string user, int status, bool gotMessage, object message) {
         Debug.Log("OnStatusUpdate is not implemented yet.");

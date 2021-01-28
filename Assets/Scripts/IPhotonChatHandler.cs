@@ -18,4 +18,6 @@ public interface IPhotonChatHandler {
     void MaintainService();
     // For sending message to a specific channel
     void SendChannelMessage(string channelName, string message);
+    // FOr sending private messages to a specific user
+    void SendPrivateMessage(string channelName, string message);
 }
