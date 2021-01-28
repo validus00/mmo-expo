@@ -1,12 +1,16 @@
 ﻿using Photon.Pun;
+using System.Collections;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Networking;
 
 /*
  * BoothSetup class is for implementing business logic surrounding entering and leaving booths
  */
 public class BoothSetup : MonoBehaviourPunCallbacks {
     public TextMeshProUGUI boothText;
+    public GameObject posterBoard;
+    public Material defaultPosterMaterial;
     private PanelManager __panelManager;
     private ChatManager __chatManager;
     private PhotonView __photonView;
@@ -15,7 +19,7 @@ public class BoothSetup : MonoBehaviourPunCallbacks {
     private string __projectName;
     private string __teamName;
     private string __projectDescription;
-    private string __urlText;
+    private string __projectUrl;
     private bool __isOwner = false;
     
     void Start() {
@@ -62,40 +66,57 @@ public class BoothSetup : MonoBehaviourPunCallbacks {
             if (string.IsNullOrEmpty(__projectName)) {
                 __panelManager.OpenBoothFormPanel(this);
             } else {
-                __panelManager.OpenBoothInfoPanel(this, __isOwner, __projectName, __teamName, __projectDescription, __urlText);
+                __panelManager.OpenBoothInfoPanel(this, __isOwner, __projectName, __teamName, __projectDescription, __projectUrl);
             }
         }
     }
 
-    public bool SetUpBooth(string projectName, string teamName, string projectDescription, string urlText) {
+    public bool SetUpBooth(string projectName, string teamName, string projectDescription, string projectUrl, string posterUrl) {
         if (string.IsNullOrEmpty(__projectName)) {
             __isOwner = true;
-            __photonView.RPC("SyncBooth", RpcTarget.AllBuffered, projectName, teamName, projectDescription, urlText);
+            __photonView.RPC("SyncBooth", RpcTarget.AllBuffered, projectName, teamName, projectDescription, projectUrl, posterUrl);
             return true;
         } else {
             return false;
         }
     }
 
-    [PunRPC]
-    void SyncBooth(string projectName, string teamName, string projectDescription, string urlText) {
-        boothText.text = projectName;
-        __AssignBoothValues(projectName, teamName, projectDescription, urlText);
-        if (__isUserInBooth) {
-            __JoinChannel();
+    private IEnumerator __SetPosterTexture(string url) {
+        UnityWebRequest www = UnityWebRequestTexture.GetTexture(url);
+        yield return www.SendWebRequest();
+
+        if (www.isNetworkError || www.isHttpError) {
+            Debug.Log(www.error);
+        } else {
+            Material posterMaterial = new Material(Shader.Find("Legacy Shaders/Diffuse"));
+            posterMaterial.mainTexture = ((DownloadHandlerTexture)www.downloadHandler).texture;
+            posterBoard.GetComponent<MeshRenderer>().material = posterMaterial;
         }
     }
 
-    private void __AssignBoothValues(string projectName, string teamName, string projectDescription, string urlText) {
+    [PunRPC]
+    void SyncBooth(string projectName, string teamName, string projectDescription, string projectUrl, string posterUrl) {
+        boothText.text = projectName;
+        __AssignBoothValues(projectName, teamName, projectDescription, projectUrl);
+        if (__isUserInBooth) {
+            __JoinChannel();
+        }
+        if (!string.IsNullOrWhiteSpace(posterUrl)) {
+            StartCoroutine(__SetPosterTexture(posterUrl));
+        }
+    }
+
+    private void __AssignBoothValues(string projectName, string teamName, string projectDescription, string url) {
         __projectName = projectName;
         __teamName = teamName;
         __projectDescription = projectDescription;
-        __urlText = urlText;
+        __projectUrl = url;
     }
 
     public void ResetBooth() {
         __isOwner = false;
         __photonView.RPC("ClearBooth", RpcTarget.AllBuffered);
+        posterBoard.GetComponent<MeshRenderer>().material = defaultPosterMaterial;
     }
 
     [PunRPC]

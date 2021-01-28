@@ -436,6 +436,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   boothText: {fileID: 3319354799708629425}
+  posterBoard: {fileID: 8337396069042686589}
+  defaultPosterMaterial: {fileID: 2100000, guid: cab1fc837da6e914f80dea8c53622b65,
+    type: 2}
 --- !u!114 &143906958930633961
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -720,7 +723,7 @@ GameObject:
   - component: {fileID: 3471285856121088821}
   - component: {fileID: 2701541985870851363}
   m_Layer: 0
-  m_Name: Board
+  m_Name: PosterBoard
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
