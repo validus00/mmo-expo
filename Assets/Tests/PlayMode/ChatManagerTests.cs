@@ -161,7 +161,7 @@ namespace Tests {
             yield return null;
 
             Assert.AreEqual(1, chatManager.GetMessages().Count);
-            Assert.AreEqual("You are not in \"Test\" channel. Cannot send message.",
+            Assert.AreEqual("\"Test\" does not exist in the room.",
                 chatManager.GetMessages()[0].messageText);
             Assert.AreEqual(Message.MessageType.info, chatManager.GetMessages()[0].messageType);
             Assert.AreEqual(GameConstants.k_AnnouncementChannelName,
@@ -361,32 +361,6 @@ namespace Tests {
                 chatManager.GetChannelName(ChatManager.ChannelType.hallChannel));
             Assert.AreEqual(string.Empty, chatManager.GetChannelName(ChatManager.ChannelType.boothChannel));
             photonChatHandler.DidNotReceive().EnterChannel(Arg.Any<string>());
-        }
-
-
-        [UnityTest]
-        public IEnumerator WhenPhotonChatHandlerAndPlayerInputHandlerAreNullThenGetNoError() {
-            GameObject eventManager = new GameObject(GameConstants.k_ExpoEventManager);
-            ChatManager chatManager = eventManager.AddComponent<ChatManager>();
-
-            IPhotonChatHandler photonChatHandler = Substitute.For<IPhotonChatHandler>();
-            photonChatHandler.GetNewMessages().Returns(new List<Message>());
-
-            __SetUpChatManager(chatManager, null, photonChatHandler, null, null);
-
-            yield return null;
-
-            chatManager.photonChatHandler = null;
-            chatManager.playerInputHandler = null;
-
-            yield return null;
-
-            Assert.AreEqual(0, chatManager.GetMessages().Count);
-            Assert.AreEqual(GameConstants.k_AnnouncementChannelName,
-                chatManager.GetChannelName(ChatManager.ChannelType.announcementChannel));
-            Assert.AreEqual(GameConstants.k_HallChannelName,
-                chatManager.GetChannelName(ChatManager.ChannelType.hallChannel));
-            Assert.AreEqual(string.Empty, chatManager.GetChannelName(ChatManager.ChannelType.boothChannel));
         }
 
         private void __SetUpChatManager(ChatManager chatManager, IPlayerInputHandler playerInputHandler,
