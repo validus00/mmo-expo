@@ -67,9 +67,14 @@ public class BoothSetup : MonoBehaviourPunCallbacks {
         }
     }
 
-    public void SetUpBooth(string projectName, string teamName, string projectDescription, string urlText) {
-        __isOwner = true;
-        __photonView.RPC("SyncBooth", RpcTarget.AllBuffered, projectName, teamName, projectDescription, urlText);
+    public bool SetUpBooth(string projectName, string teamName, string projectDescription, string urlText) {
+        if (string.IsNullOrEmpty(__projectName)) {
+            __isOwner = true;
+            __photonView.RPC("SyncBooth", RpcTarget.AllBuffered, projectName, teamName, projectDescription, urlText);
+            return true;
+        } else {
+            return false;
+        }
     }
 
     [PunRPC]

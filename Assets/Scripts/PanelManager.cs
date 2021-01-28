@@ -54,9 +54,13 @@ public class PanelManager : MonoBehaviour, IPanelManager {
             !string.IsNullOrWhiteSpace(projectNameInputField.text) &&
             !string.IsNullOrWhiteSpace(descriptionInputField.text) &&
             !string.IsNullOrWhiteSpace(urlInputField.text)) {
-                __boothSetup.SetUpBooth(teamNameInputField.text, projectNameInputField.text, descriptionInputField.text,
+                bool isSuccessful = __boothSetup.SetUpBooth(teamNameInputField.text, projectNameInputField.text, descriptionInputField.text,
                     urlInputField.text);
-                CloseBoothFormPanel();
+                if (isSuccessful) {
+                    CloseBoothFormPanel();
+                } else {
+                    warningText.text = "This booth is already occupied";
+                }
             } else {
                 warningText.text = "Please fill out all fields";
             }
