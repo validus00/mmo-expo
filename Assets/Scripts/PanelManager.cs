@@ -21,8 +21,15 @@ public class PanelManager : MonoBehaviour, IPanelManager {
 
     public void OpenURL() {
         if (!string.IsNullOrEmpty(urlText.text)) {
-            Application.ExternalEval($"window.open(\"{urlText.text}\",\"_blank\")");
+            Application.ExternalEval($"window.open(\"{__ProcessUrl(urlText.text)}\",\"_blank\")");
         }
+    }
+
+    private string __ProcessUrl(string url) {
+        if (url.StartsWith("https://") || url.StartsWith("http://")) {
+            return url;
+        }
+        return $"http://{url}";
     }
 
     public void CloseBoothInfoPanel() {
