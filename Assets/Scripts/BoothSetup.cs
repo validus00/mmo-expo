@@ -116,7 +116,6 @@ public class BoothSetup : MonoBehaviourPunCallbacks {
     public void ResetBooth() {
         __isOwner = false;
         __photonView.RPC("ClearBooth", RpcTarget.AllBuffered);
-        posterBoard.GetComponent<MeshRenderer>().material = defaultPosterMaterial;
     }
 
     [PunRPC]
@@ -126,5 +125,6 @@ public class BoothSetup : MonoBehaviourPunCallbacks {
         }
         boothText.text = string.Empty;
         __AssignBoothValues(string.Empty, string.Empty, string.Empty, string.Empty);
+        posterBoard.GetComponent<MeshRenderer>().material = defaultPosterMaterial;
     }
 }
