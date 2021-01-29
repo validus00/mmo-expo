@@ -110,7 +110,7 @@ public class ChatManager : MonoBehaviour {
                         }
                     } else {
                         // Notify user that the recipient does not exist
-                        __SendMessageToChat('"' + channelName + "\" does not exist in the room.", Message.MessageType.info);
+                        __SendMessageToChat($"\"{channelName}\" does not exist in the room.", Message.MessageType.info);
                     }
                     channelBox.text = string.Empty;
                     chatBox.text = string.Empty;
