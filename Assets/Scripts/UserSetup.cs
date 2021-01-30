@@ -15,8 +15,6 @@ public class UserSetup : MonoBehaviourPunCallbacks {
 
     // Start is called before the first frame update
     void Start() {
-        __characterController = GetComponent<CharacterController>();
-
         if (!photonView.IsMine) {
             Destroy(GetComponent<MovementController>());
             Destroy(FPSCamera);
@@ -29,6 +27,10 @@ public class UserSetup : MonoBehaviourPunCallbacks {
         SetUserUI();
     }
 
+    private void Awake() {
+        __characterController = GetComponent<CharacterController>();
+    }
+
     void SetUserUI() {
         if (userNameText != null && photonView.Owner != null) {
             userNameText.text = photonView.Owner.NickName;
@@ -38,6 +40,9 @@ public class UserSetup : MonoBehaviourPunCallbacks {
 
     [PunRPC]
     public void CharacterControllerToggle(bool value) {
+        if (__characterController == null) {
+            __characterController = GetComponent<CharacterController>();
+        }
         if (!GetComponent<PhotonView>().IsMine) {
             __characterController.enabled = value;
         }
