@@ -24,11 +24,12 @@ public class ExpoEventManager : MonoBehaviourPunCallbacks {
         DisplayAvatarPanel();
     }
 
-    public void LeaveRoom() {
+    public void LeaveEvent() {
         PhotonNetwork.LeaveRoom();
     }
 
     public override void OnLeftRoom() {
+        PhotonNetwork.Disconnect();
         PhotonNetwork.LoadLevel("EventLauncherScene");
     }
 
@@ -107,10 +108,6 @@ public class ExpoEventManager : MonoBehaviourPunCallbacks {
         } else {
             UnselectedAvatarText.SetActive(false);
         }
-    }
-
-    private int __GenerateRandomDigits() {
-        return Random.Range(1000, 9999);
     }
 
     public void CheckNameAvailability() {

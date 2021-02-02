@@ -20,17 +20,8 @@ public class LaunchManager : MonoBehaviourPunCallbacks {
         __SetInitialName();
         enterEventPanel.SetActive(false);
 
-        if (PhotonNetwork.IsConnected) {
-            if (__joinExisting) {
-                enterPasscodePanel.SetActive(true);
-                invalidPasscodeText.SetActive(false);
-            } else {
-                __CreateAndJoinRoom();
-            }
-        } else {
-            connectionStatusPanel.SetActive(true);
-            PhotonNetwork.ConnectUsingSettings();
-        }
+        connectionStatusPanel.SetActive(true);
+        PhotonNetwork.ConnectUsingSettings();
     }
 
     public void CreateNewRoom() {
@@ -92,7 +83,6 @@ public class LaunchManager : MonoBehaviourPunCallbacks {
 
     // This method is called when we have internet connection (before OnConnectedToMaster)
     public override void OnConnected() {
-        connectionStatusPanel.SetActive(false);
         Debug.Log("Internet!!");
     }
 
