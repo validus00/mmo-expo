@@ -16,11 +16,11 @@ public class BoothSetup : MonoBehaviourPunCallbacks {
     private PhotonView __photonView;
     private Camera __camera;
     private bool __isUserInBooth = false;
+    private string __boothOwner;
     private string __projectName;
     private string __teamName;
     private string __projectDescription;
     private string __projectUrl;
-    private bool __isOwner = false;
     
     void Start() {
         __photonView = GetComponent<PhotonView>();
@@ -66,15 +66,17 @@ public class BoothSetup : MonoBehaviourPunCallbacks {
             if (string.IsNullOrEmpty(__projectName)) {
                 __panelManager.OpenBoothFormPanel(this);
             } else {
-                __panelManager.OpenBoothInfoPanel(this, __isOwner, __projectName, __teamName, __projectDescription, __projectUrl);
+                __panelManager.OpenBoothInfoPanel(this, PhotonNetwork.NickName == __boothOwner, __projectName,
+                    __teamName, __projectDescription, __projectUrl);
             }
         }
     }
 
-    public bool SetUpBooth(string projectName, string teamName, string projectDescription, string projectUrl, string posterUrl) {
+    public bool SetUpBooth(string projectName, string teamName, string projectDescription, string projectUrl,
+        string posterUrl) {
         if (string.IsNullOrEmpty(__projectName)) {
-            __isOwner = true;
-            __photonView.RPC("SyncBooth", RpcTarget.AllBuffered, projectName, teamName, projectDescription, projectUrl, posterUrl);
+            __photonView.RPC("SyncBooth", RpcTarget.AllBuffered, PhotonNetwork.NickName, projectName, teamName,
+                projectDescription, projectUrl, posterUrl);
             return true;
         } else {
             return false;
@@ -95,9 +97,10 @@ public class BoothSetup : MonoBehaviourPunCallbacks {
     }
 
     [PunRPC]
-    void SyncBooth(string projectName, string teamName, string projectDescription, string projectUrl, string posterUrl) {
+    void SyncBooth(string boothOwner, string projectName, string teamName, string projectDescription,
+        string projectUrl, string posterUrl) {
         boothText.text = projectName;
-        __AssignBoothValues(projectName, teamName, projectDescription, projectUrl);
+        __AssignBoothValues(boothOwner, projectName, teamName, projectDescription, projectUrl);
         if (__isUserInBooth) {
             __JoinChannel();
         }
@@ -106,7 +109,9 @@ public class BoothSetup : MonoBehaviourPunCallbacks {
         }
     }
 
-    private void __AssignBoothValues(string projectName, string teamName, string projectDescription, string url) {
+    private void __AssignBoothValues(string boothOwner, string projectName, string teamName, string projectDescription,
+        string url) {
+        __boothOwner = boothOwner;
         __projectName = projectName;
         __teamName = teamName;
         __projectDescription = projectDescription;
@@ -114,7 +119,6 @@ public class BoothSetup : MonoBehaviourPunCallbacks {
     }
 
     public void ResetBooth() {
-        __isOwner = false;
         __photonView.RPC("ClearBooth", RpcTarget.AllBuffered);
     }
 
@@ -124,7 +128,7 @@ public class BoothSetup : MonoBehaviourPunCallbacks {
             __LeaveChannel();
         }
         boothText.text = string.Empty;
-        __AssignBoothValues(string.Empty, string.Empty, string.Empty, string.Empty);
+        __AssignBoothValues(string.Empty, string.Empty, string.Empty, string.Empty, string.Empty);
         posterBoard.GetComponent<MeshRenderer>().material = defaultPosterMaterial;
     }
 }

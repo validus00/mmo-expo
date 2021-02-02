@@ -66,6 +66,7 @@ public class LaunchManager : MonoBehaviourPunCallbacks {
         RoomOptions roomOptions = new RoomOptions();
         roomOptions.IsOpen = true;
         roomOptions.MaxPlayers = 20;
+        roomOptions.CleanupCacheOnLeave = false;
         PhotonNetwork.CreateRoom(randomRoomName, roomOptions);
         Debug.Log("This is the newly created room name: " + randomRoomName);
     }
