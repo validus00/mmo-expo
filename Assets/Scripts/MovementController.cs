@@ -101,10 +101,13 @@ public class MovementController : MonoBehaviour {
         // Set float values for animation controller
         __animator.SetFloat(GameConstants.k_Horizontal, __GetAnimatorValue(move.x));
         __animator.SetFloat(GameConstants.k_Vertical, __GetAnimatorValue(move.z));
-        // Apply velocity to User object
-        Vector3 targetVelocity = __maxSpeedOnGround * transform.TransformVector(move);
-        __characterVelocity = Vector3.Lerp(__characterVelocity, targetVelocity, __movementSharpnessOnGround * Time.deltaTime);
-        __characterController.Move(__characterVelocity * Time.deltaTime);
+
+        if (__characterController.enabled == true) {
+            // Apply velocity to User object
+            Vector3 targetVelocity = __maxSpeedOnGround * transform.TransformVector(move);
+            __characterVelocity = Vector3.Lerp(__characterVelocity, targetVelocity, __movementSharpnessOnGround * Time.deltaTime);
+            __characterController.Move(__characterVelocity * Time.deltaTime);
+        }
     }
 
     private float __GetAnimatorValue(float input) {

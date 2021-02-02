@@ -57,7 +57,7 @@ public class ExpoEventManager : MonoBehaviourPunCallbacks {
             GameObject user = listOfAvatars[avatarPick];
 
             if (user != null) {
-                Destroy(GameObject.Find("Main Camera"));
+                Destroy(GameObject.Find(GameConstants.k_Camera));
                 int randomPoint = Random.Range(-20, 20);
                 PhotonNetwork.Instantiate(user.name, new Vector3(randomPoint, 0, randomPoint), Quaternion.identity);
                 AvatarPanel.SetActive(false);
