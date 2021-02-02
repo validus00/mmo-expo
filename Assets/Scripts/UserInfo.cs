@@ -1,12 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class UserInfo : MonoBehaviour {
     public static UserInfo info;
     public int mySelectedAvatar;
 
-    private void OnEnable() {
+    void Awake() {
         if (UserInfo.info == null) {
             UserInfo.info = this;
         } else {
@@ -16,9 +14,5 @@ public class UserInfo : MonoBehaviour {
             }
         }
         DontDestroyOnLoad(this.gameObject);
-    }
-
-    void Start() {
-        PlayerPrefs.SetInt(GameConstants.k_MyAvatar, mySelectedAvatar);
     }
 }

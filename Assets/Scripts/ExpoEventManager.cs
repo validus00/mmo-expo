@@ -21,6 +21,7 @@ public class ExpoEventManager : MonoBehaviourPunCallbacks {
         initialName = PhotonNetwork.NickName;
         names = new List<string>();
         isNameInputTouched = false;
+        DisplayAvatarPanel();
     }
 
     public void LeaveRoom() {
@@ -52,12 +53,14 @@ public class ExpoEventManager : MonoBehaviourPunCallbacks {
         if (canProceed) {
             SetPlayerName();
 
-            int avatarPick = PlayerPrefs.GetInt(GameConstants.k_MyAvatar);
+            int avatarPick = UserInfo.info.mySelectedAvatar;
             GameObject user = listOfAvatars[avatarPick];
 
             if (user != null) {
+                Destroy(GameObject.Find("Main Camera"));
                 int randomPoint = Random.Range(-20, 20);
                 PhotonNetwork.Instantiate(user.name, new Vector3(randomPoint, 0, randomPoint), Quaternion.identity);
+                AvatarPanel.SetActive(false);
             }
         } else {
             __ToggleAvatarText(isApprovedAvatar);
@@ -76,7 +79,7 @@ public class ExpoEventManager : MonoBehaviourPunCallbacks {
     }
 
     private bool __IsAvatarSelected() {
-        return PlayerPrefs.GetInt("myAvatar") < __MAX_AVATAR_COUNT;
+        return UserInfo.info.mySelectedAvatar < __MAX_AVATAR_COUNT;
     }
 
     private void __ToggleNameText(bool isValidName) {
