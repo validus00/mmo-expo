@@ -1,8 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using Photon.Pun;
-using Photon.Realtime;
 
 public class ExpoEventManager : MonoBehaviourPunCallbacks {
 
@@ -20,5 +17,13 @@ public class ExpoEventManager : MonoBehaviourPunCallbacks {
             }
 
         }
+    }
+
+    public void LeaveRoom() {
+        PhotonNetwork.LeaveRoom();
+    }
+
+    public override void OnLeftRoom() {
+        PhotonNetwork.LoadLevel("EventLauncherScene");
     }
 }

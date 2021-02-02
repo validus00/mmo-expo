@@ -61,7 +61,11 @@ public class LaunchManager : MonoBehaviourPunCallbacks {
     public void JoinCreatedRoom() {
         if (!string.IsNullOrWhiteSpace(initialName)) {
             __joinExisting = true;
-            ConnectToPhotonServer();
+            if (PhotonNetwork.IsConnected) {
+                EnterPasscodePanel.SetActive(true);
+            } else {
+                ConnectToPhotonServer();
+            }
         }
     }
 
@@ -117,7 +121,7 @@ public class LaunchManager : MonoBehaviourPunCallbacks {
 
     public void LoadEvent() {
         if (PhotonNetwork.IsMasterClient) {
-            PhotonNetwork.LoadLevel("ShowcaseHalls");
+            PhotonNetwork.LoadLevel("MainEventScene");
         }
     }
 
