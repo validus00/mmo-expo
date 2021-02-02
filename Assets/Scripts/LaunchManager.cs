@@ -14,8 +14,6 @@ public class LaunchManager : MonoBehaviourPunCallbacks {
         PhotonNetwork.AutomaticallySyncScene = true;
     }
 
-    #region Public Methods
-
     private void __ConnectToPhotonServer() {
         __SetInitialName();
         enterEventPanel.SetActive(false);
@@ -63,8 +61,18 @@ public class LaunchManager : MonoBehaviourPunCallbacks {
         }
     }
 
-    #endregion
+    private void __CreateAndJoinRoom() {
+        string randomRoomName = "" + __GenerateRandomDigits();
+        RoomOptions roomOptions = new RoomOptions();
+        roomOptions.IsOpen = true;
+        roomOptions.MaxPlayers = 20;
+        PhotonNetwork.CreateRoom(randomRoomName, roomOptions);
+        Debug.Log("This is the newly created room name: " + randomRoomName);
+    }
 
+    private int __GenerateRandomDigits() {
+        return Random.Range(1000, 9999);
+    }
 
     #region Photon Callbacks
 
@@ -99,24 +107,6 @@ public class LaunchManager : MonoBehaviourPunCallbacks {
 
     public override void OnPlayerEnteredRoom(Player newPlayer) {
         Debug.Log(newPlayer.NickName + " joined " + PhotonNetwork.CurrentRoom.Name + "!");
-    }
-
-    #endregion
-
-
-    #region Private Methods
-
-    private void __CreateAndJoinRoom() {
-        string randomRoomName = "" + __GenerateRandomDigits();
-        RoomOptions roomOptions = new RoomOptions();
-        roomOptions.IsOpen = true;
-        roomOptions.MaxPlayers = 20;
-        PhotonNetwork.CreateRoom(randomRoomName, roomOptions);
-        Debug.Log("This is the newly created room name: " + randomRoomName);
-    }
-
-    private int __GenerateRandomDigits() {
-        return Random.Range(1000, 9999);
     }
 
     #endregion

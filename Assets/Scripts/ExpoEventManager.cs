@@ -6,7 +6,6 @@ using System.Collections.Generic;
 public class ExpoEventManager : MonoBehaviourPunCallbacks {
 
     private const int __MAX_AVATAR_COUNT = 2;
-    private List<string> names;
     public GameObject AvatarPanel;
     public GameObject UnselectedAvatarText;
     public GameObject DuplicateNameText;
@@ -19,7 +18,6 @@ public class ExpoEventManager : MonoBehaviourPunCallbacks {
     // Start is called before the first frame update
     void Start() {
         initialName = PhotonNetwork.NickName;
-        names = new List<string>();
         isNameInputTouched = false;
         DisplayAvatarPanel();
     }
@@ -47,9 +45,6 @@ public class ExpoEventManager : MonoBehaviourPunCallbacks {
         bool isApprovedAvatar = __IsAvatarSelected();
         bool isApprovedName = __IsNameAvailable() && isNameInputTouched;
         bool canProceed = isApprovedAvatar && isApprovedName;
-
-        // ??
-        names.Add(PhotonNetwork.NickName);
 
         if (canProceed) {
             SetPlayerName();
