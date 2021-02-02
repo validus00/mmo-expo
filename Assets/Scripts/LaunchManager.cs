@@ -1,80 +1,50 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
+﻿using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
 
 public class LaunchManager : MonoBehaviourPunCallbacks {
-    public GameObject EnterEventPanel;
-    public GameObject ConnectionStatusPanel;
-    public GameObject AvatarPanel;
-    public GameObject EnterPasscodePanel;
-    public GameObject InvalidPasscodeText;
-    public GameObject UnselectedAvatarText;
-    public GameObject DuplicateNameText;
-    public GameObject NameIsAvailableText;
-    public GameObject EnterNameText;
-    private bool __createNew;
+    public GameObject enterEventPanel;
+    public GameObject connectionStatusPanel;
+    public GameObject enterPasscodePanel;
+    public GameObject invalidPasscodeText;
     private bool __joinExisting;
     private string __passcodeInput;
-    public static string initialName;
-    public static bool isNameInputTouched;
-    private int __MAX_AVATAR_COUNT = 2;
-    private List<string> names;
 
-    #region Unity Methods
-    void Start() {
-        initialName = "User" + __GenerateRandomDigits();
-        names = new List<string>();
-        isNameInputTouched = false;
-        EnterEventPanel.SetActive(true);
-        ConnectionStatusPanel.SetActive(false);
-        AvatarPanel.SetActive(false);
-        EnterPasscodePanel.SetActive(false);
-    }
-
-    private void Awake() {
+    void Awake() {
         PhotonNetwork.AutomaticallySyncScene = true;
     }
-    #endregion
-
 
     #region Public Methods
-    public void ConnectToPhotonServer() {
-        if (!PhotonNetwork.IsConnected) {
+
+    private void __ConnectToPhotonServer() {
+        __SetInitialName();
+        enterEventPanel.SetActive(false);
+
+        if (PhotonNetwork.IsConnected) {
+            if (__joinExisting) {
+                enterPasscodePanel.SetActive(true);
+                invalidPasscodeText.SetActive(false);
+            } else {
+                __CreateAndJoinRoom();
+            }
+        } else {
+            connectionStatusPanel.SetActive(true);
             PhotonNetwork.ConnectUsingSettings();
-            ConnectionStatusPanel.SetActive(true);
-            EnterEventPanel.SetActive(false);
-            AvatarPanel.SetActive(false);
-            EnterPasscodePanel.SetActive(false);
         }
     }
 
     public void CreateNewRoom() {
-        if (!string.IsNullOrWhiteSpace(initialName)) {
-            __createNew = true;
-            ConnectToPhotonServer();
-        }
+        __joinExisting = false;
+        __ConnectToPhotonServer();
     }
 
     public void JoinCreatedRoom() {
-        if (!string.IsNullOrWhiteSpace(initialName)) {
-            __joinExisting = true;
-            if (PhotonNetwork.IsConnected) {
-                EnterPasscodePanel.SetActive(true);
-            } else {
-                ConnectToPhotonServer();
-            }
-        }
+        __joinExisting = true;
+        __ConnectToPhotonServer();
     }
 
-    public void DisplayAvatarPanel() {
-        AvatarPanel.SetActive(true);
-        UnselectedAvatarText.SetActive(false);
-        NameIsAvailableText.SetActive(false);
-        DuplicateNameText.SetActive(false);
-        EnterNameText.SetActive(false);
+    private void __SetInitialName() {
+        PhotonNetwork.NickName = string.Format("User{0}", __GenerateRandomDigits());
     }
 
     public void JoinExistingRoom() {
@@ -96,78 +66,45 @@ public class LaunchManager : MonoBehaviourPunCallbacks {
         __passcodeInput = passcode;
     }
 
-    // Used to determine which panel gets loaded after the avatar panel
-    // Joining existing will load passcode panel and creating new will load level
-    public void NextPanel() {
-        bool isApprovedAvatar = __IsAvatarSelected();
-        bool isApprovedName = __IsNameAvailable() && isNameInputTouched;
-        bool canProceed = isApprovedAvatar && isApprovedName;
-
-        if (canProceed) {
-            SetPlayerName();
-            if (__joinExisting) {
-                EnterPasscodePanel.SetActive(true);
-                InvalidPasscodeText.SetActive(false);
-                AvatarPanel.SetActive(false);
-            } else {
-                LoadEvent();
-            }
-        } else {
-            __ToggleAvatarText(isApprovedAvatar);
-            __ToggleNameText(isApprovedName);
-
-        }
-    }
-
-    public void LoadEvent() {
+    private void __LoadEvent() {
         if (PhotonNetwork.IsMasterClient) {
             PhotonNetwork.LoadLevel("MainEventScene");
         }
-    }
-
-
-    public void CheckNameAvailability() {
-        Debug.Log("initial name is : " + initialName);
-        bool isValidName = __IsNameAvailable() && isNameInputTouched;
-        __ToggleNameText(isValidName);
-    }
-
-    public void SetPlayerName() {
-        PhotonNetwork.NickName = initialName;
     }
 
     #endregion
 
 
     #region Photon Callbacks
+
     public override void OnConnectedToMaster() {
         Debug.Log("Connected! " + PhotonNetwork.NickName);
-        Debug.Log("Is creating new event: " + __createNew);
         Debug.Log("Is joining existing event: " + __joinExisting);
-        if (__createNew) {
+
+        if (__joinExisting) {
+            enterPasscodePanel.SetActive(true);
+            invalidPasscodeText.SetActive(false);
+        } else {
             __CreateAndJoinRoom();
-        } else if (__joinExisting) {
-            DisplayAvatarPanel();
         }
         
     }
 
     // This method is called when we have internet connection (before OnConnectedToMaster)
     public override void OnConnected() {
+        connectionStatusPanel.SetActive(false);
         Debug.Log("Internet!!");
     }
 
     // Called when PhotonNetwork.JoinRoom fails
     public override void OnJoinRoomFailed(short returnCode, string message) {
         Debug.Log("joined room failed");
-        InvalidPasscodeText.SetActive(true);
+        invalidPasscodeText.SetActive(true);
     }
 
     public override void OnJoinedRoom() {
         Debug.Log("Joined room successfully!");
-        names.Add(PhotonNetwork.NickName);
-        DisplayAvatarPanel();
-        ConnectionStatusPanel.SetActive(false);
+        __LoadEvent();
     }
 
     public override void OnPlayerEnteredRoom(Player newPlayer) {
@@ -175,6 +112,7 @@ public class LaunchManager : MonoBehaviourPunCallbacks {
     }
 
     #endregion
+
 
     #region Private Methods
 
@@ -190,47 +128,6 @@ public class LaunchManager : MonoBehaviourPunCallbacks {
     private int __GenerateRandomDigits() {
         return Random.Range(1000, 9999);
     }
-
-    private bool __IsNameAvailable() {
-        foreach (Player player in PhotonNetwork.PlayerList) { 
-            if (initialName.Equals(player.NickName)) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    private bool __IsAvatarSelected() {
-        return PlayerPrefs.GetInt("myAvatar") < __MAX_AVATAR_COUNT;
-    }
-
-    private void __ToggleNameText(bool isValidName) {
-        if (isValidName) {
-            NameIsAvailableText.SetActive(true);
-            DuplicateNameText.SetActive(false);
-            EnterNameText.SetActive(false);
-        } else {
-            if (!isNameInputTouched) {
-                EnterNameText.SetActive(true);
-                NameIsAvailableText.SetActive(false);
-                DuplicateNameText.SetActive(false);
-            } else {
-                EnterNameText.SetActive(false);
-                NameIsAvailableText.SetActive(false);
-                DuplicateNameText.SetActive(true);
-            }
-
-        }
-    }
-
-    private void __ToggleAvatarText(bool isValidAvatar) {
-        if (!isValidAvatar) {
-            UnselectedAvatarText.SetActive(true);
-        } else {
-            UnselectedAvatarText.SetActive(false);
-        }
-    }
-
 
     #endregion
 }
