@@ -322,7 +322,6 @@ GameObject:
   - component: {fileID: -1945966248231916482}
   - component: {fileID: 8104096098306801444}
   - component: {fileID: -7483804426195189717}
-  - component: {fileID: -6339705135640882192}
   - component: {fileID: 1346584965419313239}
   m_Layer: 0
   m_Name: UserFemale
@@ -461,20 +460,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   FPSCamera: {fileID: 8489506943346519909}
   userNameText: {fileID: 5042292178510995893}
---- !u!114 &-6339705135640882192
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6601386651165192743}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4ed3a44e95b49b24dafde29414a0d397, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  avatarValue: 0
-  myAvatar: {fileID: 0}
 --- !u!143 &1346584965419313239
 CharacterController:
   m_ObjectHideFlags: 0

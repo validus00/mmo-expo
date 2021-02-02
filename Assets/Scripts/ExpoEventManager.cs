@@ -14,10 +14,12 @@ public class ExpoEventManager : MonoBehaviourPunCallbacks {
     public GameObject[] listOfAvatars;
     public static string initialName;
     public static bool isNameInputTouched;
+    public static int mySelectedAvatar;
 
     // Start is called before the first frame update
     void Start() {
         initialName = PhotonNetwork.NickName;
+        mySelectedAvatar = 2;
         isNameInputTouched = false;
         DisplayAvatarPanel();
     }
@@ -49,8 +51,7 @@ public class ExpoEventManager : MonoBehaviourPunCallbacks {
         if (canProceed) {
             SetPlayerName();
 
-            int avatarPick = UserInfo.info.mySelectedAvatar;
-            GameObject user = listOfAvatars[avatarPick];
+            GameObject user = listOfAvatars[mySelectedAvatar];
 
             if (user != null) {
                 Destroy(GameObject.Find(GameConstants.k_Camera));
@@ -75,7 +76,7 @@ public class ExpoEventManager : MonoBehaviourPunCallbacks {
     }
 
     private bool __IsAvatarSelected() {
-        return UserInfo.info.mySelectedAvatar < __MAX_AVATAR_COUNT;
+        return mySelectedAvatar < __MAX_AVATAR_COUNT;
     }
 
     private void __ToggleNameText(bool isValidName) {

@@ -11,6 +11,8 @@ public class AvatarEventManager : MonoBehaviour {
     // Hold references to the avatar buttons
     public GameObject FemaleAvatarButton;
     public GameObject MaleAvatarButton;
+    // For hiding unselected avatar text after button is pressed
+    public GameObject UnselectedAvatarText;
 
     private ColorBlock __buttonColors;
 
@@ -26,6 +28,9 @@ public class AvatarEventManager : MonoBehaviour {
             // Check to see if the object pressed is an avatar button
             if (EventSystem.current.currentSelectedGameObject == FemaleAvatarButton
                 || EventSystem.current.currentSelectedGameObject == MaleAvatarButton) {
+                // Button has been pressed, so hide unselected avatar text
+                UnselectedAvatarText.SetActive(false);
+
                 if (__prevSelectedAvatar != null) {
                     // Reset the previously selected avatar button to white
                     __buttonColors = __prevSelectedAvatar.GetComponent<Button>().colors;
