@@ -4,6 +4,8 @@
  * This interface is for handling and abstracting Photon Chat functionality
  */
 public interface IPhotonChatHandler {
+    // For connecting to chat service
+    void ConnectToService();
     // For entering a specific channel
     void EnterChannel(string channelName);
     // Returns new messages and empty list of messages
@@ -12,9 +14,9 @@ public interface IPhotonChatHandler {
     void LeaveChannel(string channelName);
     // For initial setup
     void InitializeChannelNames(string[] channels);
-    // For determining if connected to Photon Chat
+    // For determining if connected to service
     bool IsConnected();
-    // For maintaining connection to Photon Chat
+    // For maintaining connection to service
     void MaintainService();
     // For sending message to a specific channel
     void SendChannelMessage(string channelName, string message);

@@ -40,8 +40,6 @@ public class ChatManager : MonoBehaviour {
     public Color infoColor;
     // Color for private messages
     public Color privateMessageColor;
-    // Local player's name
-    private string __username;
 
     // messageList keeps tracks of recent messages
     [SerializeField]
@@ -63,32 +61,38 @@ public class ChatManager : MonoBehaviour {
 
         photonChatHandler.InitializeChannelNames(new string[] { __channelNames[ChannelType.announcementChannel],
             __channelNames[ChannelType.hallChannel] });
-
-        __username = PhotonNetwork.NickName;
     }
 
     // Update is called once per frame
     void Update() {
-        // Maintain service connection to Photon
-        photonChatHandler.MaintainService();
-
-        // Get new messages from chat client
-        List<Message> messages = photonChatHandler.GetNewMessages();
-        foreach (Message message in messages) {
-            __SendMessageToChat(message);
+        if (photonChatHandler.IsConnected()) {
+            // Maintain service connection to Photon
+            photonChatHandler.MaintainService();
+            // Get new messages from chat client
+            List<Message> messages = photonChatHandler.GetNewMessages();
+            foreach (Message message in messages) {
+                __SendMessageToChat(message);
+            }
+            // process chat input fields
+            __processChatInput();
+        } else {
+            if (ExpoEventManager.isNameUpdated) {
+                photonChatHandler.ConnectToService();
+            }
         }
+    }
 
-        string channelName = channelBox.text;
-        string messageText = chatBox.text;
+
+    private void __processChatInput() {
         // Enter key either sends a message or activates the chat input field
         if (playerInputHandler.GetReturnKey()) {
+            string channelName = channelBox.text;
+            string messageText = chatBox.text;
+
             if (!string.IsNullOrEmpty(messageText)) {
                 if (string.IsNullOrWhiteSpace(channelName)) {
                     // channel name not given
                     __SendMessageToChat("No channel or username specified.", Message.MessageType.info);
-                } else if (!photonChatHandler.IsConnected()) {
-                    // Chat client not connected
-                    __SendMessageToChat("Not connected to chat yet.", Message.MessageType.info);
                 } else if (__CheckChannelName(channelName)) {
                     // If channel name does not exist in the channel list, assume private message attempt
 
@@ -102,7 +106,7 @@ public class ChatManager : MonoBehaviour {
                     }
                     if (isValidUser) {
                         // Do not allow user to send private message to themselves
-                        if (channelName == __username) {
+                        if (channelName == PhotonNetwork.NickName) {
                             __SendMessageToChat("Cannot send message to yourself.", Message.MessageType.info);
                         } else {
                             // Send the private message
@@ -110,7 +114,8 @@ public class ChatManager : MonoBehaviour {
                         }
                     } else {
                         // Notify user that the recipient does not exist
-                        __SendMessageToChat($"\"{channelName}\" does not exist in the room.", Message.MessageType.info);
+                        __SendMessageToChat($"\"{channelName}\" does not exist in the room.",
+                            Message.MessageType.info);
                     }
                     channelBox.text = string.Empty;
                     chatBox.text = string.Empty;

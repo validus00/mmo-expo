@@ -13,23 +13,26 @@ public class PhotonChatHandler : IChatClientListener, IPhotonChatHandler {
     private List<Message> __newMessages = new List<Message>();
     // Current room name
     private string __roomName;
-    private string __username;
     // Photon Chat client
     private ChatClient __chatClient;
     // Subscribed channels
     private string[] __initialChannelNames;
     // To keep track if connected to Photon Chat
-    private bool __isConnected = false;
+    private bool __isConnected;
 
     // Contructor that initializes Photon Chat client and connection
     public PhotonChatHandler() {
         __roomName = PhotonNetwork.CurrentRoom.Name;
         __AddNewMessage(string.Format("Passcode: {0}", __roomName), Message.MessageType.info);
-        __username = PhotonNetwork.NickName;
         // Create new Photon Chat client
         __chatClient = new ChatClient(this);
+        __isConnected = false;
+    }
+
+    public void ConnectToService() {
         __chatClient.Connect(PhotonNetwork.PhotonServerSettings.AppSettings.AppIdChat, PhotonNetwork.AppVersion,
-            new AuthenticationValues(__username));
+            new AuthenticationValues(PhotonNetwork.NickName));
+        __isConnected = true;
     }
 
     public bool IsConnected() {
@@ -90,7 +93,7 @@ public class PhotonChatHandler : IChatClientListener, IPhotonChatHandler {
 
     #region IChatClientListener Callbacks
     public void DebugReturn(DebugLevel level, string message) {
-        Debug.Log("DebugReturn is not implemented yet.");
+        Debug.Log($"Photon Debug: {message}");
     }
 
     public void OnChatStateChange(ChatState state) {
@@ -108,13 +111,14 @@ public class PhotonChatHandler : IChatClientListener, IPhotonChatHandler {
     }
 
     public void OnGetMessages(string channelName, string[] senders, object[] messages) {
-        // Process all public messages recevied
+        string username = PhotonNetwork.NickName;
+        // Process all public messages received
         for (int i = 0; i < senders.Length; i++) {
             // Ensure that users with same username don't get each other's messages
             if (channelName.Contains(__roomName)) {
                 string sender;
-                if (senders[i] == __username) {
-                    sender = string.Format("{0} (You)", __username);
+                if (senders[i] == username) {
+                    sender = string.Format("{0} (You)", username);
                 } else {
                     sender = senders[0];
                 }
@@ -125,17 +129,18 @@ public class PhotonChatHandler : IChatClientListener, IPhotonChatHandler {
     }
 
     public void OnPrivateMessage(string sender, object message, string channelName) {
+        string username = PhotonNetwork.NickName;
         // Display the private message
 
         // Split channelName (ex: user1:user2) to extract sender/receiver information for formatting
         string[] users = channelName.Split(':');
 
         // Determine who is the recipient
-        string recipient = users[0].Equals(__username) ? users[1] : users[0];
+        string recipient = users[0].Equals(username) ? users[1] : users[0];
         
         // Format the private message according to receiver/sender
         string privateMessage;
-        if (sender == __username) {
+        if (sender == username) {
             privateMessage = string.Format("[Private] To {0}: {1}", recipient, message.ToString());
         } else {
             privateMessage = string.Format("[Private] From {0}: {1}", sender, message.ToString());
