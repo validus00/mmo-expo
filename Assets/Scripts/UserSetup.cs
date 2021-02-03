@@ -10,7 +10,7 @@ public class UserSetup : MonoBehaviourPunCallbacks {
 
     [SerializeField]
     TextMeshProUGUI userNameText;
-
+    public GameObject user;
     private CharacterController __characterController;
 
     // Start is called before the first frame update
@@ -48,4 +48,8 @@ public class UserSetup : MonoBehaviourPunCallbacks {
         }
     }
 
+    [PunRPC]
+    public void RemoveUser() {
+        Destroy(user);
+    }
 }

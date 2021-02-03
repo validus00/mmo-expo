@@ -34,6 +34,16 @@ public class ExpoEventManager : MonoBehaviourPunCallbacks {
         PhotonNetwork.LoadLevel("EventLauncherScene");
     }
 
+    public override void OnPlayerLeftRoom(Player otherPlayer) {
+        foreach (GameObject user in GameObject.FindGameObjectsWithTag("Player")) {
+            PhotonView photonView = user.GetPhotonView();
+            if (photonView.Owner == null || photonView.Owner.NickName == otherPlayer.NickName) {
+                photonView.RPC("RemoveUser", RpcTarget.AllBuffered);
+                break;
+            }
+        }
+    }
+
     public void DisplayAvatarPanel() {
         AvatarPanel.SetActive(true);
         UnselectedAvatarText.SetActive(false);

@@ -325,7 +325,7 @@ GameObject:
   - component: {fileID: 1346584965419313239}
   m_Layer: 0
   m_Name: UserFemale
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -460,6 +460,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   FPSCamera: {fileID: 8489506943346519909}
   userNameText: {fileID: 5042292178510995893}
+  user: {fileID: 6601386651165192743}
 --- !u!143 &1346584965419313239
 CharacterController:
   m_ObjectHideFlags: 0
