@@ -47,6 +47,7 @@ namespace Tests {
                 messages.Add(newMessage);
             }
             photonChatHandler.GetNewMessages().Returns(messages);
+            photonChatHandler.IsConnected().Returns(true);
 
             __SetUpChatManager(chatManager, null, photonChatHandler, null, null);
 
@@ -109,33 +110,6 @@ namespace Tests {
 
             Assert.AreEqual(1, chatManager.GetMessages().Count);
             Assert.AreEqual("No channel or username specified.", chatManager.GetMessages()[0].messageText);
-            Assert.AreEqual(Message.MessageType.info, chatManager.GetMessages()[0].messageType);
-            Assert.AreEqual(GameConstants.k_AnnouncementChannelName,
-                chatManager.GetChannelName(ChatManager.ChannelType.announcementChannel));
-            Assert.AreEqual(GameConstants.k_HallChannelName,
-                chatManager.GetChannelName(ChatManager.ChannelType.hallChannel));
-            Assert.AreEqual(string.Empty, chatManager.GetChannelName(ChatManager.ChannelType.boothChannel));
-        }
-
-        [UnityTest]
-        public IEnumerator WhenChatNotConnectedYetThenGetWarning() {
-            GameObject eventManager = new GameObject(GameConstants.k_ExpoEventManager);
-            ChatManager chatManager = eventManager.AddComponent<ChatManager>();
-
-            IPlayerInputHandler playerInputHandler = Substitute.For<IPlayerInputHandler>();
-            playerInputHandler.GetReturnKey().Returns(true);
-
-            IPhotonChatHandler photonChatHandler = Substitute.For<IPhotonChatHandler>();
-            photonChatHandler.GetNewMessages().Returns(new List<Message>());
-            photonChatHandler.IsConnected().Returns(false);
-
-            __SetUpChatManager(chatManager, playerInputHandler, photonChatHandler,
-                GameConstants.k_AnnouncementChannelName, k_Message);
-
-            yield return null;
-
-            Assert.AreEqual(1, chatManager.GetMessages().Count);
-            Assert.AreEqual("Not connected to chat yet.", chatManager.GetMessages()[0].messageText);
             Assert.AreEqual(Message.MessageType.info, chatManager.GetMessages()[0].messageType);
             Assert.AreEqual(GameConstants.k_AnnouncementChannelName,
                 chatManager.GetChannelName(ChatManager.ChannelType.announcementChannel));
@@ -361,6 +335,28 @@ namespace Tests {
                 chatManager.GetChannelName(ChatManager.ChannelType.hallChannel));
             Assert.AreEqual(string.Empty, chatManager.GetChannelName(ChatManager.ChannelType.boothChannel));
             photonChatHandler.DidNotReceive().EnterChannel(Arg.Any<string>());
+        }
+
+        [UnityTest]
+        public IEnumerator WhenNameIsUpdatedThenConnectToServiceIsCalled() {
+            GameObject eventManager = new GameObject(GameConstants.k_ExpoEventManager);
+            ChatManager chatManager = eventManager.AddComponent<ChatManager>();
+            ExpoEventManager.isNameUpdated = false;
+
+            IPhotonChatHandler photonChatHandler = Substitute.For<IPhotonChatHandler>();
+            photonChatHandler.IsConnected().Returns(false);
+
+            __SetUpChatManager(chatManager, null, photonChatHandler, null, null);
+
+            yield return null;
+
+            photonChatHandler.DidNotReceive().ConnectToService();
+
+            ExpoEventManager.isNameUpdated = true;
+
+            yield return null;
+
+            photonChatHandler.Received(1).ConnectToService();
         }
 
         private void __SetUpChatManager(ChatManager chatManager, IPlayerInputHandler playerInputHandler,
