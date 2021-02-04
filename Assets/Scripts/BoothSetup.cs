@@ -10,7 +10,6 @@ using UnityEngine.Networking;
 public class BoothSetup : MonoBehaviourPunCallbacks {
     public TextMeshProUGUI boothText;
     public GameObject posterBoard;
-    public Material defaultPosterMaterial;
     private PanelManager __panelManager;
     private ChatManager __chatManager;
     private PhotonView __photonView;
@@ -129,6 +128,6 @@ public class BoothSetup : MonoBehaviourPunCallbacks {
         }
         boothText.text = string.Empty;
         __AssignBoothValues(string.Empty, string.Empty, string.Empty, string.Empty, string.Empty);
-        posterBoard.GetComponent<MeshRenderer>().material = defaultPosterMaterial;
+        StartCoroutine(__SetPosterTexture("https://i.imgur.com/EFfwKyC.png"));
     }
 }
