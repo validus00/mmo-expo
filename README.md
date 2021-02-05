@@ -1,6 +1,6 @@
 # MMO Expo
 
-#### CS 460 Winter 2021
+#### CS 467 Winter 2021
 - Jane Fong
 - Kevin Wu
 
