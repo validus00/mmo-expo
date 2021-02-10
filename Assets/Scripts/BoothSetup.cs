@@ -12,7 +12,6 @@ public class BoothSetup : MonoBehaviourPunCallbacks {
     public GameObject posterBoard;
     private PanelManager __panelManager;
     private ChatManager __chatManager;
-    private PhotonView __photonView;
     private Camera __camera;
     private bool __isUserInBooth = false;
     private string __boothOwner;
@@ -22,7 +21,6 @@ public class BoothSetup : MonoBehaviourPunCallbacks {
     private string __projectUrl;
     
     void Start() {
-        __photonView = GetComponent<PhotonView>();
         __panelManager = GameObject.Find(GameConstants.k_PanelManager).GetComponent<PanelManager>();
         __chatManager = GameObject.Find(GameConstants.k_ExpoEventManager).GetComponent<ChatManager>();
     }
@@ -74,12 +72,11 @@ public class BoothSetup : MonoBehaviourPunCallbacks {
     public bool SetUpBooth(string projectName, string teamName, string projectDescription, string projectUrl,
         string posterUrl) {
         if (string.IsNullOrEmpty(__projectName)) {
-            __photonView.RPC("SyncBooth", RpcTarget.AllBuffered, PhotonNetwork.NickName, projectName, teamName,
+            photonView.RPC("SyncBooth", RpcTarget.AllBuffered, PhotonNetwork.NickName, projectName, teamName,
                 projectDescription, projectUrl, posterUrl);
             return true;
-        } else {
-            return false;
         }
+        return false;
     }
 
     private IEnumerator __SetPosterTexture(string url) {
@@ -118,7 +115,7 @@ public class BoothSetup : MonoBehaviourPunCallbacks {
     }
 
     public void ResetBooth() {
-        __photonView.RPC("ClearBooth", RpcTarget.AllBuffered);
+        photonView.RPC("ClearBooth", RpcTarget.AllBuffered);
     }
 
     [PunRPC]
