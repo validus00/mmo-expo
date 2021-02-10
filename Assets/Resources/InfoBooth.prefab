@@ -119,8 +119,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_MethodName: OpenBoothPanel
+      - m_Target: {fileID: 518940929932952811}
+        m_MethodName: OpenEventInfo
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
