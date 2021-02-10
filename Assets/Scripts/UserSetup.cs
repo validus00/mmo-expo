@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
+using Photon.Realtime;
 using TMPro;
+using UnityEngine.UI;
 
 public class UserSetup : MonoBehaviourPunCallbacks {
     [SerializeField]
@@ -12,6 +14,7 @@ public class UserSetup : MonoBehaviourPunCallbacks {
     TextMeshProUGUI userNameText;
     public GameObject user;
     private CharacterController __characterController;
+    private string __name;
 
     // Start is called before the first frame update
     void Start() {
