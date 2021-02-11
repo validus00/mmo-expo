@@ -108,6 +108,7 @@ public class ChatManager : MonoBehaviour {
                         // Do not allow user to send private message to themselves
                         if (channelName == PhotonNetwork.NickName) {
                             __SendMessageToChat("Cannot send message to yourself.", Message.MessageType.info);
+                            channelBox.text = string.Empty;
                         } else {
                             // Send the private message
                             photonChatHandler.SendPrivateMessage(channelName, messageText);
@@ -116,8 +117,8 @@ public class ChatManager : MonoBehaviour {
                         // Notify user that the recipient does not exist
                         __SendMessageToChat($"\"{channelName}\" does not exist in the room.",
                             Message.MessageType.info);
+                        channelBox.text = string.Empty;
                     }
-                    channelBox.text = string.Empty;
                     chatBox.text = string.Empty;
                 } else {
                     // Send message
