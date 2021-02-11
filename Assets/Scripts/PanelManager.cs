@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Text.RegularExpressions;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class PanelManager : MonoBehaviour, IPanelManager {
@@ -30,6 +31,7 @@ public class PanelManager : MonoBehaviour, IPanelManager {
     public GameObject resetEventInfoButton;
     public Text boothFormWarningText;
     public Text eventInfoFormWarningText;
+    private Regex __regex = new Regex("^http(s)?://", RegexOptions.IgnoreCase);
 
     public void OpenProjectUrl() {
         __OpenUrlText(projectUrlText);
@@ -54,7 +56,7 @@ public class PanelManager : MonoBehaviour, IPanelManager {
     }
 
     private string __ProcessUrl(string url) {
-        if (url.StartsWith("https://") || url.StartsWith("http://")) {
+        if (__regex.IsMatch(url)) {
             return url;
         }
         return $"http://{url}";
