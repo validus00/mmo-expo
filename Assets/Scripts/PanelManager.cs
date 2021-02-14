@@ -10,6 +10,7 @@ public class PanelManager : MonoBehaviour, IPanelManager {
     public GameObject eventInfoPanel;
     public GameObject eventInfoFormPanel;
     public GameObject confirmEventInfoResetPanel;
+    public GameObject expoEventManager;
     public Text teamNameText;
     public Text projectNameText;
     public Text descriptionText;
@@ -17,6 +18,7 @@ public class PanelManager : MonoBehaviour, IPanelManager {
     public Text eventInfoUrlText;
     public Text scheduleUrlText;
     public Text zoomUrlText;
+    public Text passCodeText;
     public InputField teamNameInputField;
     public InputField projectNameInputField;
     public InputField descriptionInputField;
@@ -32,6 +34,10 @@ public class PanelManager : MonoBehaviour, IPanelManager {
     public Text boothFormWarningText;
     public Text eventInfoFormWarningText;
     private Regex __regex = new Regex("^http(s)?://", RegexOptions.IgnoreCase);
+
+    void Start() {
+        passCodeText.text = expoEventManager.GetComponent<ExpoEventManager>().PassCode;
+    }
 
     public void OpenProjectUrl() {
         __OpenUrlText(projectUrlText);
