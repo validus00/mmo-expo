@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using Photon.Pun;
 
 public class TeleportManager : MonoBehaviour {
@@ -14,6 +12,5 @@ public class TeleportManager : MonoBehaviour {
             other.GetComponent<PhotonView>().RPC("CharacterControllerToggle", RpcTarget.AllBuffered, controller.enabled);
             other.transform.position = teleportTarget.transform.position;
         }
-
     }
 }
