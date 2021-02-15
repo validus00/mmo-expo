@@ -1358,6 +1358,11 @@ PrefabInstance:
       propertyPath: teleportTarget
       value: 
       objectReference: {fileID: 1301895602}
+    - target: {fileID: 2404306418756138925, guid: 8ff87ef0d81a2954aa11ec7aa3d9f5fb,
+        type: 3}
+      propertyPath: __currentChannelName
+      value: Booths Hall West
+      objectReference: {fileID: 0}
     - target: {fileID: 3319354799602314858, guid: 8ff87ef0d81a2954aa11ec7aa3d9f5fb,
         type: 3}
       propertyPath: m_RootOrder
@@ -3859,6 +3864,11 @@ PrefabInstance:
       propertyPath: teleportTarget
       value: 
       objectReference: {fileID: 629489265}
+    - target: {fileID: 8896538623879257360, guid: 6da8d30e50288b745890c973fd893c7d,
+        type: 3}
+      propertyPath: __currentChannelName
+      value: Main Hall
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6da8d30e50288b745890c973fd893c7d, type: 3}
 --- !u!4 &382933602 stripped
@@ -5006,6 +5016,11 @@ PrefabInstance:
       propertyPath: teleportTarget
       value: 
       objectReference: {fileID: 382933606}
+    - target: {fileID: 2404306418756138925, guid: 8ff87ef0d81a2954aa11ec7aa3d9f5fb,
+        type: 3}
+      propertyPath: __currentChannelName
+      value: Booths Hall East
+      objectReference: {fileID: 0}
     - target: {fileID: 3319354799602314858, guid: 8ff87ef0d81a2954aa11ec7aa3d9f5fb,
         type: 3}
       propertyPath: m_RootOrder
@@ -6057,6 +6072,7 @@ MonoBehaviour:
   chatPanel: {fileID: 492985573996540562}
   textObject: {fileID: 4405345945222537773, guid: 2c61f1eb877efbe49b84ca6919cf69b4,
     type: 3}
+  eventInfoManagerObject: {fileID: 264550427}
   channelBox: {fileID: 7723019544791249950}
   chatBox: {fileID: 133935874}
   playerMessageColor: {r: 1, g: 1, b: 1, a: 1}
@@ -10167,6 +10183,11 @@ PrefabInstance:
       propertyPath: teleportTarget
       value: 
       objectReference: {fileID: 132818574}
+    - target: {fileID: 8896538623879257360, guid: 6da8d30e50288b745890c973fd893c7d,
+        type: 3}
+      propertyPath: __currentChannelName
+      value: Main Hall
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6da8d30e50288b745890c973fd893c7d, type: 3}
 --- !u!4 &1301895598 stripped
@@ -10421,6 +10442,11 @@ PrefabInstance:
       propertyPath: teleportTarget
       value: 
       objectReference: {fileID: 6723780257873627255}
+    - target: {fileID: 2404306418756138925, guid: 8ff87ef0d81a2954aa11ec7aa3d9f5fb,
+        type: 3}
+      propertyPath: __currentChannelName
+      value: Booths Hall North
+      objectReference: {fileID: 0}
     - target: {fileID: 3319354799826205718, guid: 8ff87ef0d81a2954aa11ec7aa3d9f5fb,
         type: 3}
       propertyPath: m_text
@@ -11977,6 +12003,11 @@ PrefabInstance:
       propertyPath: teleportTarget
       value: 
       objectReference: {fileID: 7350992685376477888}
+    - target: {fileID: 2404306418756138925, guid: 8ff87ef0d81a2954aa11ec7aa3d9f5fb,
+        type: 3}
+      propertyPath: __currentChannelName
+      value: Booths Hall South
+      objectReference: {fileID: 0}
     - target: {fileID: 3319354799602314858, guid: 8ff87ef0d81a2954aa11ec7aa3d9f5fb,
         type: 3}
       propertyPath: m_RootOrder
@@ -16744,6 +16775,11 @@ PrefabInstance:
       propertyPath: teleportTarget
       value: 
       objectReference: {fileID: 1313012870}
+    - target: {fileID: 8896538623879257360, guid: 6da8d30e50288b745890c973fd893c7d,
+        type: 3}
+      propertyPath: __currentChannelName
+      value: Main Hall
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6da8d30e50288b745890c973fd893c7d, type: 3}
 --- !u!4 &6723780257873627251 stripped
@@ -16859,6 +16895,11 @@ PrefabInstance:
       propertyPath: teleportTarget
       value: 
       objectReference: {fileID: 1521085287}
+    - target: {fileID: 8896538623879257360, guid: 6da8d30e50288b745890c973fd893c7d,
+        type: 3}
+      propertyPath: __currentChannelName
+      value: Main Hall
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6da8d30e50288b745890c973fd893c7d, type: 3}
 --- !u!4 &7350992685376477884 stripped

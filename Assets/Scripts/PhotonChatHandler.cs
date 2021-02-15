@@ -29,6 +29,10 @@ public class PhotonChatHandler : IChatClientListener, IPhotonChatHandler {
         __isConnected = false;
     }
 
+    public string Username {
+        get { return PhotonNetwork.NickName; }
+    }
+
     public void ConnectToService() {
         __chatClient.Connect(PhotonNetwork.PhotonServerSettings.AppSettings.AppIdChat, PhotonNetwork.AppVersion,
             new AuthenticationValues(PhotonNetwork.NickName));
@@ -174,9 +178,12 @@ public class PhotonChatHandler : IChatClientListener, IPhotonChatHandler {
     public void OnUnsubscribed(string[] channels) {
         // Notify about connecting to new channels
         for (int i = 0; i < channels.Length; i++) {
-            string unsubscriptionMessage = string.Format("You left the {0} channel.", __RemoveRoomName(channels[i]));
-            Debug.Log(unsubscriptionMessage);
-            __AddNewMessage(unsubscriptionMessage, Message.MessageType.info);
+            // Ensure that users with same username don't get each other's messages
+            if (channels[i].Contains(__roomName)) {
+                string unsubscriptionMessage = string.Format("You left the {0} channel.", __RemoveRoomName(channels[i]));
+                Debug.Log(unsubscriptionMessage);
+                __AddNewMessage(unsubscriptionMessage, Message.MessageType.info);
+            }
         }
     }
 

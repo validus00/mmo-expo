@@ -12,11 +12,13 @@ public class ChatManager : MonoBehaviour {
     public enum ChannelType {
         announcementChannel,
         hallChannel,
-        boothChannel
+        boothChannel,
+        general
     }
     // For storing channel names
     private readonly Dictionary<ChannelType, string> __channelNames = new Dictionary<ChannelType, string>() {
         { ChannelType.announcementChannel, GameConstants.k_AnnouncementChannelName },
+        { ChannelType.general, GameConstants.k_GeneralChannelName },
         { ChannelType.hallChannel, GameConstants.k_HallChannelName },
         { ChannelType.boothChannel, string.Empty }
     };
@@ -30,6 +32,10 @@ public class ChatManager : MonoBehaviour {
     public GameObject chatPanel;
     // Text objects to populate chat panel
     public GameObject textObject;
+    // Event info manager object to access event info manager
+    public GameObject eventInfoManagerObject;
+    // Event info manager to access event info owner
+    private EventInfoManager __eventInfoManager;
     // Channel name input field
     public InputField channelBox;
     // message input field
@@ -52,6 +58,8 @@ public class ChatManager : MonoBehaviour {
 
     // Start is called before the first frame update
     void Start() {
+        __eventInfoManager = eventInfoManagerObject.GetComponent<EventInfoManager>();
+
         if (photonChatHandler == null) {
             photonChatHandler = new PhotonChatHandler();
         }
@@ -59,7 +67,9 @@ public class ChatManager : MonoBehaviour {
             playerInputHandler = new PlayerInputHandler();
         }
 
-        photonChatHandler.InitializeChannelNames(new string[] { __channelNames[ChannelType.announcementChannel],
+        photonChatHandler.InitializeChannelNames(new string[] {
+            __channelNames[ChannelType.announcementChannel],
+            __channelNames[ChannelType.general],
             __channelNames[ChannelType.hallChannel] });
     }
 
@@ -81,7 +91,6 @@ public class ChatManager : MonoBehaviour {
             }
         }
     }
-
 
     private void __processChatInput() {
         // Enter key either sends a message or activates the chat input field
@@ -120,6 +129,11 @@ public class ChatManager : MonoBehaviour {
                         channelBox.text = string.Empty;
                     }
                     chatBox.text = string.Empty;
+                } else if (channelName.Equals(__channelNames[ChannelType.announcementChannel]) &&
+                    !photonChatHandler.Username.Equals(__eventInfoManager.EventInfoOwner)) {
+                    // Notify user that they do not have access to announcement channel
+                    __SendMessageToChat($"Only event admins have access to \"{channelName}\".", Message.MessageType.info);
+                    channelBox.text = string.Empty;
                 } else {
                     // Send message
                     photonChatHandler.SendChannelMessage(channelName, messageText);
@@ -134,7 +148,8 @@ public class ChatManager : MonoBehaviour {
     private bool __CheckChannelName(string channelName) {
         return channelName != __channelNames[ChannelType.announcementChannel] &&
             channelName != __channelNames[ChannelType.hallChannel] &&
-            channelName != __channelNames[ChannelType.boothChannel];
+            channelName != __channelNames[ChannelType.boothChannel] &&
+            channelName != __channelNames[ChannelType.general];
     }
 
     public void UpdateChannel(string channelName, ChannelType channelType) {
@@ -148,10 +163,12 @@ public class ChatManager : MonoBehaviour {
             if (!string.IsNullOrEmpty(__channelNames[ChannelType.boothChannel])) {
                 photonChatHandler.InitializeChannelNames(new string[] {
                     __channelNames[ChannelType.announcementChannel], __channelNames[ChannelType.hallChannel],
-                    __channelNames[ChannelType.boothChannel] });
+                    __channelNames[ChannelType.general], __channelNames[ChannelType.boothChannel] });
             } else {
                 photonChatHandler.InitializeChannelNames(new string[] {
-                    __channelNames[ChannelType.announcementChannel], __channelNames[ChannelType.hallChannel] });
+                    __channelNames[ChannelType.announcementChannel], __channelNames[ChannelType.hallChannel],
+                    __channelNames[ChannelType.general],
+                });
             }
         }
     }

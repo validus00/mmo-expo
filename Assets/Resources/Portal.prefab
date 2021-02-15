@@ -511,6 +511,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   teleportTarget: {fileID: 0}
+  destinationText: {fileID: 6723780258194653258}
+  __currentChannelName: 
 --- !u!1001 &7824985645931197811
 PrefabInstance:
   m_ObjectHideFlags: 0
