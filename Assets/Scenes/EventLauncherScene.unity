@@ -478,11 +478,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae53c954c32638f498f64e013f0f7a41, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enterEventPanel: {fileID: 513309119}
-  connectionStatusPanel: {fileID: 1728783872}
-  enterPasscodePanel: {fileID: 91822394}
-  invalidPasscodeText: {fileID: 1598908103}
-  passcodeInputField: {fileID: 1014218877}
+  EnterEventPanel: {fileID: 513309119}
+  ConnectionStatusPanel: {fileID: 1728783872}
+  EnterPasscodePanel: {fileID: 91822394}
+  InvalidPasscodeText: {fileID: 1598908103}
+  PasscodeInputField: {fileID: 1014218877}
 --- !u!1 &385407703
 GameObject:
   m_ObjectHideFlags: 0

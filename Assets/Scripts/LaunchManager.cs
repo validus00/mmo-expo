@@ -4,11 +4,11 @@ using Photon.Realtime;
 using UnityEngine.UI;
 
 public class LaunchManager : MonoBehaviourPunCallbacks {
-    public GameObject enterEventPanel;
-    public GameObject connectionStatusPanel;
-    public GameObject enterPasscodePanel;
-    public GameObject invalidPasscodeText;
-    public InputField passcodeInputField;
+    public GameObject EnterEventPanel;
+    public GameObject ConnectionStatusPanel;
+    public GameObject EnterPasscodePanel;
+    public GameObject InvalidPasscodeText;
+    public InputField PasscodeInputField;
     private bool __joinExisting;
     private string __passcodeInput;
 
@@ -18,9 +18,9 @@ public class LaunchManager : MonoBehaviourPunCallbacks {
 
     private void __ConnectToPhotonServer() {
         __SetInitialName();
-        enterEventPanel.SetActive(false);
-        connectionStatusPanel.SetActive(true);
-        invalidPasscodeText.SetActive(false);
+        EnterEventPanel.SetActive(false);
+        ConnectionStatusPanel.SetActive(true);
+        InvalidPasscodeText.SetActive(false);
         PhotonNetwork.ConnectUsingSettings();
     }
 
@@ -81,22 +81,22 @@ public class LaunchManager : MonoBehaviourPunCallbacks {
 
     public void DisplayMainMenu() {
         __ResetPasscodePanel();
-        enterEventPanel.SetActive(true);
-        passcodeInputField.Select();
-        passcodeInputField.text = string.Empty;
+        EnterEventPanel.SetActive(true);
+        PasscodeInputField.Select();
+        PasscodeInputField.text = string.Empty;
         PhotonNetwork.Disconnect();
     }
 
     private void __ResetPasscodePanel() {
-        enterPasscodePanel.SetActive(false);
-        invalidPasscodeText.SetActive(false);
+        EnterPasscodePanel.SetActive(false);
+        InvalidPasscodeText.SetActive(false);
         __passcodeInput = string.Empty;
         __joinExisting = false;
     }
 
     private void __DisplayPasscodePanel() {
-        enterPasscodePanel.SetActive(true);
-        invalidPasscodeText.SetActive(false);
+        EnterPasscodePanel.SetActive(true);
+        InvalidPasscodeText.SetActive(false);
     }
 
     #region Photon Callbacks
@@ -110,7 +110,6 @@ public class LaunchManager : MonoBehaviourPunCallbacks {
         } else {
             __CreateAndJoinRoom();
         }
-        
     }
 
     // This method is called when we have internet connection (before OnConnectedToMaster)
@@ -121,7 +120,7 @@ public class LaunchManager : MonoBehaviourPunCallbacks {
     // Called when PhotonNetwork.JoinRoom fails
     public override void OnJoinRoomFailed(short returnCode, string message) {
         Debug.Log("joined room failed");
-        invalidPasscodeText.SetActive(true);
+        InvalidPasscodeText.SetActive(true);
     }
 
     public override void OnJoinedRoom() {
