@@ -1,12 +1,14 @@
 ﻿using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
+using UnityEngine.UI;
 
 public class LaunchManager : MonoBehaviourPunCallbacks {
     public GameObject enterEventPanel;
     public GameObject connectionStatusPanel;
     public GameObject enterPasscodePanel;
     public GameObject invalidPasscodeText;
+    public InputField passcodeInputField;
     private bool __joinExisting;
     private string __passcodeInput;
 
@@ -17,8 +19,8 @@ public class LaunchManager : MonoBehaviourPunCallbacks {
     private void __ConnectToPhotonServer() {
         __SetInitialName();
         enterEventPanel.SetActive(false);
-
         connectionStatusPanel.SetActive(true);
+        invalidPasscodeText.SetActive(false);
         PhotonNetwork.ConnectUsingSettings();
     }
 
@@ -28,8 +30,10 @@ public class LaunchManager : MonoBehaviourPunCallbacks {
     }
 
     public void JoinCreatedRoom() {
-        __joinExisting = true;
-        __ConnectToPhotonServer();
+        if (!PhotonNetwork.IsConnected) {
+            __joinExisting = true;
+            __ConnectToPhotonServer();
+        }
     }
 
     private void __SetInitialName() {
@@ -75,6 +79,26 @@ public class LaunchManager : MonoBehaviourPunCallbacks {
         return Random.Range(1000, 9999);
     }
 
+    public void DisplayMainMenu() {
+        __ResetPasscodePanel();
+        enterEventPanel.SetActive(true);
+        passcodeInputField.Select();
+        passcodeInputField.text = string.Empty;
+        PhotonNetwork.Disconnect();
+    }
+
+    private void __ResetPasscodePanel() {
+        enterPasscodePanel.SetActive(false);
+        invalidPasscodeText.SetActive(false);
+        __passcodeInput = string.Empty;
+        __joinExisting = false;
+    }
+
+    private void __DisplayPasscodePanel() {
+        enterPasscodePanel.SetActive(true);
+        invalidPasscodeText.SetActive(false);
+    }
+
     #region Photon Callbacks
 
     public override void OnConnectedToMaster() {
@@ -82,8 +106,7 @@ public class LaunchManager : MonoBehaviourPunCallbacks {
         Debug.Log("Is joining existing event: " + __joinExisting);
 
         if (__joinExisting) {
-            enterPasscodePanel.SetActive(true);
-            invalidPasscodeText.SetActive(false);
+            __DisplayPasscodePanel();
         } else {
             __CreateAndJoinRoom();
         }
