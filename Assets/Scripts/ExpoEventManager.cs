@@ -132,7 +132,7 @@ public class ExpoEventManager : MonoBehaviourPunCallbacks {
     }
 
     public void SetPlayerName() {
-        PhotonNetwork.NickName = initialName;
+        PhotonNetwork.NickName = initialName + PhotonNetwork.CurrentRoom.Name;
         isNameUpdated = true;
     }
 

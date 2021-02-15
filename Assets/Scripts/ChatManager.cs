@@ -110,20 +110,22 @@ public class ChatManager : MonoBehaviour {
 
                     // Check to see if the receipient is a valid user
                     bool isValidUser = false;
+                    // temporary username from channel name + identifier (which is room name)
+                    string username = channelName + PhotonNetwork.CurrentRoom.Name;
                     foreach (Player player in PhotonNetwork.PlayerList) {
-                        if (channelName.Equals(player.NickName)) {
+                        if (username.Equals(player.NickName)) {
                             isValidUser = true;
                             break;
                         }
                     }
                     if (isValidUser) {
                         // Do not allow user to send private message to themselves
-                        if (channelName == PhotonNetwork.NickName) {
+                        if (username == PhotonNetwork.NickName) {
                             __SendMessageToChat("Cannot send message to yourself.", Message.MessageType.info);
                             channelBox.text = string.Empty;
                         } else {
                             // Send the private message
-                            photonChatHandler.SendPrivateMessage(channelName, messageText);
+                            photonChatHandler.SendPrivateMessage(username, messageText);
                         }
                     } else {
                         // Notify user that the recipient does not exist
