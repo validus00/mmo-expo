@@ -36,7 +36,6 @@ public class PhotonChatHandler : IChatClientListener, IPhotonChatHandler {
     public void ConnectToService() {
         __chatClient.Connect(PhotonNetwork.PhotonServerSettings.AppSettings.AppIdChat, PhotonNetwork.AppVersion,
             new AuthenticationValues(PhotonNetwork.NickName));
-        __isConnected = true;
     }
 
     public bool IsConnected() {
@@ -105,9 +104,9 @@ public class PhotonChatHandler : IChatClientListener, IPhotonChatHandler {
     }
 
     public void OnConnected() {
-        __isConnected = true;
         Debug.Log("Connected to Photon Chat.");
         __chatClient.Subscribe(__initialChannelNames);
+        __isConnected = true;
     }
 
     public void OnDisconnected() {

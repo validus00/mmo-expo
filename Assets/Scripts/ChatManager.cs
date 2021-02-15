@@ -46,6 +46,8 @@ public class ChatManager : MonoBehaviour {
     public Color infoColor;
     // Color for private messages
     public Color privateMessageColor;
+    // For keeping track whether connect to service is called
+    private bool __connectToServiceIsCalled;
 
     // messageList keeps tracks of recent messages
     [SerializeField]
@@ -58,6 +60,7 @@ public class ChatManager : MonoBehaviour {
 
     // Start is called before the first frame update
     void Start() {
+        __connectToServiceIsCalled = false;
         __eventInfoManager = eventInfoManagerObject.GetComponent<EventInfoManager>();
 
         if (photonChatHandler == null) {
@@ -75,9 +78,10 @@ public class ChatManager : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
+        // Maintain service connection to Photon and is called during every update
+        photonChatHandler.MaintainService();
+
         if (photonChatHandler.IsConnected()) {
-            // Maintain service connection to Photon
-            photonChatHandler.MaintainService();
             // Get new messages from chat client
             List<Message> messages = photonChatHandler.GetNewMessages();
             foreach (Message message in messages) {
@@ -85,10 +89,9 @@ public class ChatManager : MonoBehaviour {
             }
             // process chat input fields
             __processChatInput();
-        } else {
-            if (ExpoEventManager.isNameUpdated) {
-                photonChatHandler.ConnectToService();
-            }
+        } else if (ExpoEventManager.isNameUpdated && !__connectToServiceIsCalled) {
+            photonChatHandler.ConnectToService();
+            __connectToServiceIsCalled = true;
         }
     }
 
