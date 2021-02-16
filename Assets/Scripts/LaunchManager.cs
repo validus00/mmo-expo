@@ -72,7 +72,14 @@ public class LaunchManager : MonoBehaviourPunCallbacks {
         roomOptions.MaxPlayers = 20;
         roomOptions.CleanupCacheOnLeave = false;
         PhotonNetwork.CreateRoom(randomRoomName, roomOptions);
-        Debug.Log("This is the newly created room name: " + randomRoomName);
+        Debug.Log($"Creating room with name: {randomRoomName}");
+    }
+
+    // This callback is called if the randomly generated room name is identical to one that is already used by an
+    // existing room
+    public void OnCreateRoomFailed() {
+        Debug.Log("Create room failed");
+        __CreateAndJoinRoom();
     }
 
     private int __GenerateRandomDigits() {

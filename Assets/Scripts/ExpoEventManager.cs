@@ -17,6 +17,11 @@ public class ExpoEventManager : MonoBehaviourPunCallbacks {
     public static bool isNameInputTouched;
     public static bool isNameUpdated;
     private int __mySelectedAvatar;
+    private string __roomName;
+
+    void Awake() {
+        __roomName = PhotonNetwork.CurrentRoom.Name;
+    }
 
     // Start is called before the first frame update
     void Start() {
@@ -25,6 +30,9 @@ public class ExpoEventManager : MonoBehaviourPunCallbacks {
         isNameInputTouched = false;
         isNameUpdated = false;
         DisplayAvatarPanel();
+    }
+    public string PassCode {
+        get { return __roomName; }
     }
 
     public void LeaveEvent() {
@@ -125,7 +133,7 @@ public class ExpoEventManager : MonoBehaviourPunCallbacks {
     }
 
     public void SetPlayerName() {
-        PhotonNetwork.NickName = initialName;
+        PhotonNetwork.NickName = initialName + PhotonNetwork.CurrentRoom.Name;
         isNameUpdated = true;
     }
 

@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.4366757, g: 0.48427194, b: 0.5645252, a: 1}
+  m_IndirectSpecularColor: {r: 0.4366756, g: 0.48427194, b: 0.5645252, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1353,6 +1353,16 @@ PrefabInstance:
       propertyPath: m_RootOrder
       value: 7
       objectReference: {fileID: 0}
+    - target: {fileID: 2404306418756138925, guid: 8ff87ef0d81a2954aa11ec7aa3d9f5fb,
+        type: 3}
+      propertyPath: teleportTarget
+      value: 
+      objectReference: {fileID: 1301895602}
+    - target: {fileID: 2404306418756138925, guid: 8ff87ef0d81a2954aa11ec7aa3d9f5fb,
+        type: 3}
+      propertyPath: __currentChannelName
+      value: Booths Hall West
+      objectReference: {fileID: 0}
     - target: {fileID: 3319354799602314858, guid: 8ff87ef0d81a2954aa11ec7aa3d9f5fb,
         type: 3}
       propertyPath: m_RootOrder
@@ -1426,7 +1436,7 @@ PrefabInstance:
     - target: {fileID: 8912218914376134115, guid: 8ff87ef0d81a2954aa11ec7aa3d9f5fb,
         type: 3}
       propertyPath: m_RootOrder
-      value: 4
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 8912218914376134115, guid: 8ff87ef0d81a2954aa11ec7aa3d9f5fb,
         type: 3}
@@ -1505,19 +1515,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 2, y: 5, z: 2}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &132818573
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 132818571}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8ff047b9bab60ca408f1597199328928, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  teleportTarget: {fileID: 1301895602}
 --- !u!4 &132818574 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6597953862562653951, guid: 8ff87ef0d81a2954aa11ec7aa3d9f5fb,
@@ -2269,6 +2266,7 @@ MonoBehaviour:
   eventInfoPanel: {fileID: 858258713}
   eventInfoFormPanel: {fileID: 1024069138}
   confirmEventInfoResetPanel: {fileID: 810531357}
+  expoEventManager: {fileID: 727287414}
   teamNameText: {fileID: 1740117306}
   projectNameText: {fileID: 107321219}
   descriptionText: {fileID: 230387919}
@@ -2276,6 +2274,7 @@ MonoBehaviour:
   eventInfoUrlText: {fileID: 1774478235}
   scheduleUrlText: {fileID: 2120914893}
   zoomUrlText: {fileID: 1365060896}
+  passCodeText: {fileID: 1526331283}
   teamNameInputField: {fileID: 154550826}
   projectNameInputField: {fileID: 1199075412}
   descriptionInputField: {fileID: 1198689686}
@@ -3204,6 +3203,8 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
+  - {fileID: 1031727525}
+  - {fileID: 1526331285}
   - {fileID: 1433506999}
   - {fileID: 1373473960}
   - {fileID: 1014467444}
@@ -3858,6 +3859,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: PortalEast
       objectReference: {fileID: 0}
+    - target: {fileID: 8896538623879257360, guid: 6da8d30e50288b745890c973fd893c7d,
+        type: 3}
+      propertyPath: teleportTarget
+      value: 
+      objectReference: {fileID: 629489265}
+    - target: {fileID: 8896538623879257360, guid: 6da8d30e50288b745890c973fd893c7d,
+        type: 3}
+      propertyPath: __currentChannelName
+      value: Main Hall
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6da8d30e50288b745890c973fd893c7d, type: 3}
 --- !u!4 &382933602 stripped
@@ -3872,19 +3883,6 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 382933601}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &382933604
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 382933603}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8ff047b9bab60ca408f1597199328928, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  teleportTarget: {fileID: 629489265}
 --- !u!65 &382933605
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -5013,6 +5011,16 @@ PrefabInstance:
       propertyPath: m_RootOrder
       value: 7
       objectReference: {fileID: 0}
+    - target: {fileID: 2404306418756138925, guid: 8ff87ef0d81a2954aa11ec7aa3d9f5fb,
+        type: 3}
+      propertyPath: teleportTarget
+      value: 
+      objectReference: {fileID: 382933606}
+    - target: {fileID: 2404306418756138925, guid: 8ff87ef0d81a2954aa11ec7aa3d9f5fb,
+        type: 3}
+      propertyPath: __currentChannelName
+      value: Booths Hall East
+      objectReference: {fileID: 0}
     - target: {fileID: 3319354799602314858, guid: 8ff87ef0d81a2954aa11ec7aa3d9f5fb,
         type: 3}
       propertyPath: m_RootOrder
@@ -5086,7 +5094,7 @@ PrefabInstance:
     - target: {fileID: 8912218914376134115, guid: 8ff87ef0d81a2954aa11ec7aa3d9f5fb,
         type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 8912218914376134115, guid: 8ff87ef0d81a2954aa11ec7aa3d9f5fb,
         type: 3}
@@ -5152,19 +5160,6 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 629489260}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &629489263
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 629489262}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8ff047b9bab60ca408f1597199328928, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  teleportTarget: {fileID: 382933606}
 --- !u!65 &629489264
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -6078,6 +6073,7 @@ MonoBehaviour:
   chatPanel: {fileID: 492985573996540562}
   textObject: {fileID: 4405345945222537773, guid: 2c61f1eb877efbe49b84ca6919cf69b4,
     type: 3}
+  eventInfoManagerObject: {fileID: 264550427}
   channelBox: {fileID: 7723019544791249950}
   chatBox: {fileID: 133935874}
   playerMessageColor: {r: 1, g: 1, b: 1, a: 1}
@@ -6752,8 +6748,8 @@ Transform:
   - {fileID: 5153914890490944997}
   - {fileID: 1313012866}
   - {fileID: 1521085283}
-  - {fileID: 629489261}
   - {fileID: 132818570}
+  - {fileID: 629489261}
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -7448,10 +7444,10 @@ RectTransform:
   m_LocalScale: {x: 0.75, y: 0.75, z: 1}
   m_Children: []
   m_Father: {fileID: 322758113}
-  m_RootOrder: 2
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.15, y: 0.3}
-  m_AnchorMax: {x: 0.85, y: 0.85}
+  m_AnchorMin: {x: 0.15, y: 0.27}
+  m_AnchorMax: {x: 0.85, y: 0.82}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -7563,6 +7559,84 @@ CanvasRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1024069138}
+  m_CullTransparentMesh: 0
+--- !u!1 &1031727524
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1031727525}
+  - component: {fileID: 1031727527}
+  - component: {fileID: 1031727526}
+  m_Layer: 5
+  m_Name: PasscodePromptText
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1031727525
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1031727524}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 322758113}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.38, y: 0.82}
+  m_AnchorMax: {x: 0.53, y: 0.87}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1031727526
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1031727524}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+  m_RaycastTarget: 1
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FontData:
+    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_FontSize: 14
+    m_FontStyle: 1
+    m_BestFit: 1
+    m_MinSize: 10
+    m_MaxSize: 100
+    m_Alignment: 0
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: 'Passcode:'
+--- !u!222 &1031727527
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1031727524}
   m_CullTransparentMesh: 0
 --- !u!1 &1035828466
 GameObject:
@@ -10313,6 +10387,16 @@ PrefabInstance:
       propertyPath: m_RootOrder
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 8896538623879257360, guid: 6da8d30e50288b745890c973fd893c7d,
+        type: 3}
+      propertyPath: teleportTarget
+      value: 
+      objectReference: {fileID: 132818574}
+    - target: {fileID: 8896538623879257360, guid: 6da8d30e50288b745890c973fd893c7d,
+        type: 3}
+      propertyPath: __currentChannelName
+      value: Main Hall
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6da8d30e50288b745890c973fd893c7d, type: 3}
 --- !u!4 &1301895598 stripped
@@ -10340,19 +10424,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 2, y: 5, z: 2}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &1301895601
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1301895599}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8ff047b9bab60ca408f1597199328928, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  teleportTarget: {fileID: 132818574}
 --- !u!4 &1301895602 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 124888412867890242, guid: 6da8d30e50288b745890c973fd893c7d,
@@ -10575,6 +10646,16 @@ PrefabInstance:
       propertyPath: m_LocalPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2404306418756138925, guid: 8ff87ef0d81a2954aa11ec7aa3d9f5fb,
+        type: 3}
+      propertyPath: teleportTarget
+      value: 
+      objectReference: {fileID: 6723780257873627255}
+    - target: {fileID: 2404306418756138925, guid: 8ff87ef0d81a2954aa11ec7aa3d9f5fb,
+        type: 3}
+      propertyPath: __currentChannelName
+      value: Booths Hall North
+      objectReference: {fileID: 0}
     - target: {fileID: 3319354799826205718, guid: 8ff87ef0d81a2954aa11ec7aa3d9f5fb,
         type: 3}
       propertyPath: m_text
@@ -10686,19 +10767,6 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 1313012865}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1313012868
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1313012867}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8ff047b9bab60ca408f1597199328928, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  teleportTarget: {fileID: 6723780257873627255}
 --- !u!65 &1313012869
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -11603,7 +11671,7 @@ RectTransform:
   m_Children:
   - {fileID: 268484072}
   m_Father: {fileID: 322758113}
-  m_RootOrder: 1
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.57, y: 0.18}
   m_AnchorMax: {x: 0.75, y: 0.23}
@@ -11808,7 +11876,7 @@ RectTransform:
   m_Children:
   - {fileID: 930750499}
   m_Father: {fileID: 322758113}
-  m_RootOrder: 0
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.25, y: 0.18}
   m_AnchorMax: {x: 0.43, y: 0.23}
@@ -12139,6 +12207,16 @@ PrefabInstance:
       propertyPath: m_RootOrder
       value: 7
       objectReference: {fileID: 0}
+    - target: {fileID: 2404306418756138925, guid: 8ff87ef0d81a2954aa11ec7aa3d9f5fb,
+        type: 3}
+      propertyPath: teleportTarget
+      value: 
+      objectReference: {fileID: 7350992685376477888}
+    - target: {fileID: 2404306418756138925, guid: 8ff87ef0d81a2954aa11ec7aa3d9f5fb,
+        type: 3}
+      propertyPath: __currentChannelName
+      value: Booths Hall South
+      objectReference: {fileID: 0}
     - target: {fileID: 3319354799602314858, guid: 8ff87ef0d81a2954aa11ec7aa3d9f5fb,
         type: 3}
       propertyPath: m_RootOrder
@@ -12278,19 +12356,6 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 1521085282}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1521085285
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1521085284}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8ff047b9bab60ca408f1597199328928, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  teleportTarget: {fileID: 7350992685376477888}
 --- !u!65 &1521085286
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -12310,6 +12375,84 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1521085282}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1526331282
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1526331285}
+  - component: {fileID: 1526331284}
+  - component: {fileID: 1526331283}
+  m_Layer: 5
+  m_Name: PasscodeText
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1526331283
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1526331282}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+  m_RaycastTarget: 1
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FontData:
+    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_FontSize: 14
+    m_FontStyle: 0
+    m_BestFit: 1
+    m_MinSize: 10
+    m_MaxSize: 100
+    m_Alignment: 0
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: 
+--- !u!222 &1526331284
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1526331282}
+  m_CullTransparentMesh: 0
+--- !u!224 &1526331285
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1526331282}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 322758113}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.53, y: 0.82}
+  m_AnchorMax: {x: 0.63, y: 0.87}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1541653279
 GameObject:
   m_ObjectHideFlags: 0
@@ -16837,6 +16980,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: PortalNorth
       objectReference: {fileID: 0}
+    - target: {fileID: 8896538623879257360, guid: 6da8d30e50288b745890c973fd893c7d,
+        type: 3}
+      propertyPath: teleportTarget
+      value: 
+      objectReference: {fileID: 1313012870}
+    - target: {fileID: 8896538623879257360, guid: 6da8d30e50288b745890c973fd893c7d,
+        type: 3}
+      propertyPath: __currentChannelName
+      value: Main Hall
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6da8d30e50288b745890c973fd893c7d, type: 3}
 --- !u!4 &6723780257873627251 stripped
@@ -16851,19 +17004,6 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 6723780257873627250}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &6723780257873627253
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6723780257873627252}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8ff047b9bab60ca408f1597199328928, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  teleportTarget: {fileID: 1313012870}
 --- !u!65 &6723780257873627254
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -16960,6 +17100,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: PortalSouth
       objectReference: {fileID: 0}
+    - target: {fileID: 8896538623879257360, guid: 6da8d30e50288b745890c973fd893c7d,
+        type: 3}
+      propertyPath: teleportTarget
+      value: 
+      objectReference: {fileID: 1521085287}
+    - target: {fileID: 8896538623879257360, guid: 6da8d30e50288b745890c973fd893c7d,
+        type: 3}
+      propertyPath: __currentChannelName
+      value: Main Hall
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6da8d30e50288b745890c973fd893c7d, type: 3}
 --- !u!4 &7350992685376477884 stripped
@@ -16974,19 +17124,6 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 7350992685376477883}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &7350992685376477886
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7350992685376477885}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8ff047b9bab60ca408f1597199328928, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  teleportTarget: {fileID: 1521085287}
 --- !u!65 &7350992685376477887
 BoxCollider:
   m_ObjectHideFlags: 0

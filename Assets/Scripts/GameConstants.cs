@@ -6,6 +6,7 @@ public class GameConstants {
     public const string k_ChannelInputField = "ChannelInputField";
     public const string k_EventInfoManager = "EventInfoManager";
     public const string k_ExpoEventManager = "ExpoEventManager";
+    public const string k_GeneralChannelName = "General";
     public const string k_HallChannelName = "Main Hall";
     public const string k_Horizontal = "Horizontal";
     public const string k_MessageInputField = "MessageInputField";

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Text.RegularExpressions;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class PanelManager : MonoBehaviour, IPanelManager {
@@ -9,6 +10,7 @@ public class PanelManager : MonoBehaviour, IPanelManager {
     public GameObject eventInfoPanel;
     public GameObject eventInfoFormPanel;
     public GameObject confirmEventInfoResetPanel;
+    public GameObject expoEventManager;
     public Text teamNameText;
     public Text projectNameText;
     public Text descriptionText;
@@ -16,6 +18,7 @@ public class PanelManager : MonoBehaviour, IPanelManager {
     public Text eventInfoUrlText;
     public Text scheduleUrlText;
     public Text zoomUrlText;
+    public Text passCodeText;
     public InputField teamNameInputField;
     public InputField projectNameInputField;
     public InputField descriptionInputField;
@@ -30,6 +33,11 @@ public class PanelManager : MonoBehaviour, IPanelManager {
     public GameObject resetEventInfoButton;
     public Text boothFormWarningText;
     public Text eventInfoFormWarningText;
+    private Regex __regex = new Regex("^http(s)?://", RegexOptions.IgnoreCase);
+
+    void Start() {
+        passCodeText.text = expoEventManager.GetComponent<ExpoEventManager>().PassCode;
+    }
 
     public void OpenProjectUrl() {
         __OpenUrlText(projectUrlText);
@@ -54,7 +62,7 @@ public class PanelManager : MonoBehaviour, IPanelManager {
     }
 
     private string __ProcessUrl(string url) {
-        if (url.StartsWith("https://") || url.StartsWith("http://")) {
+        if (__regex.IsMatch(url)) {
             return url;
         }
         return $"http://{url}";

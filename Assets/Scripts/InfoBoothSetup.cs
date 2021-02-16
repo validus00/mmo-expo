@@ -6,7 +6,7 @@ public class InfoBoothSetup : MonoBehaviourPunCallbacks {
     private EventInfoManager __eventInfoManager;
 
     void Start() {
-        __eventInfoManager= GameObject.Find(GameConstants.k_EventInfoManager).GetComponent<EventInfoManager>();
+        __eventInfoManager = GameObject.Find(GameConstants.k_EventInfoManager).GetComponent<EventInfoManager>();
     }
 
     // This is called when the user first enters a booth area

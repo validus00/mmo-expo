@@ -29,10 +29,13 @@ public class PhotonChatHandler : IChatClientListener, IPhotonChatHandler {
         __isConnected = false;
     }
 
+    public string Username {
+        get { return PhotonNetwork.NickName; }
+    }
+
     public void ConnectToService() {
         __chatClient.Connect(PhotonNetwork.PhotonServerSettings.AppSettings.AppIdChat, PhotonNetwork.AppVersion,
             new AuthenticationValues(PhotonNetwork.NickName));
-        __isConnected = true;
     }
 
     public bool IsConnected() {
@@ -70,8 +73,8 @@ public class PhotonChatHandler : IChatClientListener, IPhotonChatHandler {
         return channelName + __roomName;
     }
 
-    private string __RemoveRoomName(string channelName) {
-        return channelName.Replace(__roomName, string.Empty);
+    public static string RemoveRoomName(string text) {
+        return text.Replace(PhotonNetwork.CurrentRoom.Name, string.Empty);
     }
 
     private void __AddNewMessage(string messageText, Message.MessageType messageType) {
@@ -101,9 +104,9 @@ public class PhotonChatHandler : IChatClientListener, IPhotonChatHandler {
     }
 
     public void OnConnected() {
-        __isConnected = true;
         Debug.Log("Connected to Photon Chat.");
         __chatClient.Subscribe(__initialChannelNames);
+        __isConnected = true;
     }
 
     public void OnDisconnected() {
@@ -118,11 +121,11 @@ public class PhotonChatHandler : IChatClientListener, IPhotonChatHandler {
             if (channelName.Contains(__roomName)) {
                 string sender;
                 if (senders[i] == username) {
-                    sender = string.Format("{0} (You)", username);
+                    sender = string.Format("{0} (You)", RemoveRoomName(username));
                 } else {
                     sender = senders[0];
                 }
-                string message = string.Format("[{0}] {1}: {2}", __RemoveRoomName(channelName), sender, messages[0]);
+                string message = string.Format("[{0}] {1}: {2}", RemoveRoomName(channelName), sender, messages[0]);
                 __AddNewMessage(message, Message.MessageType.playerMessage);
             }
         }
@@ -141,9 +144,9 @@ public class PhotonChatHandler : IChatClientListener, IPhotonChatHandler {
         // Format the private message according to receiver/sender
         string privateMessage;
         if (sender == username) {
-            privateMessage = string.Format("[Private] To {0}: {1}", recipient, message.ToString());
+            privateMessage = string.Format("[Private] To {0}: {1}", RemoveRoomName(recipient), message.ToString());
         } else {
-            privateMessage = string.Format("[Private] From {0}: {1}", sender, message.ToString());
+            privateMessage = string.Format("[Private] From {0}: {1}", RemoveRoomName(sender), message.ToString());
         }
         __AddNewMessage(privateMessage, Message.MessageType.privateMessage);
     }
@@ -161,9 +164,9 @@ public class PhotonChatHandler : IChatClientListener, IPhotonChatHandler {
             if (channels[i].Contains(__roomName)) {
                 string subscriptionMessage;
                 if (results[i]) {
-                    subscriptionMessage = string.Format("You entered the {0} channel.", __RemoveRoomName(channels[i]));
+                    subscriptionMessage = string.Format("You entered the {0} channel.", RemoveRoomName(channels[i]));
                 } else {
-                    subscriptionMessage = string.Format("You failed to join the {0} channel.", __RemoveRoomName(channels[i]));
+                    subscriptionMessage = string.Format("You failed to join the {0} channel.", RemoveRoomName(channels[i]));
                 }
                 Debug.Log(subscriptionMessage);
                 __AddNewMessage(subscriptionMessage, Message.MessageType.info);
@@ -174,9 +177,12 @@ public class PhotonChatHandler : IChatClientListener, IPhotonChatHandler {
     public void OnUnsubscribed(string[] channels) {
         // Notify about connecting to new channels
         for (int i = 0; i < channels.Length; i++) {
-            string unsubscriptionMessage = string.Format("You left the {0} channel.", __RemoveRoomName(channels[i]));
-            Debug.Log(unsubscriptionMessage);
-            __AddNewMessage(unsubscriptionMessage, Message.MessageType.info);
+            // Ensure that users with same username don't get each other's messages
+            if (channels[i].Contains(__roomName)) {
+                string unsubscriptionMessage = string.Format("You left the {0} channel.", RemoveRoomName(channels[i]));
+                Debug.Log(unsubscriptionMessage);
+                __AddNewMessage(unsubscriptionMessage, Message.MessageType.info);
+            }
         }
     }
 
