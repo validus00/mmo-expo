@@ -386,6 +386,8 @@ namespace Tests {
             if (message != null) {
                 chatBox.text = message;
             }
+
+            chatManager.eventInfoManager = Substitute.For<IEventInfoManager>();
         }
     }
 }
