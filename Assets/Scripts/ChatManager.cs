@@ -35,7 +35,7 @@ public class ChatManager : MonoBehaviour {
     // Event info manager object to access event info manager
     public GameObject eventInfoManagerObject;
     // Event info manager to access event info owner
-    private EventInfoManager __eventInfoManager;
+    public IEventInfoManager eventInfoManager;
     // Channel name input field
     public InputField channelBox;
     // message input field
@@ -61,7 +61,10 @@ public class ChatManager : MonoBehaviour {
     // Start is called before the first frame update
     void Start() {
         __connectToServiceIsCalled = false;
-        __eventInfoManager = eventInfoManagerObject.GetComponent<EventInfoManager>();
+
+        if (eventInfoManager == null) {
+            eventInfoManager = eventInfoManagerObject.GetComponent<EventInfoManager>();
+        }
 
         if (photonChatHandler == null) {
             photonChatHandler = new PhotonChatHandler();
@@ -111,7 +114,7 @@ public class ChatManager : MonoBehaviour {
                     // Check to see if the receipient is a valid user
                     bool isValidUser = false;
                     // temporary username from channel name + identifier (which is room name)
-                    string username = channelName + PhotonNetwork.CurrentRoom.Name;
+                    string username = photonChatHandler.GetUsername(channelName);
                     foreach (Player player in PhotonNetwork.PlayerList) {
                         if (username.Equals(player.NickName)) {
                             isValidUser = true;
@@ -135,7 +138,7 @@ public class ChatManager : MonoBehaviour {
                     }
                     chatBox.text = string.Empty;
                 } else if (channelName.Equals(__channelNames[ChannelType.announcementChannel]) &&
-                    !photonChatHandler.Username.Equals(__eventInfoManager.EventInfoOwner)) {
+                    !photonChatHandler.Username.Equals(eventInfoManager.EventInfoOwner)) {
                     // Notify user that they do not have access to announcement channel
                     __SendMessageToChat($"Only event admins have access to \"{channelName}\".", Message.MessageType.info);
                     channelBox.text = string.Empty;

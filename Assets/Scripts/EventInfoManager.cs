@@ -1,7 +1,7 @@
 ﻿using Photon.Pun;
 using UnityEngine;
 
-public class EventInfoManager : MonoBehaviourPunCallbacks {
+public class EventInfoManager : MonoBehaviourPunCallbacks, IEventInfoManager {
 
     private PanelManager __panelManager;
     private string __eventInfoUrl;

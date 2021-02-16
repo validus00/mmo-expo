@@ -1,0 +1,105 @@
+name: Build project
+
+on:
+  pull_request: {}
+  push: { branches: [development, main] }
+
+env:
+  UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+
+jobs:
+  testAllModes:
+    name: Test in ${{ matrix.testMode }} on version ${{ matrix.unityVersion }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        unityVersion:
+          - 2019.4.17f1
+        testMode:
+          - playmode
+#          - editmode
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          lfs: true
+      - uses: actions/cache@v2
+        with:
+          path: Library
+          key: Library-
+          restore-keys: |
+            Library-
+      - uses: game-ci/unity-test-runner@v2.0-alpha-2
+        id: tests
+        with:
+          unityVersion: ${{ matrix.unityVersion }}
+          testMode: ${{ matrix.testMode }}
+          artifactsPath: ${{ matrix.testMode }}-artifacts
+      - uses: actions/upload-artifact@v1
+        with:
+          name: Test results for ${{ matrix.testMode }}
+          path: ${{ steps.tests.outputs.artifactsPath }}
+
+  buildForSomePlatforms:
+    name: Build for ${{ matrix.targetPlatform }} on version ${{ matrix.unityVersion }}
+    runs-on: ubuntu-latest
+    needs: testAllModes
+    strategy:
+      fail-fast: false
+      matrix:
+        unityVersion:
+          - 2019.4.17f1
+        targetPlatform:
+#          - StandaloneOSX # Build a macOS standalone (Intel 64-bit).
+#          - StandaloneWindows # Build a Windows standalone.
+#          - StandaloneWindows64 # Build a Windows 64-bit standalone.
+#          - StandaloneLinux64 # Build a Linux 64-bit standalone.
+#          - iOS # Build an iOS player.
+#          - Android # Build an Android .apk standalone app.
+          - WebGL # WebGL.
+#          - WSAPlayer # Build an Windows Store Apps player.
+#          - PS4 # Build a PS4 Standalone.
+#          - XboxOne # Build a Xbox One Standalone.
+#          - tvOS # Build to Apple's tvOS platform.
+#          - Switch # Build a Nintendo Switch player.
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          lfs: true
+      - uses: actions/cache@v2
+        with:
+          path: Library
+          key: Library-{{ matrix.targetPlatform }}
+          restore-keys: |
+            Library-
+      - uses: game-ci/unity-builder@v2.0-alpha-6
+        with:
+          unityVersion: ${{ matrix.unityVersion }}
+          targetPlatform: ${{ matrix.targetPlatform }}
+      - uses: actions/upload-artifact@v1
+        with:
+          name: Build
+          path: build/WebGL/WebGL
+
+  releaseToGitHubPages:
+    name: Release to GitHub Pages
+    runs-on: ubuntu-latest
+    needs: buildForSomePlatforms
+    if: github.event_name == 'pull_request' && github.event.pull_request.merged == true
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+      - name: Download WebGL Artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: Build
+          path: build/WebGL
+      - name: Commit and Push to GitHub Pages
+        run: |
+          git config --local user.name "$(git log --format='%an' HEAD^!)"
+          git config --local user.email "$(git log --format='%ae' HEAD^!)"
+          sed -i "s/onclick=\"unityInstance.SetFullscreen(1)\"/onclick=\"document.makeFullscreen('unityContainer')\"/" build/WebGL/index.html
+          cp -rf build/WebGL/* docs
+          git add docs
+          git commit -m "Release to GitHub Pages"
+          git push

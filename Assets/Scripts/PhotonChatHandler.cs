@@ -33,6 +33,10 @@ public class PhotonChatHandler : IChatClientListener, IPhotonChatHandler {
         get { return PhotonNetwork.NickName; }
     }
 
+    public string GetUsername(string name) {
+        return name + PhotonNetwork.CurrentRoom.Name;
+    }
+
     public void ConnectToService() {
         __chatClient.Connect(PhotonNetwork.PhotonServerSettings.AppSettings.AppIdChat, PhotonNetwork.AppVersion,
             new AuthenticationValues(PhotonNetwork.NickName));
