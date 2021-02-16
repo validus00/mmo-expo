@@ -141,22 +141,6 @@ public class ExpoEventManager : MonoBehaviourPunCallbacks {
         __mySelectedAvatar = avatar;
     }
 
-    public void DisplayMainMenu() {
-        LeaveEvent();
-        __ResetAvatarPanel();
-    }
-
-    private void __ResetAvatarPanel() {
-        AvatarPanel.SetActive(false);
-        UnselectedAvatarText.SetActive(false);
-        NameIsAvailableText.SetActive(false);
-        DuplicateNameText.SetActive(false);
-        EnterNameText.SetActive(false);
-        NameInputField.Select();
-        NameInputField.text = string.Empty;
-        __mySelectedAvatar = 2;
-    }
-
     private void __ResetEvent() {
         PhotonNetwork.Disconnect();
         PhotonNetwork.LoadLevel("EventLauncherScene");
