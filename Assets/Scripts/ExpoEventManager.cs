@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
+using UnityEngine.UI;
 
 public class ExpoEventManager : MonoBehaviourPunCallbacks {
 
@@ -11,10 +12,16 @@ public class ExpoEventManager : MonoBehaviourPunCallbacks {
     public GameObject NameIsAvailableText;
     public GameObject EnterNameText;
     public GameObject[] listOfAvatars;
+    public InputField NameInputField;
     public static string initialName;
     public static bool isNameInputTouched;
     public static bool isNameUpdated;
     private int __mySelectedAvatar;
+    private string __roomName;
+
+    void Awake() {
+        __roomName = PhotonNetwork.CurrentRoom.Name;
+    }
 
     // Start is called before the first frame update
     void Start() {
@@ -24,14 +31,16 @@ public class ExpoEventManager : MonoBehaviourPunCallbacks {
         isNameUpdated = false;
         DisplayAvatarPanel();
     }
+    public string PassCode {
+        get { return __roomName; }
+    }
 
     public void LeaveEvent() {
         PhotonNetwork.LeaveRoom();
     }
 
     public override void OnLeftRoom() {
-        PhotonNetwork.Disconnect();
-        PhotonNetwork.LoadLevel("EventLauncherScene");
+        __ResetEvent();
     }
 
     public override void OnPlayerLeftRoom(Player otherPlayer) {
@@ -124,11 +133,32 @@ public class ExpoEventManager : MonoBehaviourPunCallbacks {
     }
 
     public void SetPlayerName() {
-        PhotonNetwork.NickName = initialName;
+        PhotonNetwork.NickName = initialName + PhotonNetwork.CurrentRoom.Name;
         isNameUpdated = true;
     }
 
     public void OnClickAvatarSelection(int avatar) {
         __mySelectedAvatar = avatar;
+    }
+
+    public void DisplayMainMenu() {
+        LeaveEvent();
+        __ResetAvatarPanel();
+    }
+
+    private void __ResetAvatarPanel() {
+        AvatarPanel.SetActive(false);
+        UnselectedAvatarText.SetActive(false);
+        NameIsAvailableText.SetActive(false);
+        DuplicateNameText.SetActive(false);
+        EnterNameText.SetActive(false);
+        NameInputField.Select();
+        NameInputField.text = string.Empty;
+        __mySelectedAvatar = 2;
+    }
+
+    private void __ResetEvent() {
+        PhotonNetwork.Disconnect();
+        PhotonNetwork.LoadLevel("EventLauncherScene");
     }
 }

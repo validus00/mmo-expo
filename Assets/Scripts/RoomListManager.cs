@@ -77,9 +77,9 @@ public class RoomListManager : MonoBehaviour, IPointerClickHandler {
         foreach (Player player in PhotonNetwork.PlayerList) {
             if (player.NickName.Equals(__name)) {
                 // Keep the local user at the top of the list
-                __usernames.Insert(0, player.NickName + __selfIndicatorString);
+                __usernames.Insert(0, PhotonChatHandler.RemoveRoomName(player.NickName) + __selfIndicatorString);
             } else {
-                __usernames.Add(player.NickName);
+                __usernames.Add(PhotonChatHandler.RemoveRoomName(player.NickName));
             }
         }
         // Use the list to add the options to dropdown

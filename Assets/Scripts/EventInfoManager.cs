@@ -14,6 +14,10 @@ public class EventInfoManager : MonoBehaviourPunCallbacks {
         __panelManager = GameObject.Find(GameConstants.k_PanelManager).GetComponent<PanelManager>();
     }
 
+    public string EventInfoOwner {
+        get { return __eventInfoOwner; }
+    }
+
     public void OpenEventInfo() {
         if (isUserInInfoBooth) {
             if (string.IsNullOrEmpty(__eventInfoUrl)) {

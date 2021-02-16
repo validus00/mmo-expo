@@ -33,7 +33,7 @@ public class UserSetup : MonoBehaviourPunCallbacks {
 
     void SetUserUI() {
         if (userNameText != null && photonView.Owner != null) {
-            userNameText.text = photonView.Owner.NickName;
+            userNameText.text = PhotonChatHandler.RemoveRoomName(photonView.Owner.NickName);
         }
     }
 

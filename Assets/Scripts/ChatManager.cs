@@ -12,11 +12,13 @@ public class ChatManager : MonoBehaviour {
     public enum ChannelType {
         announcementChannel,
         hallChannel,
-        boothChannel
+        boothChannel,
+        general
     }
     // For storing channel names
     private readonly Dictionary<ChannelType, string> __channelNames = new Dictionary<ChannelType, string>() {
         { ChannelType.announcementChannel, GameConstants.k_AnnouncementChannelName },
+        { ChannelType.general, GameConstants.k_GeneralChannelName },
         { ChannelType.hallChannel, GameConstants.k_HallChannelName },
         { ChannelType.boothChannel, string.Empty }
     };
@@ -30,6 +32,10 @@ public class ChatManager : MonoBehaviour {
     public GameObject chatPanel;
     // Text objects to populate chat panel
     public GameObject textObject;
+    // Event info manager object to access event info manager
+    public GameObject eventInfoManagerObject;
+    // Event info manager to access event info owner
+    private EventInfoManager __eventInfoManager;
     // Channel name input field
     public InputField channelBox;
     // message input field
@@ -40,6 +46,8 @@ public class ChatManager : MonoBehaviour {
     public Color infoColor;
     // Color for private messages
     public Color privateMessageColor;
+    // For keeping track whether connect to service is called
+    private bool __connectToServiceIsCalled;
 
     // messageList keeps tracks of recent messages
     [SerializeField]
@@ -52,6 +60,9 @@ public class ChatManager : MonoBehaviour {
 
     // Start is called before the first frame update
     void Start() {
+        __connectToServiceIsCalled = false;
+        __eventInfoManager = eventInfoManagerObject.GetComponent<EventInfoManager>();
+
         if (photonChatHandler == null) {
             photonChatHandler = new PhotonChatHandler();
         }
@@ -59,15 +70,18 @@ public class ChatManager : MonoBehaviour {
             playerInputHandler = new PlayerInputHandler();
         }
 
-        photonChatHandler.InitializeChannelNames(new string[] { __channelNames[ChannelType.announcementChannel],
+        photonChatHandler.InitializeChannelNames(new string[] {
+            __channelNames[ChannelType.announcementChannel],
+            __channelNames[ChannelType.general],
             __channelNames[ChannelType.hallChannel] });
     }
 
     // Update is called once per frame
     void Update() {
+        // Maintain service connection to Photon and is called during every update
+        photonChatHandler.MaintainService();
+
         if (photonChatHandler.IsConnected()) {
-            // Maintain service connection to Photon
-            photonChatHandler.MaintainService();
             // Get new messages from chat client
             List<Message> messages = photonChatHandler.GetNewMessages();
             foreach (Message message in messages) {
@@ -75,13 +89,11 @@ public class ChatManager : MonoBehaviour {
             }
             // process chat input fields
             __processChatInput();
-        } else {
-            if (ExpoEventManager.isNameUpdated) {
-                photonChatHandler.ConnectToService();
-            }
+        } else if (ExpoEventManager.isNameUpdated && !__connectToServiceIsCalled) {
+            photonChatHandler.ConnectToService();
+            __connectToServiceIsCalled = true;
         }
     }
-
 
     private void __processChatInput() {
         // Enter key either sends a message or activates the chat input field
@@ -98,20 +110,22 @@ public class ChatManager : MonoBehaviour {
 
                     // Check to see if the receipient is a valid user
                     bool isValidUser = false;
+                    // temporary username from channel name + identifier (which is room name)
+                    string username = channelName + PhotonNetwork.CurrentRoom.Name;
                     foreach (Player player in PhotonNetwork.PlayerList) {
-                        if (channelName.Equals(player.NickName)) {
+                        if (username.Equals(player.NickName)) {
                             isValidUser = true;
                             break;
                         }
                     }
                     if (isValidUser) {
                         // Do not allow user to send private message to themselves
-                        if (channelName == PhotonNetwork.NickName) {
+                        if (username == PhotonNetwork.NickName) {
                             __SendMessageToChat("Cannot send message to yourself.", Message.MessageType.info);
                             channelBox.text = string.Empty;
                         } else {
                             // Send the private message
-                            photonChatHandler.SendPrivateMessage(channelName, messageText);
+                            photonChatHandler.SendPrivateMessage(username, messageText);
                         }
                     } else {
                         // Notify user that the recipient does not exist
@@ -120,6 +134,11 @@ public class ChatManager : MonoBehaviour {
                         channelBox.text = string.Empty;
                     }
                     chatBox.text = string.Empty;
+                } else if (channelName.Equals(__channelNames[ChannelType.announcementChannel]) &&
+                    !photonChatHandler.Username.Equals(__eventInfoManager.EventInfoOwner)) {
+                    // Notify user that they do not have access to announcement channel
+                    __SendMessageToChat($"Only event admins have access to \"{channelName}\".", Message.MessageType.info);
+                    channelBox.text = string.Empty;
                 } else {
                     // Send message
                     photonChatHandler.SendChannelMessage(channelName, messageText);
@@ -134,7 +153,8 @@ public class ChatManager : MonoBehaviour {
     private bool __CheckChannelName(string channelName) {
         return channelName != __channelNames[ChannelType.announcementChannel] &&
             channelName != __channelNames[ChannelType.hallChannel] &&
-            channelName != __channelNames[ChannelType.boothChannel];
+            channelName != __channelNames[ChannelType.boothChannel] &&
+            channelName != __channelNames[ChannelType.general];
     }
 
     public void UpdateChannel(string channelName, ChannelType channelType) {
@@ -148,10 +168,12 @@ public class ChatManager : MonoBehaviour {
             if (!string.IsNullOrEmpty(__channelNames[ChannelType.boothChannel])) {
                 photonChatHandler.InitializeChannelNames(new string[] {
                     __channelNames[ChannelType.announcementChannel], __channelNames[ChannelType.hallChannel],
-                    __channelNames[ChannelType.boothChannel] });
+                    __channelNames[ChannelType.general], __channelNames[ChannelType.boothChannel] });
             } else {
                 photonChatHandler.InitializeChannelNames(new string[] {
-                    __channelNames[ChannelType.announcementChannel], __channelNames[ChannelType.hallChannel] });
+                    __channelNames[ChannelType.announcementChannel], __channelNames[ChannelType.hallChannel],
+                    __channelNames[ChannelType.general],
+                });
             }
         }
     }
