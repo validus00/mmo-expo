@@ -12,7 +12,6 @@ public class ExpoEventManager : MonoBehaviourPunCallbacks {
     public GameObject NameIsAvailableText;
     public GameObject EnterNameText;
     public GameObject[] listOfAvatars;
-    public InputField NameInputField;
     public static string initialName;
     public static bool isNameInputTouched;
     public static bool isNameUpdated;
