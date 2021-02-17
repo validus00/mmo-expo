@@ -16,7 +16,6 @@ namespace Footsteps {
 			Rigidbody thisRigidbody = GetComponent<Rigidbody>();
 
 			if(thisCollider) {
-				Debug.Log("here???");
 				thisCollider.isTrigger = true;
 				SetCollisions();
 			}
@@ -42,9 +41,7 @@ namespace Footsteps {
 		}
 
 		void OnTriggerEnter(Collider other) {
-			Debug.Log("trigger footsteps");
 			if(footsteps) {
-				Debug.Log("trigger footsteps");
 				footsteps.TryPlayFootstep();
 			}
 		}
