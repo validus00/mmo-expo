@@ -1,5 +1,6 @@
 ﻿// GameConstants class is for accessing string constants
-public class GameConstants {
+public class GameConstants
+{
     public const string k_AnimationController = "GenericAnimationController";
     public const string k_AnnouncementChannelName = "Announcements";
     public const string k_Camera = "Main Camera";

@@ -1,14 +1,15 @@
-﻿using ExitGames.Client.Photon;
+﻿using System.Collections.Generic;
+using ExitGames.Client.Photon;
 using Photon.Chat;
 using Photon.Pun;
-using System.Collections.Generic;
 using UnityEngine;
 
 /*
  * PhotonChatHandler class implements IChatClientListener and IPhotonChatHandler interfaces and handles
  * Photon Chat functionalities
  */
-public class PhotonChatHandler : IChatClientListener, IPhotonChatHandler {
+public class PhotonChatHandler : IChatClientListener, IPhotonChatHandler
+{
     // For keeping track of new messages
     private List<Message> __newMessages = new List<Message>();
     // Current room name
@@ -21,7 +22,8 @@ public class PhotonChatHandler : IChatClientListener, IPhotonChatHandler {
     private bool __isConnected;
 
     // Contructor that initializes Photon Chat client and connection
-    public PhotonChatHandler() {
+    public PhotonChatHandler()
+    {
         __roomName = PhotonNetwork.CurrentRoom.Name;
         __AddNewMessage(string.Format("Passcode: {0}", __roomName), Message.MessageType.info);
         // Create new Photon Chat client
@@ -29,104 +31,131 @@ public class PhotonChatHandler : IChatClientListener, IPhotonChatHandler {
         __isConnected = false;
     }
 
-    public string Username {
+    public string Username
+    {
         get { return PhotonNetwork.NickName; }
     }
 
-    public string GetUsername(string name) {
+    public string GetUsername(string name)
+    {
         return name + PhotonNetwork.CurrentRoom.Name;
     }
 
-    public void ConnectToService() {
+    public void ConnectToService()
+    {
         __chatClient.Connect(PhotonNetwork.PhotonServerSettings.AppSettings.AppIdChat, PhotonNetwork.AppVersion,
             new AuthenticationValues(PhotonNetwork.NickName));
     }
 
-    public bool IsConnected() {
+    public bool IsConnected()
+    {
         return __isConnected;
     }
 
-    public void MaintainService() {
+    public void MaintainService()
+    {
         __chatClient.Service();
     }
 
-    public void SendChannelMessage(string channelName, string message) {
+    public void SendChannelMessage(string channelName, string message)
+    {
         __chatClient.PublishMessage(__AppendRoomName(channelName), message);
     }
 
-    public void InitializeChannelNames(string[] channels) {
-        for (int i = 0; i < channels.Length; i++) {
+    public void InitializeChannelNames(string[] channels)
+    {
+        for (int i = 0; i < channels.Length; i++)
+        {
             channels[i] = __AppendRoomName(channels[i]);
         }
         __initialChannelNames = channels;
     }
 
-    public void LeaveChannel(string channelName) {
-        if (!string.IsNullOrWhiteSpace(channelName) && __isConnected) {
+    public void LeaveChannel(string channelName)
+    {
+        if (!string.IsNullOrWhiteSpace(channelName) && __isConnected)
+        {
             __chatClient.Unsubscribe(new string[] { __AppendRoomName(channelName) });
         }
     }
 
-    public void EnterChannel(string channelName) {
-        if (!string.IsNullOrWhiteSpace(channelName) && __isConnected) {
+    public void EnterChannel(string channelName)
+    {
+        if (!string.IsNullOrWhiteSpace(channelName) && __isConnected)
+        {
             __chatClient.Subscribe(new string[] { __AppendRoomName(channelName) });
         }
     }
 
-    private string __AppendRoomName(string channelName) {
+    private string __AppendRoomName(string channelName)
+    {
         return channelName + __roomName;
     }
 
-    public static string RemoveRoomName(string text) {
+    public static string RemoveRoomName(string text)
+    {
         return text.Replace(PhotonNetwork.CurrentRoom.Name, string.Empty);
     }
 
-    private void __AddNewMessage(string messageText, Message.MessageType messageType) {
+    private void __AddNewMessage(string messageText, Message.MessageType messageType)
+    {
         Message message = new Message();
         message.messageText = messageText;
         message.messageType = messageType;
         __newMessages.Add(message);
     }
 
-    public List<Message> GetNewMessages() {
+    public List<Message> GetNewMessages()
+    {
         List<Message> messages = __newMessages;
         __newMessages = new List<Message>();
         return messages;
     }
 
-    public void SendPrivateMessage(string username, string message) {
+    public void SendPrivateMessage(string username, string message)
+    {
         __chatClient.SendPrivateMessage(username, message);
     }
 
     #region IChatClientListener Callbacks
-    public void DebugReturn(DebugLevel level, string message) {
+    public void DebugReturn(DebugLevel level, string message)
+    {
         Debug.Log($"Photon Debug: {message}");
     }
 
-    public void OnChatStateChange(ChatState state) {
+    public void OnChatStateChange(ChatState state)
+    {
         Debug.Log("OnChatStateChange is not implemented yet.");
     }
 
-    public void OnConnected() {
+    public void OnConnected()
+    {
         Debug.Log("Connected to Photon Chat.");
         __chatClient.Subscribe(__initialChannelNames);
         __isConnected = true;
     }
 
-    public void OnDisconnected() {
+    public void OnDisconnected()
+    {
         Debug.Log("OnDisconnected is not implemented yet.");
     }
 
-    public void OnGetMessages(string channelName, string[] senders, object[] messages) {
+    public void OnGetMessages(string channelName, string[] senders, object[] messages)
+    {
         string username = PhotonNetwork.NickName;
         // Process all public messages received
-        for (int i = 0; i < senders.Length; i++) {
+        for (int i = 0; i < senders.Length; i++)
+        {
             // Ensure that users with same username don't get each other's messages
-            if (channelName.Contains(__roomName)) {
+            if (channelName.Contains(__roomName))
+            {
                 string sender;
-                if (senders[i] == username) {
+                if (senders[i] == username)
+                {
                     sender = string.Format("{0} (You)", RemoveRoomName(username));
-                } else {
+                }
+                else
+                {
                     sender = senders[0];
                 }
                 string message = string.Format("[{0}] {1}: {2}", RemoveRoomName(channelName), sender, messages[0]);
@@ -135,7 +164,8 @@ public class PhotonChatHandler : IChatClientListener, IPhotonChatHandler {
         }
     }
 
-    public void OnPrivateMessage(string sender, object message, string channelName) {
+    public void OnPrivateMessage(string sender, object message, string channelName)
+    {
         string username = PhotonNetwork.NickName;
         // Display the private message
 
@@ -144,12 +174,15 @@ public class PhotonChatHandler : IChatClientListener, IPhotonChatHandler {
 
         // Determine who is the recipient
         string recipient = users[0].Equals(username) ? users[1] : users[0];
-        
+
         // Format the private message according to receiver/sender
         string privateMessage;
-        if (sender == username) {
+        if (sender == username)
+        {
             privateMessage = string.Format("[Private] To {0}: {1}", RemoveRoomName(recipient), message.ToString());
-        } else {
+        }
+        else
+        {
             privateMessage = string.Format("[Private] From {0}: {1}", RemoveRoomName(sender), message.ToString());
         }
         __AddNewMessage(privateMessage, Message.MessageType.privateMessage);
@@ -157,19 +190,26 @@ public class PhotonChatHandler : IChatClientListener, IPhotonChatHandler {
 
 
 
-    public void OnStatusUpdate(string user, int status, bool gotMessage, object message) {
+    public void OnStatusUpdate(string user, int status, bool gotMessage, object message)
+    {
         Debug.Log("OnStatusUpdate is not implemented yet.");
     }
 
-    public void OnSubscribed(string[] channels, bool[] results) {
+    public void OnSubscribed(string[] channels, bool[] results)
+    {
         // Notify about connecting to new channels
-        for (int i = 0; i < channels.Length; i++) {
+        for (int i = 0; i < channels.Length; i++)
+        {
             // Ensure that users with same username don't get each other's messages
-            if (channels[i].Contains(__roomName)) {
+            if (channels[i].Contains(__roomName))
+            {
                 string subscriptionMessage;
-                if (results[i]) {
+                if (results[i])
+                {
                     subscriptionMessage = string.Format("You entered the {0} channel.", RemoveRoomName(channels[i]));
-                } else {
+                }
+                else
+                {
                     subscriptionMessage = string.Format("You failed to join the {0} channel.", RemoveRoomName(channels[i]));
                 }
                 Debug.Log(subscriptionMessage);
@@ -178,11 +218,14 @@ public class PhotonChatHandler : IChatClientListener, IPhotonChatHandler {
         }
     }
 
-    public void OnUnsubscribed(string[] channels) {
+    public void OnUnsubscribed(string[] channels)
+    {
         // Notify about connecting to new channels
-        for (int i = 0; i < channels.Length; i++) {
+        for (int i = 0; i < channels.Length; i++)
+        {
             // Ensure that users with same username don't get each other's messages
-            if (channels[i].Contains(__roomName)) {
+            if (channels[i].Contains(__roomName))
+            {
                 string unsubscriptionMessage = string.Format("You left the {0} channel.", RemoveRoomName(channels[i]));
                 Debug.Log(unsubscriptionMessage);
                 __AddNewMessage(unsubscriptionMessage, Message.MessageType.info);
@@ -190,11 +233,13 @@ public class PhotonChatHandler : IChatClientListener, IPhotonChatHandler {
         }
     }
 
-    public void OnUserSubscribed(string channel, string user) {
+    public void OnUserSubscribed(string channel, string user)
+    {
         Debug.Log("OnUserSubscribed is not implemented yet.");
     }
 
-    public void OnUserUnsubscribed(string channel, string user) {
+    public void OnUserUnsubscribed(string channel, string user)
+    {
         Debug.Log("OnUserUnsubscribed is not implemented yet.");
     }
     #endregion

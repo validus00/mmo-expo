@@ -1,9 +1,10 @@
-﻿using UnityEngine;
-using Photon.Pun;
+﻿using Photon.Pun;
 using Photon.Realtime;
+using UnityEngine;
 using UnityEngine.UI;
 
-public class ExpoEventManager : MonoBehaviourPunCallbacks {
+public class ExpoEventManager : MonoBehaviourPunCallbacks
+{
 
     private const int __MAX_AVATAR_COUNT = 2;
     public GameObject AvatarPanel;
@@ -18,41 +19,50 @@ public class ExpoEventManager : MonoBehaviourPunCallbacks {
     private int __mySelectedAvatar;
     private string __roomName;
 
-    void Awake() {
+    void Awake()
+    {
         __roomName = PhotonNetwork.CurrentRoom.Name;
     }
 
     // Start is called before the first frame update
-    void Start() {
+    void Start()
+    {
         initialName = PhotonNetwork.NickName;
         __mySelectedAvatar = 2;
         isNameInputTouched = false;
         isNameUpdated = false;
         DisplayAvatarPanel();
     }
-    public string PassCode {
+    public string PassCode
+    {
         get { return __roomName; }
     }
 
-    public void LeaveEvent() {
+    public void LeaveEvent()
+    {
         PhotonNetwork.LeaveRoom();
     }
 
-    public override void OnLeftRoom() {
+    public override void OnLeftRoom()
+    {
         __ResetEvent();
     }
 
-    public override void OnPlayerLeftRoom(Player otherPlayer) {
-        foreach (GameObject user in GameObject.FindGameObjectsWithTag("Player")) {
+    public override void OnPlayerLeftRoom(Player otherPlayer)
+    {
+        foreach (GameObject user in GameObject.FindGameObjectsWithTag("Player"))
+        {
             PhotonView photonView = user.GetPhotonView();
-            if (photonView.Owner == null || photonView.Owner.NickName == otherPlayer.NickName) {
+            if (photonView.Owner == null || photonView.Owner.NickName == otherPlayer.NickName)
+            {
                 photonView.RPC("RemoveUser", RpcTarget.AllBuffered);
                 break;
             }
         }
     }
 
-    public void DisplayAvatarPanel() {
+    public void DisplayAvatarPanel()
+    {
         AvatarPanel.SetActive(true);
         UnselectedAvatarText.SetActive(false);
         NameIsAvailableText.SetActive(false);
@@ -62,53 +72,69 @@ public class ExpoEventManager : MonoBehaviourPunCallbacks {
 
     // Used to determine which panel gets loaded after the avatar panel
     // Joining existing will load passcode panel and creating new will load level
-    public void NextPanel() {
+    public void NextPanel()
+    {
         bool isApprovedAvatar = __IsAvatarSelected();
         bool isApprovedName = __IsNameAvailable() && isNameInputTouched;
         bool canProceed = isApprovedAvatar && isApprovedName;
 
-        if (canProceed) {
+        if (canProceed)
+        {
             SetPlayerName();
 
             GameObject user = listOfAvatars[__mySelectedAvatar];
 
-            if (user != null) {
+            if (user != null)
+            {
                 Destroy(GameObject.Find(GameConstants.k_Camera));
                 int randomPoint = Random.Range(-20, 20);
                 PhotonNetwork.Instantiate(user.name, new Vector3(randomPoint, 0, randomPoint), Quaternion.identity);
                 AvatarPanel.SetActive(false);
             }
-        } else {
+        }
+        else
+        {
             __ToggleAvatarText(isApprovedAvatar);
             __ToggleNameText(isApprovedName);
 
         }
     }
 
-    private bool __IsNameAvailable() {
-        foreach (Player player in PhotonNetwork.PlayerList) {
-            if (initialName.Equals(player.NickName)) {
+    private bool __IsNameAvailable()
+    {
+        foreach (Player player in PhotonNetwork.PlayerList)
+        {
+            if (initialName.Equals(player.NickName))
+            {
                 return false;
             }
         }
         return true;
     }
 
-    private bool __IsAvatarSelected() {
+    private bool __IsAvatarSelected()
+    {
         return __mySelectedAvatar < __MAX_AVATAR_COUNT;
     }
 
-    private void __ToggleNameText(bool isValidName) {
-        if (isValidName) {
+    private void __ToggleNameText(bool isValidName)
+    {
+        if (isValidName)
+        {
             NameIsAvailableText.SetActive(true);
             DuplicateNameText.SetActive(false);
             EnterNameText.SetActive(false);
-        } else {
-            if (!isNameInputTouched) {
+        }
+        else
+        {
+            if (!isNameInputTouched)
+            {
                 EnterNameText.SetActive(true);
                 NameIsAvailableText.SetActive(false);
                 DuplicateNameText.SetActive(false);
-            } else {
+            }
+            else
+            {
                 EnterNameText.SetActive(false);
                 NameIsAvailableText.SetActive(false);
                 DuplicateNameText.SetActive(true);
@@ -117,30 +143,38 @@ public class ExpoEventManager : MonoBehaviourPunCallbacks {
         }
     }
 
-    private void __ToggleAvatarText(bool isValidAvatar) {
-        if (!isValidAvatar) {
+    private void __ToggleAvatarText(bool isValidAvatar)
+    {
+        if (!isValidAvatar)
+        {
             UnselectedAvatarText.SetActive(true);
-        } else {
+        }
+        else
+        {
             UnselectedAvatarText.SetActive(false);
         }
     }
 
-    public void CheckNameAvailability() {
+    public void CheckNameAvailability()
+    {
         Debug.Log("initial name is : " + initialName);
         bool isValidName = __IsNameAvailable() && isNameInputTouched;
         __ToggleNameText(isValidName);
     }
 
-    public void SetPlayerName() {
+    public void SetPlayerName()
+    {
         PhotonNetwork.NickName = initialName + PhotonNetwork.CurrentRoom.Name;
         isNameUpdated = true;
     }
 
-    public void OnClickAvatarSelection(int avatar) {
+    public void OnClickAvatarSelection(int avatar)
+    {
         __mySelectedAvatar = avatar;
     }
 
-    private void __ResetEvent() {
+    private void __ResetEvent()
+    {
         PhotonNetwork.Disconnect();
         PhotonNetwork.LoadLevel("EventLauncherScene");
     }
