@@ -6,15 +6,18 @@ using UnityEngine;
 using UnityEngine.TestTools;
 using UnityEngine.UI;
 
-namespace Tests {
-    public class ChatManagerTests {
+namespace Tests
+{
+    public class ChatManagerTests
+    {
         private const string k_Message = "Hi there";
         private const string k_TestChannel = "Test";
         private const string k_ProjectName = "MMO Expo";
         private const string k_BoothsHallName = "Booths Hall North";
 
         [UnityTest]
-        public IEnumerator WhenOnStartThenGetNoMessages() {
+        public IEnumerator WhenOnStartThenGetNoMessages()
+        {
             GameObject eventManager = new GameObject(GameConstants.k_ExpoEventManager);
             ChatManager chatManager = eventManager.AddComponent<ChatManager>();
 
@@ -34,13 +37,15 @@ namespace Tests {
         }
 
         [UnityTest]
-        public IEnumerator WhenMessagesIsAtNumberLimitThenGetLimitNumberOfMessages() {
+        public IEnumerator WhenMessagesIsAtNumberLimitThenGetLimitNumberOfMessages()
+        {
             GameObject eventManager = new GameObject(GameConstants.k_ExpoEventManager);
             ChatManager chatManager = eventManager.AddComponent<ChatManager>();
 
             IPhotonChatHandler photonChatHandler = Substitute.For<IPhotonChatHandler>();
             List<Message> messages = new List<Message>();
-            for (int i = 0; i < 200; i++) {
+            for (int i = 0; i < 200; i++)
+            {
                 Message newMessage = new Message();
                 newMessage.messageText = k_Message;
                 newMessage.messageType = Message.MessageType.playerMessage;
@@ -62,7 +67,8 @@ namespace Tests {
         }
 
         [UnityTest]
-        public IEnumerator WhenAChannelMessageIsSentThenGetMessage() {
+        public IEnumerator WhenAChannelMessageIsSentThenGetMessage()
+        {
             GameObject eventManager = new GameObject(GameConstants.k_ExpoEventManager);
             ChatManager chatManager = eventManager.AddComponent<ChatManager>();
 
@@ -93,7 +99,8 @@ namespace Tests {
         }
 
         [UnityTest]
-        public IEnumerator WhenChannelNameIsEmptyThenGetWarning() {
+        public IEnumerator WhenChannelNameIsEmptyThenGetWarning()
+        {
             GameObject eventManager = new GameObject(GameConstants.k_ExpoEventManager);
             ChatManager chatManager = eventManager.AddComponent<ChatManager>();
 
@@ -119,7 +126,8 @@ namespace Tests {
         }
 
         [UnityTest]
-        public IEnumerator WhenChannelNameIsWrongThenGetWarning() {
+        public IEnumerator WhenChannelNameIsWrongThenGetWarning()
+        {
             GameObject eventManager = new GameObject(GameConstants.k_ExpoEventManager);
             ChatManager chatManager = eventManager.AddComponent<ChatManager>();
 
@@ -146,7 +154,8 @@ namespace Tests {
         }
 
         [UnityTest]
-        public IEnumerator WhenUpdateAnnouncementsChannelThenChannelIsNotUpdated() {
+        public IEnumerator WhenUpdateAnnouncementsChannelThenChannelIsNotUpdated()
+        {
             GameObject eventManager = new GameObject(GameConstants.k_ExpoEventManager);
             ChatManager chatManager = eventManager.AddComponent<ChatManager>();
 
@@ -170,7 +179,8 @@ namespace Tests {
         }
 
         [UnityTest]
-        public IEnumerator WhenUpdateBoothChannelAndPhotonChatIsConnectedThenInitializeChannelsIsNotCalled() {
+        public IEnumerator WhenUpdateBoothChannelAndPhotonChatIsConnectedThenInitializeChannelsIsNotCalled()
+        {
             GameObject eventManager = new GameObject(GameConstants.k_ExpoEventManager);
             ChatManager chatManager = eventManager.AddComponent<ChatManager>();
 
@@ -194,7 +204,8 @@ namespace Tests {
         }
 
         [UnityTest]
-        public IEnumerator WhenUpdateBoothChannelThenBoothChannelIsUpdated() {
+        public IEnumerator WhenUpdateBoothChannelThenBoothChannelIsUpdated()
+        {
             GameObject eventManager = new GameObject(GameConstants.k_ExpoEventManager);
             ChatManager chatManager = eventManager.AddComponent<ChatManager>();
 
@@ -218,7 +229,8 @@ namespace Tests {
         }
 
         [UnityTest]
-        public IEnumerator WhenUpdateHallChannelThenHallChannelIsUpdated() {
+        public IEnumerator WhenUpdateHallChannelThenHallChannelIsUpdated()
+        {
             GameObject eventManager = new GameObject(GameConstants.k_ExpoEventManager);
             ChatManager chatManager = eventManager.AddComponent<ChatManager>();
 
@@ -241,7 +253,8 @@ namespace Tests {
         }
 
         [UnityTest]
-        public IEnumerator WhenLeaveChannelIsCalledThenHandlerLeaveChannelIsCalled() {
+        public IEnumerator WhenLeaveChannelIsCalledThenHandlerLeaveChannelIsCalled()
+        {
             GameObject eventManager = new GameObject(GameConstants.k_ExpoEventManager);
             ChatManager chatManager = eventManager.AddComponent<ChatManager>();
 
@@ -266,7 +279,8 @@ namespace Tests {
         }
 
         [UnityTest]
-        public IEnumerator WhenLeaveChannelIsCalledOnEmptyStringThenHandlerLeaveChannelIsNotCalled() {
+        public IEnumerator WhenLeaveChannelIsCalledOnEmptyStringThenHandlerLeaveChannelIsNotCalled()
+        {
             GameObject eventManager = new GameObject(GameConstants.k_ExpoEventManager);
             ChatManager chatManager = eventManager.AddComponent<ChatManager>();
 
@@ -290,7 +304,8 @@ namespace Tests {
         }
 
         [UnityTest]
-        public IEnumerator WhenEnterChannelIsCalledThenHandlerEnterChannelIsCalled() {
+        public IEnumerator WhenEnterChannelIsCalledThenHandlerEnterChannelIsCalled()
+        {
             GameObject eventManager = new GameObject(GameConstants.k_ExpoEventManager);
             ChatManager chatManager = eventManager.AddComponent<ChatManager>();
 
@@ -314,7 +329,8 @@ namespace Tests {
         }
 
         [UnityTest]
-        public IEnumerator WhenEnterChannelIsCalledOnEmptyStringThenHandlerEnterChannelIsNotCalled() {
+        public IEnumerator WhenEnterChannelIsCalledOnEmptyStringThenHandlerEnterChannelIsNotCalled()
+        {
             GameObject eventManager = new GameObject(GameConstants.k_ExpoEventManager);
             ChatManager chatManager = eventManager.AddComponent<ChatManager>();
 
@@ -338,7 +354,8 @@ namespace Tests {
         }
 
         [UnityTest]
-        public IEnumerator WhenNameIsUpdatedThenConnectToServiceIsCalled() {
+        public IEnumerator WhenNameIsUpdatedThenConnectToServiceIsCalled()
+        {
             GameObject eventManager = new GameObject(GameConstants.k_ExpoEventManager);
             ChatManager chatManager = eventManager.AddComponent<ChatManager>();
             ExpoEventManager.isNameUpdated = false;
@@ -360,7 +377,8 @@ namespace Tests {
         }
 
         private void __SetUpChatManager(ChatManager chatManager, IPlayerInputHandler playerInputHandler,
-            IPhotonChatHandler photonChatHandler, string channelName, string message) {
+            IPhotonChatHandler photonChatHandler, string channelName, string message)
+        {
             chatManager.playerInputHandler = playerInputHandler;
             chatManager.photonChatHandler = photonChatHandler;
             chatManager.playerMessageColor = new Color(255, 255, 255);
@@ -376,14 +394,16 @@ namespace Tests {
             GameObject channelBoxObject = new GameObject("ChannelBoxObject");
             InputField channelBox = channelBoxObject.AddComponent<InputField>();
             chatManager.channelBox = channelBox;
-            if (channelName != null) {
+            if (channelName != null)
+            {
                 channelBox.text = channelName;
             }
 
             GameObject chatBoxObject = new GameObject("ChatBoxObject");
             InputField chatBox = chatBoxObject.AddComponent<InputField>();
             chatManager.chatBox = chatBox;
-            if (message != null) {
+            if (message != null)
+            {
                 chatBox.text = message;
             }
 
