@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.4366757, g: 0.48427194, b: 0.5645252, a: 1}
+  m_IndirectSpecularColor: {r: 0.4366756, g: 0.48427194, b: 0.5645252, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1355,9 +1355,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2404306418756138925, guid: 8ff87ef0d81a2954aa11ec7aa3d9f5fb,
         type: 3}
+      propertyPath: TeleportTarget
+      value: 
+      objectReference: {fileID: 1301895602}
+    - target: {fileID: 2404306418756138925, guid: 8ff87ef0d81a2954aa11ec7aa3d9f5fb,
+        type: 3}
       propertyPath: teleportTarget
       value: 
       objectReference: {fileID: 1301895602}
+    - target: {fileID: 2404306418756138925, guid: 8ff87ef0d81a2954aa11ec7aa3d9f5fb,
+        type: 3}
+      propertyPath: _currentChannelName
+      value: Booths Hall West
+      objectReference: {fileID: 0}
     - target: {fileID: 2404306418756138925, guid: 8ff87ef0d81a2954aa11ec7aa3d9f5fb,
         type: 3}
       propertyPath: __currentChannelName
@@ -2123,9 +2133,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da644083eb846d84ea0c03c50c1f916c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dropdown: {fileID: 163575179}
-  indexesToDisable: 00000000
-  channelBox: {fileID: 7723019544791249950}
+  Dropdown: {fileID: 163575179}
+  IndexesToDisable: 
+  ChannelBox: {fileID: 7723019544791249950}
 --- !u!114 &163575179
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2246,34 +2256,34 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 026c8b6045cb13241813a12818db1894, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  boothInfoPanel: {fileID: 854102039}
-  boothFormPanel: {fileID: 1143599586}
-  confirmBoothResetPanel: {fileID: 1374769114}
-  exitEventPanel: {fileID: 111417366}
-  eventInfoPanel: {fileID: 858258713}
-  eventInfoFormPanel: {fileID: 1024069138}
-  confirmEventInfoResetPanel: {fileID: 810531357}
-  expoEventManager: {fileID: 727287414}
-  teamNameText: {fileID: 1740117306}
-  projectNameText: {fileID: 107321219}
-  descriptionText: {fileID: 230387919}
-  projectUrlText: {fileID: 1736515619}
-  eventInfoUrlText: {fileID: 1774478235}
-  scheduleUrlText: {fileID: 2120914893}
-  zoomUrlText: {fileID: 1365060896}
-  passCodeText: {fileID: 1526331283}
-  teamNameInputField: {fileID: 154550826}
-  projectNameInputField: {fileID: 1199075412}
-  descriptionInputField: {fileID: 1198689686}
-  projectUrlInputField: {fileID: 1306531255}
-  posterUrlInputField: {fileID: 1043849063}
-  eventInfoUrlInputField: {fileID: 1632622097}
-  scheduleUrlInputField: {fileID: 1575868805}
-  zoomUrlInputField: {fileID: 427106435}
-  resetBoothButton: {fileID: 915853873}
-  resetEventInfoButton: {fileID: 1286298319}
-  boothFormWarningText: {fileID: 1684615592}
-  eventInfoFormWarningText: {fileID: 29023908}
+  BoothInfoPanel: {fileID: 854102039}
+  BoothFormPanel: {fileID: 1143599586}
+  ConfirmBoothResetPanel: {fileID: 1374769114}
+  ExitEventPanel: {fileID: 111417366}
+  EventInfoPanel: {fileID: 858258713}
+  EventInfoFormPanel: {fileID: 1024069138}
+  ConfirmEventInfoResetPanel: {fileID: 810531357}
+  ExpoEventManager: {fileID: 727287414}
+  TeamNameText: {fileID: 1740117306}
+  ProjectNameText: {fileID: 107321219}
+  DescriptionText: {fileID: 230387919}
+  ProjectUrlText: {fileID: 1736515619}
+  EventInfoUrlText: {fileID: 1774478235}
+  ScheduleUrlText: {fileID: 2120914893}
+  ZoomUrlText: {fileID: 1365060896}
+  PassCodeText: {fileID: 1526331283}
+  TeamNameInputField: {fileID: 154550826}
+  ProjectNameInputField: {fileID: 1199075412}
+  DescriptionInputField: {fileID: 1198689686}
+  ProjectUrlInputField: {fileID: 1306531255}
+  PosterUrlInputField: {fileID: 1043849063}
+  EventInfoUrlInputField: {fileID: 1632622097}
+  ScheduleUrlInputField: {fileID: 1575868805}
+  ZoomUrlInputField: {fileID: 427106435}
+  ResetBoothButton: {fileID: 915853873}
+  ResetEventInfoButton: {fileID: 1286298319}
+  BoothFormWarningText: {fileID: 1684615592}
+  EventInfoFormWarningText: {fileID: 29023908}
 --- !u!4 &174870138
 Transform:
   m_ObjectHideFlags: 0
@@ -3848,9 +3858,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8896538623879257360, guid: 6da8d30e50288b745890c973fd893c7d,
         type: 3}
+      propertyPath: TeleportTarget
+      value: 
+      objectReference: {fileID: 629489265}
+    - target: {fileID: 8896538623879257360, guid: 6da8d30e50288b745890c973fd893c7d,
+        type: 3}
       propertyPath: teleportTarget
       value: 
       objectReference: {fileID: 629489265}
+    - target: {fileID: 8896538623879257360, guid: 6da8d30e50288b745890c973fd893c7d,
+        type: 3}
+      propertyPath: _currentChannelName
+      value: Main Hall
+      objectReference: {fileID: 0}
     - target: {fileID: 8896538623879257360, guid: 6da8d30e50288b745890c973fd893c7d,
         type: 3}
       propertyPath: __currentChannelName
@@ -5000,9 +5020,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2404306418756138925, guid: 8ff87ef0d81a2954aa11ec7aa3d9f5fb,
         type: 3}
+      propertyPath: TeleportTarget
+      value: 
+      objectReference: {fileID: 382933606}
+    - target: {fileID: 2404306418756138925, guid: 8ff87ef0d81a2954aa11ec7aa3d9f5fb,
+        type: 3}
       propertyPath: teleportTarget
       value: 
       objectReference: {fileID: 382933606}
+    - target: {fileID: 2404306418756138925, guid: 8ff87ef0d81a2954aa11ec7aa3d9f5fb,
+        type: 3}
+      propertyPath: _currentChannelName
+      value: Booths Hall East
+      objectReference: {fileID: 0}
     - target: {fileID: 2404306418756138925, guid: 8ff87ef0d81a2954aa11ec7aa3d9f5fb,
         type: 3}
       propertyPath: __currentChannelName
@@ -6044,7 +6074,6 @@ MonoBehaviour:
   listOfAvatars:
   - {fileID: 6601386651165192743, guid: 84cfbeaebaceac84c884bbb4eb7b6099, type: 3}
   - {fileID: 2537268446203303740, guid: 6f6fd950dc13a4148b948a70c7b7eec5, type: 3}
-  NameInputField: {fileID: 1268788400}
 --- !u!114 &727287418
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10450,9 +10479,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8896538623879257360, guid: 6da8d30e50288b745890c973fd893c7d,
         type: 3}
+      propertyPath: TeleportTarget
+      value: 
+      objectReference: {fileID: 132818574}
+    - target: {fileID: 8896538623879257360, guid: 6da8d30e50288b745890c973fd893c7d,
+        type: 3}
       propertyPath: teleportTarget
       value: 
       objectReference: {fileID: 132818574}
+    - target: {fileID: 8896538623879257360, guid: 6da8d30e50288b745890c973fd893c7d,
+        type: 3}
+      propertyPath: _currentChannelName
+      value: Main Hall
+      objectReference: {fileID: 0}
     - target: {fileID: 8896538623879257360, guid: 6da8d30e50288b745890c973fd893c7d,
         type: 3}
       propertyPath: __currentChannelName
@@ -10709,9 +10748,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2404306418756138925, guid: 8ff87ef0d81a2954aa11ec7aa3d9f5fb,
         type: 3}
+      propertyPath: TeleportTarget
+      value: 
+      objectReference: {fileID: 6723780257873627255}
+    - target: {fileID: 2404306418756138925, guid: 8ff87ef0d81a2954aa11ec7aa3d9f5fb,
+        type: 3}
       propertyPath: teleportTarget
       value: 
       objectReference: {fileID: 6723780257873627255}
+    - target: {fileID: 2404306418756138925, guid: 8ff87ef0d81a2954aa11ec7aa3d9f5fb,
+        type: 3}
+      propertyPath: _currentChannelName
+      value: Booths Hall North
+      objectReference: {fileID: 0}
     - target: {fileID: 2404306418756138925, guid: 8ff87ef0d81a2954aa11ec7aa3d9f5fb,
         type: 3}
       propertyPath: __currentChannelName
@@ -12270,9 +12319,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2404306418756138925, guid: 8ff87ef0d81a2954aa11ec7aa3d9f5fb,
         type: 3}
+      propertyPath: TeleportTarget
+      value: 
+      objectReference: {fileID: 7350992685376477888}
+    - target: {fileID: 2404306418756138925, guid: 8ff87ef0d81a2954aa11ec7aa3d9f5fb,
+        type: 3}
       propertyPath: teleportTarget
       value: 
       objectReference: {fileID: 7350992685376477888}
+    - target: {fileID: 2404306418756138925, guid: 8ff87ef0d81a2954aa11ec7aa3d9f5fb,
+        type: 3}
+      propertyPath: _currentChannelName
+      value: Booths Hall South
+      objectReference: {fileID: 0}
     - target: {fileID: 2404306418756138925, guid: 8ff87ef0d81a2954aa11ec7aa3d9f5fb,
         type: 3}
       propertyPath: __currentChannelName
@@ -16408,8 +16467,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 492985574518587468}
   m_HandleRect: {fileID: 492985574518587467}
   m_Direction: 0
-  m_Value: 0
-  m_Size: 1
+  m_Value: 1
+  m_Size: 0.9999999
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -16750,7 +16809,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 492985574018449143}
   m_HandleRect: {fileID: 492985574018449142}
   m_Direction: 2
-  m_Value: 0
+  m_Value: 1
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -17043,9 +17102,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8896538623879257360, guid: 6da8d30e50288b745890c973fd893c7d,
         type: 3}
+      propertyPath: TeleportTarget
+      value: 
+      objectReference: {fileID: 1313012870}
+    - target: {fileID: 8896538623879257360, guid: 6da8d30e50288b745890c973fd893c7d,
+        type: 3}
       propertyPath: teleportTarget
       value: 
       objectReference: {fileID: 1313012870}
+    - target: {fileID: 8896538623879257360, guid: 6da8d30e50288b745890c973fd893c7d,
+        type: 3}
+      propertyPath: _currentChannelName
+      value: Main Hall
+      objectReference: {fileID: 0}
     - target: {fileID: 8896538623879257360, guid: 6da8d30e50288b745890c973fd893c7d,
         type: 3}
       propertyPath: __currentChannelName
@@ -17163,9 +17232,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8896538623879257360, guid: 6da8d30e50288b745890c973fd893c7d,
         type: 3}
+      propertyPath: TeleportTarget
+      value: 
+      objectReference: {fileID: 1521085287}
+    - target: {fileID: 8896538623879257360, guid: 6da8d30e50288b745890c973fd893c7d,
+        type: 3}
       propertyPath: teleportTarget
       value: 
       objectReference: {fileID: 1521085287}
+    - target: {fileID: 8896538623879257360, guid: 6da8d30e50288b745890c973fd893c7d,
+        type: 3}
+      propertyPath: _currentChannelName
+      value: Main Hall
+      objectReference: {fileID: 0}
     - target: {fileID: 8896538623879257360, guid: 6da8d30e50288b745890c973fd893c7d,
         type: 3}
       propertyPath: __currentChannelName

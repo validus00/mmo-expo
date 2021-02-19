@@ -19,15 +19,15 @@ public class PlayerInputHandler : IPlayerInputHandler
 
     public Vector3 GetMoveInput()
     {
-        float horizontalInput = __GetAInput() + __GetDInput();
-        float verticalInput = __GetSInput() + __GetWInput();
+        float horizontalInput = GetAInput() + GetDInput();
+        float verticalInput = GetSInput() + GetWInput();
 
         Vector3 move = new Vector3(horizontalInput, 0f, verticalInput);
         // Prevents diagonal movement value from exceeding 1
         return Vector3.ClampMagnitude(move, 1);
     }
 
-    private float __GetWInput()
+    private float GetWInput()
     {
         if (Input.GetKey(KeyCode.W))
         {
@@ -36,7 +36,7 @@ public class PlayerInputHandler : IPlayerInputHandler
         return 0;
     }
 
-    private float __GetAInput()
+    private float GetAInput()
     {
         if (Input.GetKey(KeyCode.A))
         {
@@ -45,7 +45,7 @@ public class PlayerInputHandler : IPlayerInputHandler
         return 0;
     }
 
-    private float __GetSInput()
+    private float GetSInput()
     {
         if (Input.GetKey(KeyCode.S))
         {
@@ -54,7 +54,7 @@ public class PlayerInputHandler : IPlayerInputHandler
         return 0;
     }
 
-    private float __GetDInput()
+    private float GetDInput()
     {
         if (Input.GetKey(KeyCode.D))
         {
@@ -65,15 +65,15 @@ public class PlayerInputHandler : IPlayerInputHandler
 
     public float GetLookInputsHorizontal()
     {
-        return Input.GetAxisRaw(GameConstants.k_MouseX) * __GetLookSensitivityMultiplier() * 0.01f;
+        return Input.GetAxisRaw(GameConstants.k_MouseX) * GetLookSensitivityMultiplier() * 0.01f;
     }
 
     public float GetLookInputsVertical()
     {
-        return Input.GetAxisRaw(GameConstants.k_MouseY) * __GetLookSensitivityMultiplier() * -0.01f;
+        return Input.GetAxisRaw(GameConstants.k_MouseY) * GetLookSensitivityMultiplier() * -0.01f;
     }
 
-    private float __GetLookSensitivityMultiplier()
+    private float GetLookSensitivityMultiplier()
     {
 #if UNITY_WEBGL
         return 0.25f;

@@ -11,24 +11,24 @@ using UnityEngine;
 public class PhotonChatHandler : IChatClientListener, IPhotonChatHandler
 {
     // For keeping track of new messages
-    private List<Message> __newMessages = new List<Message>();
+    private List<Message> _newMessages = new List<Message>();
     // Current room name
-    private readonly string __roomName;
+    private readonly string _roomName;
     // Photon Chat client
-    private readonly ChatClient __chatClient;
+    private readonly ChatClient _chatClient;
     // Subscribed channels
-    private string[] __initialChannelNames;
+    private string[] _initialChannelNames;
     // To keep track if connected to Photon Chat
-    private bool __isConnected;
+    private bool _isConnected;
 
     // Contructor that initializes Photon Chat client and connection
     public PhotonChatHandler()
     {
-        __roomName = PhotonNetwork.CurrentRoom.Name;
-        __AddNewMessage(string.Format("Passcode: {0}", __roomName), Message.MessageType.info);
+        _roomName = PhotonNetwork.CurrentRoom.Name;
+        AddNewMessage(string.Format("Passcode: {0}", _roomName), Message.MessageType.info);
         // Create new Photon Chat client
-        __chatClient = new ChatClient(this);
-        __isConnected = false;
+        _chatClient = new ChatClient(this);
+        _isConnected = false;
     }
 
     public string Username
@@ -43,53 +43,53 @@ public class PhotonChatHandler : IChatClientListener, IPhotonChatHandler
 
     public void ConnectToService()
     {
-        __chatClient.Connect(PhotonNetwork.PhotonServerSettings.AppSettings.AppIdChat, PhotonNetwork.AppVersion,
+        _chatClient.Connect(PhotonNetwork.PhotonServerSettings.AppSettings.AppIdChat, PhotonNetwork.AppVersion,
             new AuthenticationValues(PhotonNetwork.NickName));
     }
 
     public bool IsConnected()
     {
-        return __isConnected;
+        return _isConnected;
     }
 
     public void MaintainService()
     {
-        __chatClient.Service();
+        _chatClient.Service();
     }
 
     public void SendChannelMessage(string channelName, string message)
     {
-        __chatClient.PublishMessage(__AppendRoomName(channelName), message);
+        _chatClient.PublishMessage(AppendRoomName(channelName), message);
     }
 
     public void InitializeChannelNames(string[] channels)
     {
         for (int i = 0; i < channels.Length; i++)
         {
-            channels[i] = __AppendRoomName(channels[i]);
+            channels[i] = AppendRoomName(channels[i]);
         }
-        __initialChannelNames = channels;
+        _initialChannelNames = channels;
     }
 
     public void LeaveChannel(string channelName)
     {
-        if (!string.IsNullOrWhiteSpace(channelName) && __isConnected)
+        if (!string.IsNullOrWhiteSpace(channelName) && _isConnected)
         {
-            __chatClient.Unsubscribe(new string[] { __AppendRoomName(channelName) });
+            _chatClient.Unsubscribe(new string[] { AppendRoomName(channelName) });
         }
     }
 
     public void EnterChannel(string channelName)
     {
-        if (!string.IsNullOrWhiteSpace(channelName) && __isConnected)
+        if (!string.IsNullOrWhiteSpace(channelName) && _isConnected)
         {
-            __chatClient.Subscribe(new string[] { __AppendRoomName(channelName) });
+            _chatClient.Subscribe(new string[] { AppendRoomName(channelName) });
         }
     }
 
-    private string __AppendRoomName(string channelName)
+    private string AppendRoomName(string channelName)
     {
-        return channelName + __roomName;
+        return channelName + _roomName;
     }
 
     public static string RemoveRoomName(string text)
@@ -97,24 +97,24 @@ public class PhotonChatHandler : IChatClientListener, IPhotonChatHandler
         return text.Replace(PhotonNetwork.CurrentRoom.Name, string.Empty);
     }
 
-    private void __AddNewMessage(string messageText, Message.MessageType messageType)
+    private void AddNewMessage(string messageText, Message.MessageType messageType)
     {
         Message message = new Message();
-        message.messageText = messageText;
-        message.messageType = messageType;
-        __newMessages.Add(message);
+        message.MessageText = messageText;
+        message.MsgType = messageType;
+        _newMessages.Add(message);
     }
 
     public List<Message> GetNewMessages()
     {
-        List<Message> messages = __newMessages;
-        __newMessages = new List<Message>();
+        List<Message> messages = _newMessages;
+        _newMessages = new List<Message>();
         return messages;
     }
 
     public void SendPrivateMessage(string username, string message)
     {
-        __chatClient.SendPrivateMessage(username, message);
+        _chatClient.SendPrivateMessage(username, message);
     }
 
     #region IChatClientListener Callbacks
@@ -131,8 +131,8 @@ public class PhotonChatHandler : IChatClientListener, IPhotonChatHandler
     public void OnConnected()
     {
         Debug.Log("Connected to Photon Chat.");
-        __chatClient.Subscribe(__initialChannelNames);
-        __isConnected = true;
+        _chatClient.Subscribe(_initialChannelNames);
+        _isConnected = true;
     }
 
     public void OnDisconnected()
@@ -147,7 +147,7 @@ public class PhotonChatHandler : IChatClientListener, IPhotonChatHandler
         for (int i = 0; i < senders.Length; i++)
         {
             // Ensure that users with same username don't get each other's messages
-            if (channelName.Contains(__roomName))
+            if (channelName.Contains(_roomName))
             {
                 string sender;
                 if (senders[i] == username)
@@ -159,7 +159,7 @@ public class PhotonChatHandler : IChatClientListener, IPhotonChatHandler
                     sender = senders[0];
                 }
                 string message = string.Format("[{0}] {1}: {2}", RemoveRoomName(channelName), sender, messages[0]);
-                __AddNewMessage(message, Message.MessageType.playerMessage);
+                AddNewMessage(message, Message.MessageType.playerMessage);
             }
         }
     }
@@ -185,7 +185,7 @@ public class PhotonChatHandler : IChatClientListener, IPhotonChatHandler
         {
             privateMessage = string.Format("[Private] From {0}: {1}", RemoveRoomName(sender), message.ToString());
         }
-        __AddNewMessage(privateMessage, Message.MessageType.privateMessage);
+        AddNewMessage(privateMessage, Message.MessageType.privateMessage);
     }
 
 
@@ -201,7 +201,7 @@ public class PhotonChatHandler : IChatClientListener, IPhotonChatHandler
         for (int i = 0; i < channels.Length; i++)
         {
             // Ensure that users with same username don't get each other's messages
-            if (channels[i].Contains(__roomName))
+            if (channels[i].Contains(_roomName))
             {
                 string subscriptionMessage;
                 if (results[i])
@@ -213,7 +213,7 @@ public class PhotonChatHandler : IChatClientListener, IPhotonChatHandler
                     subscriptionMessage = string.Format("You failed to join the {0} channel.", RemoveRoomName(channels[i]));
                 }
                 Debug.Log(subscriptionMessage);
-                __AddNewMessage(subscriptionMessage, Message.MessageType.info);
+                AddNewMessage(subscriptionMessage, Message.MessageType.info);
             }
         }
     }
@@ -224,11 +224,11 @@ public class PhotonChatHandler : IChatClientListener, IPhotonChatHandler
         for (int i = 0; i < channels.Length; i++)
         {
             // Ensure that users with same username don't get each other's messages
-            if (channels[i].Contains(__roomName))
+            if (channels[i].Contains(_roomName))
             {
                 string unsubscriptionMessage = string.Format("You left the {0} channel.", RemoveRoomName(channels[i]));
                 Debug.Log(unsubscriptionMessage);
-                __AddNewMessage(unsubscriptionMessage, Message.MessageType.info);
+                AddNewMessage(unsubscriptionMessage, Message.MessageType.info);
             }
         }
     }

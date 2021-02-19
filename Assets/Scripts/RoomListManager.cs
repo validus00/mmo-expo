@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine;
@@ -9,33 +8,33 @@ using UnityEngine.UI;
 public class RoomListManager : MonoBehaviour, IPointerClickHandler
 {
     // Dropdown object reference
-    public Dropdown dropdown;
+    public Dropdown Dropdown;
     // List of indexes to disable from dropdown
-    public List<int> indexesToDisable = new List<int>();
+    public List<int> IndexesToDisable = new List<int>();
     // Channel box from chat reference
-    public InputField channelBox;
+    public InputField ChannelBox;
     // Hold the user's name
-    private string __name;
+    private string _name;
     // Default placeholder text for dropdown
-    private readonly string __defaultText = "Users in Room";
+    private const string K_defaultText = "Users in Room";
     // String concatenated to identifer user in room list
-    private readonly string __selfIndicatorString = " (You)";
+    private const string K_selfIndicatorString = " (You)";
     // List to hold user names
-    private readonly List<string> __usernames = new List<string>();
+    private readonly List<string> _usernames = new List<string>();
 
     void Awake()
     {
-        __name = PhotonNetwork.NickName;
-        dropdown.onValueChanged.AddListener(delegate { DropdownItemSelected(dropdown); });
+        _name = PhotonNetwork.NickName;
+        Dropdown.onValueChanged.AddListener(delegate { DropdownItemSelected(Dropdown); });
 
     }
 
     void Update()
     {
         // Reset the user's name if identifier holds default
-        if (ExpoEventManager.isNameUpdated && __name.StartsWith("User"))
+        if (ExpoEventManager.isNameUpdated && _name.StartsWith("User"))
         {
-            __name = PhotonNetwork.NickName;
+            _name = PhotonNetwork.NickName;
 
         }
         PopulateDropdown();
@@ -44,10 +43,10 @@ public class RoomListManager : MonoBehaviour, IPointerClickHandler
     // Listener to populate the channel box text and reset the selected option to default
     void DropdownItemSelected(Dropdown dropdown)
     {
-        if (!dropdown.options[dropdown.value].text.Equals(__defaultText) &&
-            !dropdown.options[dropdown.value].text.Equals(__name + __selfIndicatorString))
+        if (!dropdown.options[dropdown.value].text.Equals(K_defaultText) &&
+            !dropdown.options[dropdown.value].text.Equals(_name + K_selfIndicatorString))
         {
-            channelBox.text = dropdown.options[dropdown.value].text;
+            ChannelBox.text = dropdown.options[dropdown.value].text;
         }
 
         dropdown.value = 0;
@@ -71,7 +70,7 @@ public class RoomListManager : MonoBehaviour, IPointerClickHandler
             // disable buttons if their 0-based index is in indexesToDisable
             // the first item will always be a template item from the dropdown
             // so in order to still have 0 based indexes for the options here we use i-1
-            toogles[i].interactable = !indexesToDisable.Contains(i - 1);
+            toogles[i].interactable = !IndexesToDisable.Contains(i - 1);
         }
         PopulateDropdown();
     }
@@ -80,25 +79,25 @@ public class RoomListManager : MonoBehaviour, IPointerClickHandler
     public void PopulateDropdown()
     {
         // Clear the list and dropdown and add names and default text to list
-        __usernames.Clear();
-        dropdown.options.Clear();
-        dropdown.options.Add(new Dropdown.OptionData() { text = __defaultText });
+        _usernames.Clear();
+        Dropdown.options.Clear();
+        Dropdown.options.Add(new Dropdown.OptionData() { text = K_defaultText });
         foreach (Player player in PhotonNetwork.PlayerList)
         {
-            if (player.NickName.Equals(__name))
+            if (player.NickName.Equals(_name))
             {
                 // Keep the local user at the top of the list
-                __usernames.Insert(0, PhotonChatHandler.RemoveRoomName(player.NickName) + __selfIndicatorString);
+                _usernames.Insert(0, PhotonChatHandler.RemoveRoomName(player.NickName) + K_selfIndicatorString);
             }
             else
             {
-                __usernames.Add(PhotonChatHandler.RemoveRoomName(player.NickName));
+                _usernames.Add(PhotonChatHandler.RemoveRoomName(player.NickName));
             }
         }
         // Use the list to add the options to dropdown
-        foreach (var name in __usernames)
+        foreach (var name in _usernames)
         {
-            dropdown.options.Add(new Dropdown.OptionData() { text = name });
+            Dropdown.options.Add(new Dropdown.OptionData() { text = name });
         }
     }
 }

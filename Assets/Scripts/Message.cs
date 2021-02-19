@@ -14,7 +14,7 @@ public class Message
         privateMessage
     }
 
-    public Text textObject;
-    public string messageText;
-    public MessageType messageType;
+    public Text TextObject;
+    public string MessageText;
+    public MessageType MsgType;
 }

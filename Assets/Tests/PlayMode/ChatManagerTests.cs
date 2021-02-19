@@ -10,10 +10,10 @@ namespace Tests
 {
     public class ChatManagerTests
     {
-        private const string k_Message = "Hi there";
-        private const string k_TestChannel = "Test";
-        private const string k_ProjectName = "MMO Expo";
-        private const string k_BoothsHallName = "Booths Hall North";
+        private const string K_Message = "Hi there";
+        private const string K_TestChannel = "Test";
+        private const string K_ProjectName = "MMO Expo";
+        private const string K_BoothsHallName = "Booths Hall North";
 
         [UnityTest]
         public IEnumerator WhenOnStartThenGetNoMessages()
@@ -24,7 +24,7 @@ namespace Tests
             IPhotonChatHandler photonChatHandler = Substitute.For<IPhotonChatHandler>();
             photonChatHandler.GetNewMessages().Returns(new List<Message>());
 
-            __SetUpChatManager(chatManager, null, photonChatHandler, null, null);
+            SetUpChatManager(chatManager, null, photonChatHandler, null, null);
 
             yield return null;
 
@@ -47,14 +47,14 @@ namespace Tests
             for (int i = 0; i < 200; i++)
             {
                 Message newMessage = new Message();
-                newMessage.messageText = k_Message;
-                newMessage.messageType = Message.MessageType.playerMessage;
+                newMessage.MessageText = K_Message;
+                newMessage.MsgType = Message.MessageType.playerMessage;
                 messages.Add(newMessage);
             }
             photonChatHandler.GetNewMessages().Returns(messages);
             photonChatHandler.IsConnected().Returns(true);
 
-            __SetUpChatManager(chatManager, null, photonChatHandler, null, null);
+            SetUpChatManager(chatManager, null, photonChatHandler, null, null);
 
             yield return null;
 
@@ -78,14 +78,14 @@ namespace Tests
             IPhotonChatHandler photonChatHandler = Substitute.For<IPhotonChatHandler>();
             List<Message> messages = new List<Message>();
             Message newMessage = new Message();
-            newMessage.messageText = k_Message;
-            newMessage.messageType = Message.MessageType.playerMessage;
+            newMessage.MessageText = K_Message;
+            newMessage.MsgType = Message.MessageType.playerMessage;
             messages.Add(newMessage);
             photonChatHandler.GetNewMessages().Returns(messages);
             photonChatHandler.IsConnected().Returns(true);
 
-            __SetUpChatManager(chatManager, playerInputHandler, photonChatHandler,
-                GameConstants.k_HallChannelName, k_Message);
+            SetUpChatManager(chatManager, playerInputHandler, photonChatHandler,
+                GameConstants.k_HallChannelName, K_Message);
 
             yield return null;
 
@@ -95,7 +95,7 @@ namespace Tests
             Assert.AreEqual(GameConstants.k_HallChannelName,
                 chatManager.GetChannelName(ChatManager.ChannelType.hallChannel));
             Assert.AreEqual(string.Empty, chatManager.GetChannelName(ChatManager.ChannelType.boothChannel));
-            photonChatHandler.Received(1).SendChannelMessage(GameConstants.k_HallChannelName, k_Message);
+            photonChatHandler.Received(1).SendChannelMessage(GameConstants.k_HallChannelName, K_Message);
         }
 
         [UnityTest]
@@ -111,13 +111,13 @@ namespace Tests
             photonChatHandler.GetNewMessages().Returns(new List<Message>());
             photonChatHandler.IsConnected().Returns(true);
 
-            __SetUpChatManager(chatManager, playerInputHandler, photonChatHandler, null, k_Message);
+            SetUpChatManager(chatManager, playerInputHandler, photonChatHandler, null, K_Message);
 
             yield return null;
 
             Assert.AreEqual(1, chatManager.GetMessages().Count);
-            Assert.AreEqual("No channel or username specified.", chatManager.GetMessages()[0].messageText);
-            Assert.AreEqual(Message.MessageType.info, chatManager.GetMessages()[0].messageType);
+            Assert.AreEqual("No channel or username specified.", chatManager.GetMessages()[0].MessageText);
+            Assert.AreEqual(Message.MessageType.info, chatManager.GetMessages()[0].MsgType);
             Assert.AreEqual(GameConstants.k_AnnouncementChannelName,
                 chatManager.GetChannelName(ChatManager.ChannelType.announcementChannel));
             Assert.AreEqual(GameConstants.k_HallChannelName,
@@ -138,14 +138,14 @@ namespace Tests
             photonChatHandler.GetNewMessages().Returns(new List<Message>());
             photonChatHandler.IsConnected().Returns(true);
 
-            __SetUpChatManager(chatManager, playerInputHandler, photonChatHandler, k_TestChannel, k_Message);
+            SetUpChatManager(chatManager, playerInputHandler, photonChatHandler, K_TestChannel, K_Message);
 
             yield return null;
 
             Assert.AreEqual(1, chatManager.GetMessages().Count);
             Assert.AreEqual("\"Test\" does not exist in the room.",
-                chatManager.GetMessages()[0].messageText);
-            Assert.AreEqual(Message.MessageType.info, chatManager.GetMessages()[0].messageType);
+                chatManager.GetMessages()[0].MessageText);
+            Assert.AreEqual(Message.MessageType.info, chatManager.GetMessages()[0].MsgType);
             Assert.AreEqual(GameConstants.k_AnnouncementChannelName,
                 chatManager.GetChannelName(ChatManager.ChannelType.announcementChannel));
             Assert.AreEqual(GameConstants.k_HallChannelName,
@@ -163,7 +163,7 @@ namespace Tests
             photonChatHandler.GetNewMessages().Returns(new List<Message>());
             photonChatHandler.IsConnected().Returns(false);
 
-            __SetUpChatManager(chatManager, null, photonChatHandler, null, null);
+            SetUpChatManager(chatManager, null, photonChatHandler, null, null);
 
             chatManager.UpdateChannel("General", ChatManager.ChannelType.announcementChannel);
 
@@ -188,9 +188,9 @@ namespace Tests
             photonChatHandler.GetNewMessages().Returns(new List<Message>());
             photonChatHandler.IsConnected().Returns(true);
 
-            __SetUpChatManager(chatManager, null, photonChatHandler, null, null);
+            SetUpChatManager(chatManager, null, photonChatHandler, null, null);
 
-            chatManager.UpdateChannel(k_ProjectName, ChatManager.ChannelType.boothChannel);
+            chatManager.UpdateChannel(K_ProjectName, ChatManager.ChannelType.boothChannel);
 
             yield return null;
 
@@ -199,7 +199,7 @@ namespace Tests
                 chatManager.GetChannelName(ChatManager.ChannelType.announcementChannel));
             Assert.AreEqual(GameConstants.k_HallChannelName,
                 chatManager.GetChannelName(ChatManager.ChannelType.hallChannel));
-            Assert.AreEqual(k_ProjectName, chatManager.GetChannelName(ChatManager.ChannelType.boothChannel));
+            Assert.AreEqual(K_ProjectName, chatManager.GetChannelName(ChatManager.ChannelType.boothChannel));
             photonChatHandler.Received(1).InitializeChannelNames(Arg.Any<string[]>());
         }
 
@@ -213,9 +213,9 @@ namespace Tests
             photonChatHandler.GetNewMessages().Returns(new List<Message>());
             photonChatHandler.IsConnected().Returns(false);
 
-            __SetUpChatManager(chatManager, null, photonChatHandler, null, null);
+            SetUpChatManager(chatManager, null, photonChatHandler, null, null);
 
-            chatManager.UpdateChannel(k_ProjectName, ChatManager.ChannelType.boothChannel);
+            chatManager.UpdateChannel(K_ProjectName, ChatManager.ChannelType.boothChannel);
 
             yield return null;
 
@@ -224,7 +224,7 @@ namespace Tests
                 chatManager.GetChannelName(ChatManager.ChannelType.announcementChannel));
             Assert.AreEqual(GameConstants.k_HallChannelName,
                 chatManager.GetChannelName(ChatManager.ChannelType.hallChannel));
-            Assert.AreEqual(k_ProjectName, chatManager.GetChannelName(ChatManager.ChannelType.boothChannel));
+            Assert.AreEqual(K_ProjectName, chatManager.GetChannelName(ChatManager.ChannelType.boothChannel));
             photonChatHandler.Received(2).InitializeChannelNames(Arg.Any<string[]>());
         }
 
@@ -238,16 +238,16 @@ namespace Tests
             photonChatHandler.GetNewMessages().Returns(new List<Message>());
             photonChatHandler.IsConnected().Returns(false);
 
-            __SetUpChatManager(chatManager, null, photonChatHandler, null, null);
+            SetUpChatManager(chatManager, null, photonChatHandler, null, null);
 
-            chatManager.UpdateChannel(k_BoothsHallName, ChatManager.ChannelType.hallChannel);
+            chatManager.UpdateChannel(K_BoothsHallName, ChatManager.ChannelType.hallChannel);
 
             yield return null;
 
             Assert.AreEqual(0, chatManager.GetMessages().Count);
             Assert.AreEqual(GameConstants.k_AnnouncementChannelName,
                 chatManager.GetChannelName(ChatManager.ChannelType.announcementChannel));
-            Assert.AreEqual(k_BoothsHallName, chatManager.GetChannelName(ChatManager.ChannelType.hallChannel));
+            Assert.AreEqual(K_BoothsHallName, chatManager.GetChannelName(ChatManager.ChannelType.hallChannel));
             Assert.AreEqual(string.Empty, chatManager.GetChannelName(ChatManager.ChannelType.boothChannel));
             photonChatHandler.Received(2).InitializeChannelNames(Arg.Any<string[]>());
         }
@@ -262,10 +262,10 @@ namespace Tests
             photonChatHandler.GetNewMessages().Returns(new List<Message>());
             photonChatHandler.IsConnected().Returns(false);
 
-            __SetUpChatManager(chatManager, null, photonChatHandler, null, null);
+            SetUpChatManager(chatManager, null, photonChatHandler, null, null);
 
-            chatManager.UpdateChannel(k_TestChannel, ChatManager.ChannelType.boothChannel);
-            chatManager.LeaveChannel(k_TestChannel);
+            chatManager.UpdateChannel(K_TestChannel, ChatManager.ChannelType.boothChannel);
+            chatManager.LeaveChannel(K_TestChannel);
 
             yield return null;
 
@@ -274,8 +274,8 @@ namespace Tests
                 chatManager.GetChannelName(ChatManager.ChannelType.announcementChannel));
             Assert.AreEqual(GameConstants.k_HallChannelName,
                 chatManager.GetChannelName(ChatManager.ChannelType.hallChannel));
-            Assert.AreEqual(k_TestChannel, chatManager.GetChannelName(ChatManager.ChannelType.boothChannel));
-            photonChatHandler.Received(1).LeaveChannel(k_TestChannel);
+            Assert.AreEqual(K_TestChannel, chatManager.GetChannelName(ChatManager.ChannelType.boothChannel));
+            photonChatHandler.Received(1).LeaveChannel(K_TestChannel);
         }
 
         [UnityTest]
@@ -288,7 +288,7 @@ namespace Tests
             photonChatHandler.GetNewMessages().Returns(new List<Message>());
             photonChatHandler.IsConnected().Returns(false);
 
-            __SetUpChatManager(chatManager, null, photonChatHandler, null, null);
+            SetUpChatManager(chatManager, null, photonChatHandler, null, null);
 
             chatManager.LeaveChannel(string.Empty);
 
@@ -313,9 +313,9 @@ namespace Tests
             photonChatHandler.GetNewMessages().Returns(new List<Message>());
             photonChatHandler.IsConnected().Returns(false);
 
-            __SetUpChatManager(chatManager, null, photonChatHandler, null, null);
+            SetUpChatManager(chatManager, null, photonChatHandler, null, null);
 
-            chatManager.EnterChannel(k_TestChannel);
+            chatManager.EnterChannel(K_TestChannel);
 
             yield return null;
 
@@ -325,7 +325,7 @@ namespace Tests
             Assert.AreEqual(GameConstants.k_HallChannelName,
                 chatManager.GetChannelName(ChatManager.ChannelType.hallChannel));
             Assert.AreEqual(string.Empty, chatManager.GetChannelName(ChatManager.ChannelType.boothChannel));
-            photonChatHandler.Received(1).EnterChannel(k_TestChannel);
+            photonChatHandler.Received(1).EnterChannel(K_TestChannel);
         }
 
         [UnityTest]
@@ -338,7 +338,7 @@ namespace Tests
             photonChatHandler.GetNewMessages().Returns(new List<Message>());
             photonChatHandler.IsConnected().Returns(false);
 
-            __SetUpChatManager(chatManager, null, photonChatHandler, null, null);
+            SetUpChatManager(chatManager, null, photonChatHandler, null, null);
 
             chatManager.EnterChannel(string.Empty);
 
@@ -363,7 +363,7 @@ namespace Tests
             IPhotonChatHandler photonChatHandler = Substitute.For<IPhotonChatHandler>();
             photonChatHandler.IsConnected().Returns(false);
 
-            __SetUpChatManager(chatManager, null, photonChatHandler, null, null);
+            SetUpChatManager(chatManager, null, photonChatHandler, null, null);
 
             yield return null;
 
@@ -376,7 +376,7 @@ namespace Tests
             photonChatHandler.Received(1).ConnectToService();
         }
 
-        private void __SetUpChatManager(ChatManager chatManager, IPlayerInputHandler playerInputHandler,
+        private void SetUpChatManager(ChatManager chatManager, IPlayerInputHandler playerInputHandler,
             IPhotonChatHandler photonChatHandler, string channelName, string message)
         {
             chatManager.playerInputHandler = playerInputHandler;

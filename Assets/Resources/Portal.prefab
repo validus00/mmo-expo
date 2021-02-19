@@ -510,9 +510,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ff047b9bab60ca408f1597199328928, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  teleportTarget: {fileID: 0}
-  destinationText: {fileID: 6723780258194653258}
-  __currentChannelName: 
+  TeleportTarget: {fileID: 0}
+  DestinationText: {fileID: 6723780258194653258}
+  _currentChannelName: 
 --- !u!1001 &7824985645931197811
 PrefabInstance:
   m_ObjectHideFlags: 0

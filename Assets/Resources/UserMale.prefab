@@ -1070,9 +1070,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b0fd32b1646164445bf3f1388ea77ef7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  __maxSpeedOnGround: 20
-  fpsCamera: {fileID: 2537268446147669783}
-  photonView: {fileID: 2481931936570246436}
+  FpsCamera: {fileID: 2537268446147669783}
+  PhotonView: {fileID: 2481931936570246436}
 --- !u!114 &2481931936570246436
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1109,9 +1108,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f50dde2f4b636f4faa4c83a353acf95, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  FPSCamera: {fileID: 2537268446147669783}
-  userNameText: {fileID: 3482946811446856652}
-  user: {fileID: 2537268446203303740}
+  FpsCamera: {fileID: 2537268446147669783}
+  UserNameText: {fileID: 3482946811446856652}
+  User: {fileID: 2537268446203303740}
 --- !u!114 &1193339298232331860
 MonoBehaviour:
   m_ObjectHideFlags: 0
