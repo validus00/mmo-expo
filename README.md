@@ -5,7 +5,7 @@
 - Kevin Wu
 
 #### Our website on GitHub Pages
-- https://janeefongg.github.io/mmo-expo-publish/
+- https://validus00.github.io/mmo-expo/
 
 #### Unity version
 - This project has been developed and tested to run in Unity Version 2019.4.17f1: https://unity3d.com/get-unity/download/archive
@@ -121,6 +121,9 @@ with
 6. Run the unit test suite by going to: Window menu --> General --> Test Runner, and then in the new window click on "Run All". This will run all of the unit tests and also generate the code coverage report and open a new folder showing where these reports are.
 7. To see the code coverage report, click on any of the "Scripts_XXXXX" htm files.
 
+#### Linter
+- Using dotnet-format and `.editorconfig` from Roslyn code style with some modifications based on team preferences
+
 #### References
 1. Code References
    - https://docs.unity3d.com/Manual/index.html
@@ -162,3 +165,8 @@ with
    - https://assetstore.unity.com/packages/3d/characters/toony-tiny-people-demo-113188
    - https://assetstore.unity.com/packages/essentials/asset-packs/standard-assets-for-unity-2018-4-32351
    - https://assetstore.unity.com/packages/3d/props/furniture/folding-table-and-chair-pbr-111726
+
+7. Linter Refernces
+   - https://github.com/dotnet/roslyn/blob/master/.editorconfig
+   - https://github.com/dotnet/format
+   - https://www.c-sharpcorner.com/UploadFile/8a67c0/C-Sharp-coding-standards-and-naming-conventions/
