@@ -1,7 +1,8 @@
 ﻿/*
  * This interface is for handling panel related logic
  */
-public interface IPanelManager {
+public interface IPanelManager
+{
     // For closing booth form panel
     void CloseBoothFormPanel();
     // For closing booth info panel

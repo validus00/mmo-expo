@@ -3,7 +3,8 @@
 /*
  * This interface is for handling user movement and camera input changes
  */
-public interface IPlayerInputHandler {
+public interface IPlayerInputHandler
+{
     // Returns value of any horizontal mouse movement
     float GetLookInputsHorizontal();
     // Returns value of any vertical mouse movement

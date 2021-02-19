@@ -1,7 +1,8 @@
 ﻿/*
  * This interface is for handling event info related logic
  */
-public interface IEventInfoManager {
+public interface IEventInfoManager
+{
     // For getting event info owner
     string EventInfoOwner { get; }
     // For opening event info panel

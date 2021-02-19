@@ -1,9 +1,10 @@
-﻿using UnityEngine;
-using Photon.Pun;
+﻿using Photon.Pun;
 using Photon.Realtime;
+using UnityEngine;
 using UnityEngine.UI;
 
-public class LaunchManager : MonoBehaviourPunCallbacks {
+public class LaunchManager : MonoBehaviourPunCallbacks
+{
     public GameObject EnterEventPanel;
     public GameObject ConnectionStatusPanel;
     public GameObject EnterPasscodePanel;
@@ -12,11 +13,13 @@ public class LaunchManager : MonoBehaviourPunCallbacks {
     private bool __joinExisting;
     private string __passcodeInput;
 
-    void Awake() {
+    void Awake()
+    {
         PhotonNetwork.AutomaticallySyncScene = true;
     }
 
-    private void __ConnectToPhotonServer() {
+    private void __ConnectToPhotonServer()
+    {
         __SetInitialName();
         EnterEventPanel.SetActive(false);
         ConnectionStatusPanel.SetActive(true);
@@ -24,24 +27,30 @@ public class LaunchManager : MonoBehaviourPunCallbacks {
         PhotonNetwork.ConnectUsingSettings();
     }
 
-    public void CreateNewRoom() {
+    public void CreateNewRoom()
+    {
         __joinExisting = false;
         __ConnectToPhotonServer();
     }
 
-    public void JoinCreatedRoom() {
-        if (!PhotonNetwork.IsConnected) {
+    public void JoinCreatedRoom()
+    {
+        if (!PhotonNetwork.IsConnected)
+        {
             __joinExisting = true;
             __ConnectToPhotonServer();
         }
     }
 
-    private void __SetInitialName() {
+    private void __SetInitialName()
+    {
         PhotonNetwork.NickName = string.Format("User{0}", __GenerateRandomDigits());
     }
 
-    public void JoinExistingRoom() {
-        if (string.IsNullOrEmpty(__passcodeInput)) {
+    public void JoinExistingRoom()
+    {
+        if (string.IsNullOrEmpty(__passcodeInput))
+        {
             Debug.Log("Room name is empty");
             return;
         }
@@ -49,8 +58,10 @@ public class LaunchManager : MonoBehaviourPunCallbacks {
         PhotonNetwork.JoinRoom(__passcodeInput);
     }
 
-    public void SetPasscode(string passcode) {
-        if (string.IsNullOrEmpty(passcode)) {
+    public void SetPasscode(string passcode)
+    {
+        if (string.IsNullOrEmpty(passcode))
+        {
             Debug.Log("Passcode is empty");
             return;
         }
@@ -59,13 +70,16 @@ public class LaunchManager : MonoBehaviourPunCallbacks {
         __passcodeInput = passcode;
     }
 
-    private void __LoadEvent() {
-        if (PhotonNetwork.IsMasterClient) {
+    private void __LoadEvent()
+    {
+        if (PhotonNetwork.IsMasterClient)
+        {
             PhotonNetwork.LoadLevel("MainEventScene");
         }
     }
 
-    private void __CreateAndJoinRoom() {
+    private void __CreateAndJoinRoom()
+    {
         string randomRoomName = "" + __GenerateRandomDigits();
         RoomOptions roomOptions = new RoomOptions();
         roomOptions.IsOpen = true;
@@ -77,16 +91,19 @@ public class LaunchManager : MonoBehaviourPunCallbacks {
 
     // This callback is called if the randomly generated room name is identical to one that is already used by an
     // existing room
-    public void OnCreateRoomFailed() {
+    public void OnCreateRoomFailed()
+    {
         Debug.Log("Create room failed");
         __CreateAndJoinRoom();
     }
 
-    private int __GenerateRandomDigits() {
+    private int __GenerateRandomDigits()
+    {
         return Random.Range(1000, 9999);
     }
 
-    public void DisplayMainMenu() {
+    public void DisplayMainMenu()
+    {
         __ResetPasscodePanel();
         EnterEventPanel.SetActive(true);
         PasscodeInputField.Select();
@@ -94,48 +111,58 @@ public class LaunchManager : MonoBehaviourPunCallbacks {
         PhotonNetwork.Disconnect();
     }
 
-    private void __ResetPasscodePanel() {
+    private void __ResetPasscodePanel()
+    {
         EnterPasscodePanel.SetActive(false);
         InvalidPasscodeText.SetActive(false);
         __passcodeInput = string.Empty;
         __joinExisting = false;
     }
 
-    private void __DisplayPasscodePanel() {
+    private void __DisplayPasscodePanel()
+    {
         EnterPasscodePanel.SetActive(true);
         InvalidPasscodeText.SetActive(false);
     }
 
     #region Photon Callbacks
 
-    public override void OnConnectedToMaster() {
+    public override void OnConnectedToMaster()
+    {
         Debug.Log("Connected! " + PhotonNetwork.NickName);
         Debug.Log("Is joining existing event: " + __joinExisting);
 
-        if (__joinExisting) {
+        if (__joinExisting)
+        {
             __DisplayPasscodePanel();
-        } else {
+        }
+        else
+        {
             __CreateAndJoinRoom();
         }
     }
 
     // This method is called when we have internet connection (before OnConnectedToMaster)
-    public override void OnConnected() {
+    public override void OnConnected()
+    {
         Debug.Log("Internet!!");
     }
 
     // Called when PhotonNetwork.JoinRoom fails
-    public override void OnJoinRoomFailed(short returnCode, string message) {
+    public override void OnJoinRoomFailed(short returnCode, string message)
+    {
         Debug.Log("joined room failed");
         InvalidPasscodeText.SetActive(true);
     }
 
-    public override void OnJoinedRoom() {
+    public override void OnJoinedRoom()
+    {
         Debug.Log("Joined room successfully!");
         __LoadEvent();
     }
 
-    public override void OnPlayerEnteredRoom(Player newPlayer) {
+    public override void OnPlayerEnteredRoom(Player newPlayer)
+    {
         Debug.Log(newPlayer.NickName + " joined " + PhotonNetwork.CurrentRoom.Name + "!");
     }
 

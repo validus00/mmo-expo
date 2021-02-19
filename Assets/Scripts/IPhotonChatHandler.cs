@@ -3,7 +3,8 @@
 /*
  * This interface is for handling and abstracting Photon Chat functionality
  */
-public interface IPhotonChatHandler {
+public interface IPhotonChatHandler
+{
     // For connecting to chat service
     void ConnectToService();
     // For entering a specific channel

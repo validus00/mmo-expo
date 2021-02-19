@@ -4,9 +4,11 @@
 using UnityEngine.UI;
 
 [System.Serializable]
-public class Message {
+public class Message
+{
     // For displaying text in chat in different colors depending on type of message 
-    public enum MessageType {
+    public enum MessageType
+    {
         playerMessage,
         info,
         privateMessage

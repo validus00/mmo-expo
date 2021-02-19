@@ -2,7 +2,8 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PanelManager : MonoBehaviour, IPanelManager {
+public class PanelManager : MonoBehaviour, IPanelManager
+{
     public GameObject boothInfoPanel;
     public GameObject boothFormPanel;
     public GameObject confirmBoothResetPanel;
@@ -33,56 +34,73 @@ public class PanelManager : MonoBehaviour, IPanelManager {
     public GameObject resetEventInfoButton;
     public Text boothFormWarningText;
     public Text eventInfoFormWarningText;
-    private Regex __regex = new Regex("^http(s)?://", RegexOptions.IgnoreCase);
+    private readonly Regex __regex = new Regex("^http(s)?://", RegexOptions.IgnoreCase);
 
-    void Start() {
+    void Start()
+    {
         passCodeText.text = expoEventManager.GetComponent<ExpoEventManager>().PassCode;
     }
 
-    public void OpenProjectUrl() {
+    public void OpenProjectUrl()
+    {
         __OpenUrlText(projectUrlText);
     }
 
-    public void OpenEventInfoUrl() {
+    public void OpenEventInfoUrl()
+    {
         __OpenUrlText(eventInfoUrlText);
     }
 
-    public void OpenScheduleUrl() {
+    public void OpenScheduleUrl()
+    {
         __OpenUrlText(scheduleUrlText);
     }
 
-    public void OpenZoomUrl() {
+    public void OpenZoomUrl()
+    {
         __OpenUrlText(zoomUrlText);
     }
 
-    private void __OpenUrlText(Text urlText) {
-        if (!string.IsNullOrEmpty(urlText.text)) {
+    private void __OpenUrlText(Text urlText)
+    {
+        if (!string.IsNullOrEmpty(urlText.text))
+        {
+#pragma warning disable 618
             Application.ExternalEval($"window.open(\"{__ProcessUrl(urlText.text)}\",\"_blank\")");
+#pragma warning restore 618
         }
     }
 
-    private string __ProcessUrl(string url) {
-        if (__regex.IsMatch(url)) {
+    private string __ProcessUrl(string url)
+    {
+        if (__regex.IsMatch(url))
+        {
             return url;
         }
         return $"http://{url}";
     }
 
-    public void CloseBoothInfoPanel() {
+    public void CloseBoothInfoPanel()
+    {
         boothInfoPanel.SetActive(false);
     }
 
-    public void CloseEventInfoPanel() {
+    public void CloseEventInfoPanel()
+    {
         eventInfoPanel.SetActive(false);
     }
 
     public void OpenBoothInfoPanel(BoothSetup boothSetup, bool isOwner, string projectName, string teamName,
-        string description, string url) {
+        string description, string url)
+    {
         __boothSetup = boothSetup;
         boothInfoPanel.SetActive(true);
-        if (isOwner) {
+        if (isOwner)
+        {
             resetBoothButton.SetActive(true);
-        } else {
+        }
+        else
+        {
             resetBoothButton.SetActive(false);
         }
         teamNameText.text = teamName;
@@ -91,53 +109,74 @@ public class PanelManager : MonoBehaviour, IPanelManager {
         projectUrlText.text = url;
     }
 
-    public void OpenBoothFormPanel(BoothSetup boothSetup) {
+    public void OpenBoothFormPanel(BoothSetup boothSetup)
+    {
         __boothSetup = boothSetup;
         boothFormPanel.SetActive(true);
     }
 
-    public void SubmitBoothForm() {
-        if (__boothSetup != null) {
+    public void SubmitBoothForm()
+    {
+        if (__boothSetup != null)
+        {
             if (!string.IsNullOrWhiteSpace(teamNameInputField.text) &&
             !string.IsNullOrWhiteSpace(projectNameInputField.text) &&
             !string.IsNullOrWhiteSpace(descriptionInputField.text) &&
-            !string.IsNullOrWhiteSpace(projectUrlInputField.text)) {
+            !string.IsNullOrWhiteSpace(projectUrlInputField.text))
+            {
                 bool isSuccessful = __boothSetup.SetUpBooth(teamNameInputField.text, projectNameInputField.text, descriptionInputField.text,
                     projectUrlInputField.text, posterUrlInputField.text);
-                if (isSuccessful) {
+                if (isSuccessful)
+                {
                     CloseBoothFormPanel();
-                } else {
+                }
+                else
+                {
                     boothFormWarningText.text = "This booth is already occupied";
                 }
-            } else {
+            }
+            else
+            {
                 boothFormWarningText.text = "Please fill out all fields";
             }
         }
     }
 
-    public void SubmitEventInfoForm() {
-        if (__eventInfoManager != null) {
+    public void SubmitEventInfoForm()
+    {
+        if (__eventInfoManager != null)
+        {
             if (!string.IsNullOrWhiteSpace(eventInfoUrlInputField.text) &&
             !string.IsNullOrWhiteSpace(scheduleUrlInputField.text) &&
-            !string.IsNullOrWhiteSpace(zoomUrlInputField.text)) {
+            !string.IsNullOrWhiteSpace(zoomUrlInputField.text))
+            {
                 bool isSuccessful = __eventInfoManager.SetUpEventInfo(eventInfoUrlInputField.text, scheduleUrlInputField.text, zoomUrlInputField.text);
-                if (isSuccessful) {
+                if (isSuccessful)
+                {
                     CloseEventInfoFormPanel();
-                } else {
+                }
+                else
+                {
                     eventInfoFormWarningText.text = "Event info is already set up";
                 }
-            } else {
+            }
+            else
+            {
                 eventInfoFormWarningText.text = "Please fill out all fields";
             }
         }
     }
 
-    public void OpenEventInfoPanel(EventInfoManager eventInfoManager, bool isOwner, string eventInfoUrl, string scheduleUrl, string zoomUrl) {
+    public void OpenEventInfoPanel(EventInfoManager eventInfoManager, bool isOwner, string eventInfoUrl, string scheduleUrl, string zoomUrl)
+    {
         __eventInfoManager = eventInfoManager;
         eventInfoPanel.SetActive(true);
-        if (isOwner) {
+        if (isOwner)
+        {
             resetEventInfoButton.SetActive(true);
-        } else {
+        }
+        else
+        {
             resetEventInfoButton.SetActive(false);
         }
         eventInfoUrlText.text = eventInfoUrl;
@@ -145,56 +184,67 @@ public class PanelManager : MonoBehaviour, IPanelManager {
         zoomUrlText.text = zoomUrl;
     }
 
-    public void OpenEventInfoFormPanel(EventInfoManager eventInfoManager) {
+    public void OpenEventInfoFormPanel(EventInfoManager eventInfoManager)
+    {
         __eventInfoManager = eventInfoManager;
         eventInfoFormPanel.SetActive(true);
     }
 
-    public void CloseEventInfoFormPanel() {
+    public void CloseEventInfoFormPanel()
+    {
         eventInfoFormWarningText.text = string.Empty;
         eventInfoFormPanel.SetActive(false);
     }
 
-    public void CloseBoothFormPanel() {
+    public void CloseBoothFormPanel()
+    {
         boothFormWarningText.text = string.Empty;
         boothFormPanel.SetActive(false);
     }
 
-    public bool IsAnyPanelActive() {
+    public bool IsAnyPanelActive()
+    {
         return boothInfoPanel.activeSelf || boothFormPanel.activeSelf || confirmBoothResetPanel.activeSelf
             || exitEventPanel.activeSelf || eventInfoPanel.activeSelf || eventInfoFormPanel.activeSelf
             || confirmEventInfoResetPanel.activeSelf;
     }
 
-    public void OpenConfirmBoothResetPanel() {
+    public void OpenConfirmBoothResetPanel()
+    {
         confirmBoothResetPanel.SetActive(true);
     }
 
-    public void OpenConfirmEventInfoResetPanel() {
+    public void OpenConfirmEventInfoResetPanel()
+    {
         confirmEventInfoResetPanel.SetActive(true);
     }
 
-    public void CloseConfirmBoothResetPanel() {
+    public void CloseConfirmBoothResetPanel()
+    {
         confirmBoothResetPanel.SetActive(false);
     }
 
-    public void CloseConfirmEventInfoResetPanel() {
+    public void CloseConfirmEventInfoResetPanel()
+    {
         confirmEventInfoResetPanel.SetActive(false);
     }
 
-    public void ResetBooth() {
+    public void ResetBooth()
+    {
         __boothSetup.ResetBooth();
         CloseConfirmBoothResetPanel();
         CloseBoothInfoPanel();
     }
 
-    public void ResetEventInfo() {
+    public void ResetEventInfo()
+    {
         __eventInfoManager.ResetEventInfo();
         CloseConfirmEventInfoResetPanel();
         CloseEventInfoPanel();
     }
 
-    public void ToggleExitEventPanel() {
+    public void ToggleExitEventPanel()
+    {
         exitEventPanel.SetActive(!exitEventPanel.activeSelf);
     }
 }
