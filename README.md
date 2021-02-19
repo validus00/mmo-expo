@@ -5,7 +5,7 @@
 - Kevin Wu
 
 #### Our website on GitHub Pages
-- https://janeefongg.github.io/mmo-expo-publish/
+- https://validus00.github.io/mmo-expo/
 
 #### Unity version
 - This project has been developed and tested to run in Unity Version 2019.4.17f1: https://unity3d.com/get-unity/download/archive
