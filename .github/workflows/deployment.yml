@@ -7,9 +7,24 @@ env:
   UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
 
 jobs:
+  checkFormat:
+    runs-on: windows-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 3.1.x
+    - name: Install dotnet-format
+      run: dotnet tool install -g dotnet-format
+    - name: Check format
+      run: |
+        dotnet-format --folder Assets/Scripts/ --check
+        dotnet-format --folder Assets/Tests/PlayMode/ --check
+
   testAllModes:
     name: Test in ${{ matrix.testMode }} on version ${{ matrix.unityVersion }}
     runs-on: ubuntu-latest
+    needs: checkFormat
     strategy:
       fail-fast: false
       matrix:
@@ -81,10 +96,8 @@ jobs:
     runs-on: ubuntu-latest
     needs: buildForSomePlatforms
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v2
-      - name: Download WebGL Artifact
-        uses: actions/download-artifact@v2
+      - uses: actions/checkout@v2
+      - uses: actions/download-artifact@v2
         with:
           name: Build
           path: build/WebGL

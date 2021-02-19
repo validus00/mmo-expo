@@ -250,11 +250,11 @@ public class ChatManager : MonoBehaviour
         // Create new Message object and add to list of messages
         Message message = new Message();
         GameObject newText = Instantiate(textObject, chatPanel.transform);
-        message.messageText = text;
-        message.messageType = messageType;
-        message.textObject = newText.GetComponent<Text>();
-        message.textObject.text = text;
-        message.textObject.color = __MessageTypeColor(messageType);
+        message.MessageText = text;
+        message.MsgType = messageType;
+        message.TextObject = newText.GetComponent<Text>();
+        message.TextObject.text = text;
+        message.TextObject.color = __MessageTypeColor(messageType);
 
         __messageList.Add(message);
     }
@@ -266,9 +266,9 @@ public class ChatManager : MonoBehaviour
         __LimitNumberOfMessages();
 
         GameObject newText = Instantiate(textObject, chatPanel.transform);
-        message.textObject = newText.GetComponent<Text>();
-        message.textObject.text = message.messageText;
-        message.textObject.color = __MessageTypeColor(message.messageType);
+        message.TextObject = newText.GetComponent<Text>();
+        message.TextObject.text = message.MessageText;
+        message.TextObject.color = __MessageTypeColor(message.MsgType);
 
         __messageList.Add(message);
     }
@@ -278,7 +278,7 @@ public class ChatManager : MonoBehaviour
         // Keep only 99 most recent messages before adding a new message to list
         if (__messageList.Count >= __maxMessages)
         {
-            Destroy(__messageList[0].textObject.gameObject);
+            Destroy(__messageList[0].TextObject.gameObject);
             __messageList.Remove(__messageList[0]);
         }
     }

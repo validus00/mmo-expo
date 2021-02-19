@@ -4,76 +4,76 @@ using UnityEngine.UI;
 
 public class PanelManager : MonoBehaviour, IPanelManager
 {
-    public GameObject boothInfoPanel;
-    public GameObject boothFormPanel;
-    public GameObject confirmBoothResetPanel;
-    public GameObject exitEventPanel;
-    public GameObject eventInfoPanel;
-    public GameObject eventInfoFormPanel;
-    public GameObject confirmEventInfoResetPanel;
-    public GameObject expoEventManager;
-    public Text teamNameText;
-    public Text projectNameText;
-    public Text descriptionText;
-    public Text projectUrlText;
-    public Text eventInfoUrlText;
-    public Text scheduleUrlText;
-    public Text zoomUrlText;
-    public Text passCodeText;
-    public InputField teamNameInputField;
-    public InputField projectNameInputField;
-    public InputField descriptionInputField;
-    public InputField projectUrlInputField;
-    public InputField posterUrlInputField;
-    public InputField eventInfoUrlInputField;
-    public InputField scheduleUrlInputField;
-    public InputField zoomUrlInputField;
-    private BoothSetup __boothSetup;
-    private EventInfoManager __eventInfoManager;
-    public GameObject resetBoothButton;
-    public GameObject resetEventInfoButton;
-    public Text boothFormWarningText;
-    public Text eventInfoFormWarningText;
-    private readonly Regex __regex = new Regex("^http(s)?://", RegexOptions.IgnoreCase);
+    public GameObject BoothInfoPanel;
+    public GameObject BoothFormPanel;
+    public GameObject ConfirmBoothResetPanel;
+    public GameObject ExitEventPanel;
+    public GameObject EventInfoPanel;
+    public GameObject EventInfoFormPanel;
+    public GameObject ConfirmEventInfoResetPanel;
+    public GameObject ExpoEventManager;
+    public Text TeamNameText;
+    public Text ProjectNameText;
+    public Text DescriptionText;
+    public Text ProjectUrlText;
+    public Text EventInfoUrlText;
+    public Text ScheduleUrlText;
+    public Text ZoomUrlText;
+    public Text PassCodeText;
+    public InputField TeamNameInputField;
+    public InputField ProjectNameInputField;
+    public InputField DescriptionInputField;
+    public InputField ProjectUrlInputField;
+    public InputField PosterUrlInputField;
+    public InputField EventInfoUrlInputField;
+    public InputField ScheduleUrlInputField;
+    public InputField ZoomUrlInputField;
+    private BoothSetup _boothSetup;
+    private EventInfoManager _eventInfoManager;
+    public GameObject ResetBoothButton;
+    public GameObject ResetEventInfoButton;
+    public Text BoothFormWarningText;
+    public Text EventInfoFormWarningText;
+    private readonly Regex _regex = new Regex("^http(s)?://", RegexOptions.IgnoreCase);
 
     void Start()
     {
-        passCodeText.text = expoEventManager.GetComponent<ExpoEventManager>().PassCode;
+        PassCodeText.text = ExpoEventManager.GetComponent<ExpoEventManager>().PassCode;
     }
 
     public void OpenProjectUrl()
     {
-        __OpenUrlText(projectUrlText);
+        OpenUrlText(ProjectUrlText);
     }
 
     public void OpenEventInfoUrl()
     {
-        __OpenUrlText(eventInfoUrlText);
+        OpenUrlText(EventInfoUrlText);
     }
 
     public void OpenScheduleUrl()
     {
-        __OpenUrlText(scheduleUrlText);
+        OpenUrlText(ScheduleUrlText);
     }
 
     public void OpenZoomUrl()
     {
-        __OpenUrlText(zoomUrlText);
+        OpenUrlText(ZoomUrlText);
     }
 
-    private void __OpenUrlText(Text urlText)
+    private void OpenUrlText(Text urlText)
     {
         if (!string.IsNullOrEmpty(urlText.text))
         {
 #pragma warning disable 618
-            Application.ExternalEval($"window.open(\"{__ProcessUrl(urlText.text)}\",\"_blank\")");
+            Application.ExternalEval($"window.open(\"{ProcessUrl(urlText.text)}\",\"_blank\")");
 #pragma warning restore 618
         }
     }
 
-    private string __ProcessUrl(string url)
+    private string ProcessUrl(string url)
     {
-        if (__regex.IsMatch(url))
+        if (_regex.IsMatch(url))
         {
             return url;
         }
@@ -82,169 +82,169 @@ public class PanelManager : MonoBehaviour, IPanelManager
 
     public void CloseBoothInfoPanel()
     {
-        boothInfoPanel.SetActive(false);
+        BoothInfoPanel.SetActive(false);
     }
 
     public void CloseEventInfoPanel()
     {
-        eventInfoPanel.SetActive(false);
+        EventInfoPanel.SetActive(false);
     }
 
     public void OpenBoothInfoPanel(BoothSetup boothSetup, bool isOwner, string projectName, string teamName,
         string description, string url)
     {
-        __boothSetup = boothSetup;
-        boothInfoPanel.SetActive(true);
+        _boothSetup = boothSetup;
+        BoothInfoPanel.SetActive(true);
         if (isOwner)
         {
-            resetBoothButton.SetActive(true);
+            ResetBoothButton.SetActive(true);
         }
         else
         {
-            resetBoothButton.SetActive(false);
+            ResetBoothButton.SetActive(false);
         }
-        teamNameText.text = teamName;
-        projectNameText.text = projectName;
-        descriptionText.text = description;
-        projectUrlText.text = url;
+        TeamNameText.text = teamName;
+        ProjectNameText.text = projectName;
+        DescriptionText.text = description;
+        ProjectUrlText.text = url;
     }
 
     public void OpenBoothFormPanel(BoothSetup boothSetup)
     {
-        __boothSetup = boothSetup;
-        boothFormPanel.SetActive(true);
+        _boothSetup = boothSetup;
+        BoothFormPanel.SetActive(true);
     }
 
     public void SubmitBoothForm()
     {
-        if (__boothSetup != null)
+        if (_boothSetup != null)
         {
-            if (!string.IsNullOrWhiteSpace(teamNameInputField.text) &&
-            !string.IsNullOrWhiteSpace(projectNameInputField.text) &&
-            !string.IsNullOrWhiteSpace(descriptionInputField.text) &&
-            !string.IsNullOrWhiteSpace(projectUrlInputField.text))
+            if (!string.IsNullOrWhiteSpace(TeamNameInputField.text) &&
+            !string.IsNullOrWhiteSpace(ProjectNameInputField.text) &&
+            !string.IsNullOrWhiteSpace(DescriptionInputField.text) &&
+            !string.IsNullOrWhiteSpace(ProjectUrlInputField.text))
             {
-                bool isSuccessful = __boothSetup.SetUpBooth(teamNameInputField.text, projectNameInputField.text, descriptionInputField.text,
-                    projectUrlInputField.text, posterUrlInputField.text);
+                bool isSuccessful = _boothSetup.SetUpBooth(TeamNameInputField.text, ProjectNameInputField.text, DescriptionInputField.text,
+                    ProjectUrlInputField.text, PosterUrlInputField.text);
                 if (isSuccessful)
                 {
                     CloseBoothFormPanel();
                 }
                 else
                 {
-                    boothFormWarningText.text = "This booth is already occupied";
+                    BoothFormWarningText.text = "This booth is already occupied";
                 }
             }
             else
             {
-                boothFormWarningText.text = "Please fill out all fields";
+                BoothFormWarningText.text = "Please fill out all fields";
             }
         }
     }
 
     public void SubmitEventInfoForm()
     {
-        if (__eventInfoManager != null)
+        if (_eventInfoManager != null)
         {
-            if (!string.IsNullOrWhiteSpace(eventInfoUrlInputField.text) &&
-            !string.IsNullOrWhiteSpace(scheduleUrlInputField.text) &&
-            !string.IsNullOrWhiteSpace(zoomUrlInputField.text))
+            if (!string.IsNullOrWhiteSpace(EventInfoUrlInputField.text) &&
+            !string.IsNullOrWhiteSpace(ScheduleUrlInputField.text) &&
+            !string.IsNullOrWhiteSpace(ZoomUrlInputField.text))
             {
-                bool isSuccessful = __eventInfoManager.SetUpEventInfo(eventInfoUrlInputField.text, scheduleUrlInputField.text, zoomUrlInputField.text);
+                bool isSuccessful = _eventInfoManager.SetUpEventInfo(EventInfoUrlInputField.text, ScheduleUrlInputField.text, ZoomUrlInputField.text);
                 if (isSuccessful)
                 {
                     CloseEventInfoFormPanel();
                 }
                 else
                 {
-                    eventInfoFormWarningText.text = "Event info is already set up";
+                    EventInfoFormWarningText.text = "Event info is already set up";
                 }
             }
             else
             {
-                eventInfoFormWarningText.text = "Please fill out all fields";
+                EventInfoFormWarningText.text = "Please fill out all fields";
             }
         }
     }
 
     public void OpenEventInfoPanel(EventInfoManager eventInfoManager, bool isOwner, string eventInfoUrl, string scheduleUrl, string zoomUrl)
     {
-        __eventInfoManager = eventInfoManager;
-        eventInfoPanel.SetActive(true);
+        this._eventInfoManager = eventInfoManager;
+        EventInfoPanel.SetActive(true);
         if (isOwner)
         {
-            resetEventInfoButton.SetActive(true);
+            ResetEventInfoButton.SetActive(true);
         }
         else
         {
-            resetEventInfoButton.SetActive(false);
+            ResetEventInfoButton.SetActive(false);
         }
-        eventInfoUrlText.text = eventInfoUrl;
-        scheduleUrlText.text = scheduleUrl;
-        zoomUrlText.text = zoomUrl;
+        EventInfoUrlText.text = eventInfoUrl;
+        ScheduleUrlText.text = scheduleUrl;
+        ZoomUrlText.text = zoomUrl;
     }
 
     public void OpenEventInfoFormPanel(EventInfoManager eventInfoManager)
     {
-        __eventInfoManager = eventInfoManager;
-        eventInfoFormPanel.SetActive(true);
+        this._eventInfoManager = eventInfoManager;
+        EventInfoFormPanel.SetActive(true);
     }
 
     public void CloseEventInfoFormPanel()
     {
-        eventInfoFormWarningText.text = string.Empty;
-        eventInfoFormPanel.SetActive(false);
+        EventInfoFormWarningText.text = string.Empty;
+        EventInfoFormPanel.SetActive(false);
     }
 
     public void CloseBoothFormPanel()
     {
-        boothFormWarningText.text = string.Empty;
-        boothFormPanel.SetActive(false);
+        BoothFormWarningText.text = string.Empty;
+        BoothFormPanel.SetActive(false);
     }
 
     public bool IsAnyPanelActive()
     {
-        return boothInfoPanel.activeSelf || boothFormPanel.activeSelf || confirmBoothResetPanel.activeSelf
-            || exitEventPanel.activeSelf || eventInfoPanel.activeSelf || eventInfoFormPanel.activeSelf
-            || confirmEventInfoResetPanel.activeSelf;
+        return BoothInfoPanel.activeSelf || BoothFormPanel.activeSelf || ConfirmBoothResetPanel.activeSelf
+            || ExitEventPanel.activeSelf || EventInfoPanel.activeSelf || EventInfoFormPanel.activeSelf
+            || ConfirmEventInfoResetPanel.activeSelf;
     }
 
     public void OpenConfirmBoothResetPanel()
     {
-        confirmBoothResetPanel.SetActive(true);
+        ConfirmBoothResetPanel.SetActive(true);
     }
 
     public void OpenConfirmEventInfoResetPanel()
     {
-        confirmEventInfoResetPanel.SetActive(true);
+        ConfirmEventInfoResetPanel.SetActive(true);
     }
 
     public void CloseConfirmBoothResetPanel()
     {
-        confirmBoothResetPanel.SetActive(false);
+        ConfirmBoothResetPanel.SetActive(false);
     }
 
     public void CloseConfirmEventInfoResetPanel()
     {
-        confirmEventInfoResetPanel.SetActive(false);
+        ConfirmEventInfoResetPanel.SetActive(false);
     }
 
     public void ResetBooth()
     {
-        __boothSetup.ResetBooth();
+        _boothSetup.ResetBooth();
         CloseConfirmBoothResetPanel();
         CloseBoothInfoPanel();
     }
 
     public void ResetEventInfo()
     {
-        __eventInfoManager.ResetEventInfo();
+        _eventInfoManager.ResetEventInfo();
         CloseConfirmEventInfoResetPanel();
         CloseEventInfoPanel();
     }
 
     public void ToggleExitEventPanel()
     {
-        exitEventPanel.SetActive(!exitEventPanel.activeSelf);
+        ExitEventPanel.SetActive(!ExitEventPanel.activeSelf);
     }
 }

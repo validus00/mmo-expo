@@ -1,15 +1,13 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using Photon.Pun;
+﻿using Photon.Pun;
 using TMPro;
 using UnityEngine;
 
 public class UserSetup : MonoBehaviourPunCallbacks
 {
-    public GameObject FPSCamera;
-    public TextMeshProUGUI userNameText;
-    public GameObject user;
-    private CharacterController __characterController;
+    public GameObject FpsCamera;
+    public TextMeshProUGUI UserNameText;
+    public GameObject User;
+    private CharacterController _characterController;
 
     // Start is called before the first frame update
     void Start()
@@ -17,13 +15,13 @@ public class UserSetup : MonoBehaviourPunCallbacks
         if (!photonView.IsMine)
         {
             Destroy(GetComponent<MovementController>());
-            Destroy(FPSCamera);
+            Destroy(FpsCamera);
         }
         else
         {
             // Differentiate user's own User clone from other clones with a different name
             transform.name = GameConstants.k_MyUser;
-            Destroy(userNameText);
+            Destroy(UserNameText);
         }
 
         SetUserUI();
@@ -31,14 +29,14 @@ public class UserSetup : MonoBehaviourPunCallbacks
 
     private void Awake()
     {
-        __characterController = GetComponent<CharacterController>();
+        _characterController = GetComponent<CharacterController>();
     }
 
     void SetUserUI()
     {
-        if (userNameText != null && photonView.Owner != null)
+        if (UserNameText != null && photonView.Owner != null)
         {
-            userNameText.text = PhotonChatHandler.RemoveRoomName(photonView.Owner.NickName);
+            UserNameText.text = PhotonChatHandler.RemoveRoomName(photonView.Owner.NickName);
         }
     }
 
@@ -46,19 +44,19 @@ public class UserSetup : MonoBehaviourPunCallbacks
     [PunRPC]
     public void CharacterControllerToggle(bool value)
     {
-        if (__characterController == null)
+        if (_characterController == null)
         {
-            __characterController = GetComponent<CharacterController>();
+            _characterController = GetComponent<CharacterController>();
         }
         if (!GetComponent<PhotonView>().IsMine)
         {
-            __characterController.enabled = value;
+            _characterController.enabled = value;
         }
     }
 
     [PunRPC]
     public void RemoveUser()
     {
-        Destroy(user);
+        Destroy(User);
     }
 }

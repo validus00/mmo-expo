@@ -5,15 +5,18 @@ using UnityEngine;
 using UnityEngine.TestTools;
 using UnityEngine.UI;
 
-namespace Tests {
-    public class MovementControllerTests {
-        private const string k_Player = "Player";
+namespace Tests
+{
+    public class MovementControllerTests
+    {
+        private const string K_Player = "Player";
 
         [UnityTest]
-        public IEnumerator WhenNoUserInputsThenPositionWillNotChange() {
-            GameObject user = new GameObject(k_Player);
+        public IEnumerator WhenNoUserInputsThenPositionWillNotChange()
+        {
+            GameObject user = new GameObject(K_Player);
 
-            __SetUpMovementController(user, null);
+            SetUpMovementController(user, null);
             Animator animator = user.GetComponent<Animator>();
 
             yield return null;
@@ -26,13 +29,14 @@ namespace Tests {
         }
 
         [UnityTest]
-        public IEnumerator WhenUserInputsForwardMovementThenPositionChanges() {
-            GameObject user = new GameObject(k_Player);
+        public IEnumerator WhenUserInputsForwardMovementThenPositionChanges()
+        {
+            GameObject user = new GameObject(K_Player);
 
             IPlayerInputHandler playerInputHandler = Substitute.For<IPlayerInputHandler>();
             playerInputHandler.GetMoveInput().Returns(new Vector3(0, 0, 1));
 
-            __SetUpMovementController(user, playerInputHandler);
+            SetUpMovementController(user, playerInputHandler);
             Animator animator = user.GetComponent<Animator>();
 
             yield return null;
@@ -45,13 +49,14 @@ namespace Tests {
         }
 
         [UnityTest]
-        public IEnumerator WhenUserInputsLeftMovementThenPositionChanges() {
-            GameObject user = new GameObject(k_Player);
+        public IEnumerator WhenUserInputsLeftMovementThenPositionChanges()
+        {
+            GameObject user = new GameObject(K_Player);
 
             IPlayerInputHandler playerInputHandler = Substitute.For<IPlayerInputHandler>();
             playerInputHandler.GetMoveInput().Returns(new Vector3(-1, 0, 0));
 
-            __SetUpMovementController(user, playerInputHandler);
+            SetUpMovementController(user, playerInputHandler);
             Animator animator = user.GetComponent<Animator>();
 
             yield return null;
@@ -64,8 +69,9 @@ namespace Tests {
         }
 
         [UnityTest]
-        public IEnumerator WhenChatInputFieldIsInFocusThenNotInFocusThenPositionWillChange() {
-            GameObject user = new GameObject(k_Player);
+        public IEnumerator WhenChatInputFieldIsInFocusThenNotInFocusThenPositionWillChange()
+        {
+            GameObject user = new GameObject(K_Player);
 
             IPlayerInputHandler playerInputHandler = Substitute.For<IPlayerInputHandler>();
             playerInputHandler.GetMoveInput().Returns(new Vector3(0, 0, 1));
@@ -74,11 +80,11 @@ namespace Tests {
             channelBoxHandler.isFocused().Returns(false);
             chatBoxHandler.isFocused().Returns(true);
 
-            __SetUpMovementController(user, playerInputHandler);
+            SetUpMovementController(user, playerInputHandler);
             Animator animator = user.GetComponent<Animator>();
             MovementController movementController = user.GetComponent<MovementController>();
-            movementController.channelBoxHandler = channelBoxHandler;
-            movementController.chatBoxHandler = chatBoxHandler;
+            movementController.ChannelBoxHandler = channelBoxHandler;
+            movementController.ChatBoxHandler = chatBoxHandler;
 
             yield return null;
 
@@ -101,8 +107,9 @@ namespace Tests {
         }
 
         [UnityTest]
-        public IEnumerator WhenRightMouseButtonIsHeldDownThenCameraMoves() {
-            GameObject user = new GameObject(k_Player);
+        public IEnumerator WhenRightMouseButtonIsHeldDownThenCameraMoves()
+        {
+            GameObject user = new GameObject(K_Player);
 
             IPlayerInputHandler playerInputHandler = Substitute.For<IPlayerInputHandler>();
             playerInputHandler.GetRightClickInputHeld().Returns(true);
@@ -111,13 +118,13 @@ namespace Tests {
 
             Quaternion originalRotation = user.transform.rotation;
 
-            __SetUpMovementController(user, playerInputHandler);
+            SetUpMovementController(user, playerInputHandler);
             Animator animator = user.GetComponent<Animator>();
 
             yield return null;
 
             Assert.IsFalse(Cursor.visible);
-//            Assert.AreEqual(CursorLockMode.Locked, Cursor.lockState);
+            //            Assert.AreEqual(CursorLockMode.Locked, Cursor.lockState);
             Assert.AreNotEqual(originalRotation, user.transform.rotation);
             Assert.AreEqual(0, user.transform.position.x);
             Assert.AreEqual(0, user.transform.position.y);
@@ -127,8 +134,9 @@ namespace Tests {
         }
 
         [UnityTest]
-        public IEnumerator WhenRightMouseButtonIsNotHeldDownThenCameraDoesNotMove() {
-            GameObject user = new GameObject(k_Player);
+        public IEnumerator WhenRightMouseButtonIsNotHeldDownThenCameraDoesNotMove()
+        {
+            GameObject user = new GameObject(K_Player);
 
             IPlayerInputHandler playerInputHandler = Substitute.For<IPlayerInputHandler>();
             playerInputHandler.GetRightClickInputHeld().Returns(false);
@@ -137,7 +145,7 @@ namespace Tests {
 
             Quaternion originalRotation = user.transform.rotation;
 
-            __SetUpMovementController(user, playerInputHandler);
+            SetUpMovementController(user, playerInputHandler);
             Animator animator = user.GetComponent<Animator>();
 
             yield return null;
@@ -153,17 +161,18 @@ namespace Tests {
         }
 
         [UnityTest]
-        public IEnumerator WhenAPanelIsActiveThenPositionWillNotChange() {
-            GameObject user = new GameObject(k_Player);
+        public IEnumerator WhenAPanelIsActiveThenPositionWillNotChange()
+        {
+            GameObject user = new GameObject(K_Player);
 
             IPlayerInputHandler playerInputHandler = Substitute.For<IPlayerInputHandler>();
             playerInputHandler.GetMoveInput().Returns(new Vector3(0, 0, 1));
 
-            __SetUpMovementController(user, playerInputHandler);
+            SetUpMovementController(user, playerInputHandler);
             Animator animator = user.GetComponent<Animator>();
 
             MovementController movementController = user.GetComponent<MovementController>();
-            movementController.panelManager.IsAnyPanelActive().Returns(true);
+            movementController.PanelManager.IsAnyPanelActive().Returns(true);
 
             yield return null;
 
@@ -175,13 +184,14 @@ namespace Tests {
         }
 
         [UnityTest]
-        public IEnumerator WhenTabIsPressedThenCursorIsNormalAndToggleExitEventPanelIsCalled() {
-            GameObject user = new GameObject(k_Player);
+        public IEnumerator WhenTabIsPressedThenCursorIsNormalAndToggleExitEventPanelIsCalled()
+        {
+            GameObject user = new GameObject(K_Player);
 
             IPlayerInputHandler playerInputHandler = Substitute.For<IPlayerInputHandler>();
             playerInputHandler.GetTabKey().Returns(true);
 
-            __SetUpMovementController(user, playerInputHandler);
+            SetUpMovementController(user, playerInputHandler);
             Animator animator = user.GetComponent<Animator>();
 
             yield return null;
@@ -197,13 +207,14 @@ namespace Tests {
         }
 
         [UnityTest]
-        public IEnumerator WhenCharacterControllerIsDiabledThenAnyMovementWillEnableIt() {
-            GameObject user = new GameObject(k_Player);
+        public IEnumerator WhenCharacterControllerIsDiabledThenAnyMovementWillEnableIt()
+        {
+            GameObject user = new GameObject(K_Player);
 
             IPlayerInputHandler playerInputHandler = Substitute.For<IPlayerInputHandler>();
 
 
-            __SetUpMovementController(user, playerInputHandler);
+            SetUpMovementController(user, playerInputHandler);
             Animator animator = user.GetComponent<Animator>();
 
             CharacterController characterController = user.GetComponent<CharacterController>();
@@ -225,7 +236,8 @@ namespace Tests {
             Assert.AreEqual(1f, animator.GetFloat(GameConstants.k_Vertical));
         }
 
-        private void __SetUpMovementController(GameObject user, IPlayerInputHandler playerInputHandler) {
+        private void SetUpMovementController(GameObject user, IPlayerInputHandler playerInputHandler)
+        {
             GameObject channelBoxObject = new GameObject(GameConstants.k_ChannelInputField);
             channelBoxObject.AddComponent<InputField>();
             channelBoxObject.AddComponent<InputFieldHandler>();
@@ -240,11 +252,11 @@ namespace Tests {
 
             GameObject camera = new GameObject(GameConstants.k_Camera);
             MovementController movementController = user.AddComponent<MovementController>();
-            movementController.playerInputHandler = playerInputHandler;
-            movementController.fpsCamera = camera;
+            movementController.PlayerInputHandler = playerInputHandler;
+            movementController.FpsCamera = camera;
             user.transform.position = Vector3.zero;
 
-            movementController.panelManager = Substitute.For<IPanelManager>();
+            movementController.PanelManager = Substitute.For<IPanelManager>();
         }
     }
 }

@@ -7,87 +7,87 @@ using UnityEngine;
 public class MovementController : MonoBehaviour
 {
     // Maximum player move speed value
-    private readonly float __maxSpeedOnGround = 20f;
+    private const float K_maxSpeedOnGround = 20f;
     // Player acceleration and deceleration value
-    private readonly float __movementSharpnessOnGround = 15f;
+    private const float K_movementSharpnessOnGround = 15f;
     // Camera rotation speed value
-    private readonly float __rotationSpeed = 200f;
+    private const float K_rotationSpeed = 200f;
     // Player velocity vector
-    private Vector3 __characterVelocity;
+    private Vector3 _characterVelocity;
     // Camera vertical angle
-    private float __cameraVerticalAngle = 0f;
+    private float _cameraVerticalAngle = 0f;
     // FPS camera
-    public GameObject fpsCamera;
-    private CharacterController __characterController;
-    private Animator __animator;
+    public GameObject FpsCamera;
+    private CharacterController _characterController;
+    private Animator _animator;
     // For handling user movement inputs
-    public IPlayerInputHandler playerInputHandler;
+    public IPlayerInputHandler PlayerInputHandler;
     // Channel name input field
-    public IInputFieldHandler channelBoxHandler;
+    public IInputFieldHandler ChannelBoxHandler;
     // Chat input field
-    public IInputFieldHandler chatBoxHandler;
+    public IInputFieldHandler ChatBoxHandler;
     // For handling panel related logic
-    public IPanelManager panelManager;
-    public PhotonView photonView;
+    public IPanelManager PanelManager;
+    public PhotonView PhotonView;
 
     // Start is called before the first frame update
     void Start()
     {
-        if (playerInputHandler == null)
+        if (PlayerInputHandler == null)
         {
-            playerInputHandler = new PlayerInputHandler();
+            PlayerInputHandler = new PlayerInputHandler();
         }
-        if (channelBoxHandler == null)
+        if (ChannelBoxHandler == null)
         {
-            channelBoxHandler = GameObject.Find(GameConstants.k_ChannelInputField).GetComponent<InputFieldHandler>();
+            ChannelBoxHandler = GameObject.Find(GameConstants.k_ChannelInputField).GetComponent<InputFieldHandler>();
         }
-        if (chatBoxHandler == null)
+        if (ChatBoxHandler == null)
         {
-            chatBoxHandler = GameObject.Find(GameConstants.k_MessageInputField).GetComponent<InputFieldHandler>();
+            ChatBoxHandler = GameObject.Find(GameConstants.k_MessageInputField).GetComponent<InputFieldHandler>();
         }
-        if (panelManager == null)
+        if (PanelManager == null)
         {
-            panelManager = GameObject.Find(GameConstants.k_PanelManager).GetComponent<PanelManager>();
+            PanelManager = GameObject.Find(GameConstants.k_PanelManager).GetComponent<PanelManager>();
         }
-        __characterController = GetComponent<CharacterController>();
-        __animator = GetComponent<Animator>();
+        _characterController = GetComponent<CharacterController>();
+        _animator = GetComponent<Animator>();
         // Prevent User object from overlapping with another object
-        __characterController.enableOverlapRecovery = true;
+        _characterController.enableOverlapRecovery = true;
     }
 
     // Update is called once per frame 
     void Update()
     {
         // Toggle exit event panel as active or inactive
-        if (playerInputHandler.GetTabKey())
+        if (PlayerInputHandler.GetTabKey())
         {
             // Show and unlock mouse cursor
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
-            panelManager.ToggleExitEventPanel();
+            PanelManager.ToggleExitEventPanel();
         }
         // Handle user and camera movement only when panels aren't active
-        if (!panelManager.IsAnyPanelActive())
+        if (!PanelManager.IsAnyPanelActive())
         {
-            __HandleCharacterMovement();
+            HandleCharacterMovement();
         }
     }
 
-    private void __HandleCharacterMovement()
+    private void HandleCharacterMovement()
     {
         // If right mouse button is held down, then hide the mouse cursor and allow mouse free look
-        if (playerInputHandler.GetRightClickInputHeld())
+        if (PlayerInputHandler.GetRightClickInputHeld())
         {
             // Hide and lock mouse cursor
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
             // Rotate user horizontally
-            transform.Rotate(new Vector3(0f, (playerInputHandler.GetLookInputsHorizontal() * __rotationSpeed), 0f), Space.Self);
+            transform.Rotate(new Vector3(0f, (PlayerInputHandler.GetLookInputsHorizontal() * K_rotationSpeed), 0f), Space.Self);
             // Rotate user camera vertically
-            __cameraVerticalAngle += playerInputHandler.GetLookInputsVertical() * __rotationSpeed;
+            _cameraVerticalAngle += PlayerInputHandler.GetLookInputsVertical() * K_rotationSpeed;
             // Limit vertical camera rotation angle of up to +/- 89 degrees
-            __cameraVerticalAngle = Mathf.Clamp(__cameraVerticalAngle, -89f, 89f);
-            fpsCamera.transform.localEulerAngles = new Vector3(__cameraVerticalAngle, 0, 0);
+            _cameraVerticalAngle = Mathf.Clamp(_cameraVerticalAngle, -89f, 89f);
+            FpsCamera.transform.localEulerAngles = new Vector3(_cameraVerticalAngle, 0, 0);
         }
         else
         {
@@ -97,38 +97,38 @@ public class MovementController : MonoBehaviour
         }
         Vector3 move;
         // Apply velocity only if user is allowed to move
-        if (!chatBoxHandler.isFocused() && !channelBoxHandler.isFocused())
+        if (!ChatBoxHandler.isFocused() && !ChannelBoxHandler.isFocused())
         {
-            move = playerInputHandler.GetMoveInput();
+            move = PlayerInputHandler.GetMoveInput();
         }
         else
         {
             move = Vector3.zero;
         }
         // If any movement detected, enable character controller
-        if (__characterController.enabled == false && (move.x != 0 || move.y != 0 || move.z != 0))
+        if (_characterController.enabled == false && (move.x != 0 || move.y != 0 || move.z != 0))
         {
             Debug.Log("character velocity @@");
-            __characterController.enabled = true;
-            if (photonView != null)
+            _characterController.enabled = true;
+            if (PhotonView != null)
             {
-                photonView.RPC("CharacterControllerToggle", RpcTarget.AllBuffered, __characterController.enabled);
+                PhotonView.RPC("CharacterControllerToggle", RpcTarget.AllBuffered, _characterController.enabled);
             }
         }
         // Set float values for animation controller
-        __animator.SetFloat(GameConstants.k_Horizontal, __GetAnimatorValue(move.x));
-        __animator.SetFloat(GameConstants.k_Vertical, __GetAnimatorValue(move.z));
+        _animator.SetFloat(GameConstants.k_Horizontal, GetAnimatorValue(move.x));
+        _animator.SetFloat(GameConstants.k_Vertical, GetAnimatorValue(move.z));
 
-        if (__characterController.enabled == true)
+        if (_characterController.enabled == true)
         {
             // Apply velocity to User object
-            Vector3 targetVelocity = __maxSpeedOnGround * transform.TransformVector(move);
-            __characterVelocity = Vector3.Lerp(__characterVelocity, targetVelocity, __movementSharpnessOnGround * Time.deltaTime);
-            __characterController.Move(__characterVelocity * Time.deltaTime);
+            Vector3 targetVelocity = K_maxSpeedOnGround * transform.TransformVector(move);
+            _characterVelocity = Vector3.Lerp(_characterVelocity, targetVelocity, K_movementSharpnessOnGround * Time.deltaTime);
+            _characterController.Move(_characterVelocity * Time.deltaTime);
         }
     }
 
-    private float __GetAnimatorValue(float input)
+    private float GetAnimatorValue(float input)
     {
         if (input > 0)
         {
