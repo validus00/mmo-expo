@@ -5,11 +5,8 @@ using Photon.Pun;
 using TMPro;
 
 public class UserSetup : MonoBehaviourPunCallbacks {
-    [SerializeField]
-    GameObject FPSCamera;
-
-    [SerializeField]
-    TextMeshProUGUI userNameText;
+    public GameObject FPSCamera;
+    public TextMeshProUGUI userNameText;
     public GameObject user;
     private CharacterController __characterController;
 

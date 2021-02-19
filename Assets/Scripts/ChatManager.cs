@@ -48,10 +48,8 @@ public class ChatManager : MonoBehaviour {
     public Color privateMessageColor;
     // For keeping track whether connect to service is called
     private bool __connectToServiceIsCalled;
-
     // messageList keeps tracks of recent messages
-    [SerializeField]
-    readonly private List<Message> __messageList = new List<Message>();
+    private readonly List<Message> __messageList = new List<Message>();
 
     // Returns current messages
     public List<Message> GetMessages() {

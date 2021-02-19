@@ -16,11 +16,11 @@ public class RoomListManager : MonoBehaviour, IPointerClickHandler {
     // Hold the user's name
     private string __name;
     // Default placeholder text for dropdown
-    private string __defaultText = "Users in Room";
+    private readonly string __defaultText = "Users in Room";
     // String concatenated to identifer user in room list
-    private string __selfIndicatorString = " (You)";
+    private readonly string __selfIndicatorString = " (You)";
     // List to hold user names
-    private List<string> __usernames = new List<string>();
+    private readonly List<string> __usernames = new List<string>();
 
     void Awake() {
         __name = PhotonNetwork.NickName;

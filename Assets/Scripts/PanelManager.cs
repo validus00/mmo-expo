@@ -33,7 +33,7 @@ public class PanelManager : MonoBehaviour, IPanelManager {
     public GameObject resetEventInfoButton;
     public Text boothFormWarningText;
     public Text eventInfoFormWarningText;
-    private Regex __regex = new Regex("^http(s)?://", RegexOptions.IgnoreCase);
+    private readonly Regex __regex = new Regex("^http(s)?://", RegexOptions.IgnoreCase);
 
     void Start() {
         passCodeText.text = expoEventManager.GetComponent<ExpoEventManager>().PassCode;
@@ -57,7 +57,9 @@ public class PanelManager : MonoBehaviour, IPanelManager {
 
     private void __OpenUrlText(Text urlText) {
         if (!string.IsNullOrEmpty(urlText.text)) {
+#pragma warning disable 618
             Application.ExternalEval($"window.open(\"{__ProcessUrl(urlText.text)}\",\"_blank\")");
+#pragma warning restore 618
         }
     }
 

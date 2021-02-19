@@ -12,9 +12,9 @@ public class PhotonChatHandler : IChatClientListener, IPhotonChatHandler {
     // For keeping track of new messages
     private List<Message> __newMessages = new List<Message>();
     // Current room name
-    private string __roomName;
+    private readonly string __roomName;
     // Photon Chat client
-    private ChatClient __chatClient;
+    private readonly ChatClient __chatClient;
     // Subscribed channels
     private string[] __initialChannelNames;
     // To keep track if connected to Photon Chat

@@ -1,4 +1,4 @@
-using Photon.Pun;
+﻿using Photon.Pun;
 using UnityEngine;
 
 /*
@@ -6,8 +6,7 @@ using UnityEngine;
  */
 public class MovementController : MonoBehaviour {
     // Maximum player move speed value
-    [SerializeField]
-    private float __maxSpeedOnGround = 20f;
+    private readonly float __maxSpeedOnGround = 20f;
     // Player acceleration and deceleration value
     private readonly float __movementSharpnessOnGround = 15f;
     // Camera rotation speed value

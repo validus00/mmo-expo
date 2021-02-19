@@ -6,8 +6,10 @@ public class TeleportManager : MonoBehaviour {
     public Transform teleportTarget;
     public TextMeshProUGUI destinationText;
     private ChatManager __chatManager;
+#pragma warning disable 649
     [SerializeField]
     private string __currentChannelName;
+#pragma warning restore 649
 
     void Start() {
         __chatManager = GameObject.Find(GameConstants.k_ExpoEventManager).GetComponent<ChatManager>();
