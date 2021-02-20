@@ -1,7 +1,7 @@
 ﻿/*
  * Message class is for creating objects that hold text objects
  */
-using UnityEngine.UI;
+using TMPro;
 
 [System.Serializable]
 public class Message
@@ -14,7 +14,7 @@ public class Message
         privateMessage
     }
 
-    public Text TextObject;
+    public TextMeshProUGUI TextObject;
     public string MessageText;
     public MessageType MsgType;
 }

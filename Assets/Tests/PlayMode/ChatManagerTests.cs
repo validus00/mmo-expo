@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using NSubstitute;
 using NUnit.Framework;
+using TMPro;
 using UnityEngine;
 using UnityEngine.TestTools;
 using UnityEngine.UI;
@@ -388,8 +389,9 @@ namespace Tests
             chatManager.chatPanel = chatPanel;
 
             GameObject textObject = new GameObject("Text");
-            textObject.AddComponent<Text>();
-            chatManager.textObject = textObject;
+            textObject.AddComponent<TextMeshProUGUI>();
+            textObject.AddComponent<ChannelFieldHandler>();
+            chatManager.TextObject = textObject;
 
             GameObject channelBoxObject = new GameObject("ChannelBoxObject");
             InputField channelBox = channelBoxObject.AddComponent<InputField>();

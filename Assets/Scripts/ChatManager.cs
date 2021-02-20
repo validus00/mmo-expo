@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Photon.Pun;
 using Photon.Realtime;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -32,8 +33,8 @@ public class ChatManager : MonoBehaviour
     private const int __maxMessages = 100;
     // Chat panel
     public GameObject chatPanel;
-    // Text objects to populate chat panel
-    public GameObject textObject;
+    // TMP text object to populate chat panel
+    public GameObject TextObject;
     // Event info manager object to access event info manager
     public GameObject eventInfoManagerObject;
     // Event info manager to access event info owner
@@ -108,6 +109,12 @@ public class ChatManager : MonoBehaviour
         }
     }
 
+    // For updating channel input field
+    public void UpdateChannelInputField(string channelName)
+    {
+        channelBox.text = channelName;
+    }
+
     private void __processChatInput()
     {
         // Enter key either sends a message or activates the chat input field
@@ -145,7 +152,7 @@ public class ChatManager : MonoBehaviour
                         if (username == PhotonNetwork.NickName)
                         {
                             __SendMessageToChat("Cannot send message to yourself.", Message.MessageType.info);
-                            channelBox.text = string.Empty;
+                            UpdateChannelInputField(string.Empty);
                         }
                         else
                         {
@@ -158,7 +165,7 @@ public class ChatManager : MonoBehaviour
                         // Notify user that the recipient does not exist
                         __SendMessageToChat($"\"{channelName}\" does not exist in the room.",
                             Message.MessageType.info);
-                        channelBox.text = string.Empty;
+                        UpdateChannelInputField(string.Empty);
                     }
                     chatBox.text = string.Empty;
                 }
@@ -167,7 +174,7 @@ public class ChatManager : MonoBehaviour
                 {
                     // Notify user that they do not have access to announcement channel
                     __SendMessageToChat($"Only event admins have access to \"{channelName}\".", Message.MessageType.info);
-                    channelBox.text = string.Empty;
+                    UpdateChannelInputField(string.Empty);
                 }
                 else
                 {
@@ -249,10 +256,11 @@ public class ChatManager : MonoBehaviour
 
         // Create new Message object and add to list of messages
         Message message = new Message();
-        GameObject newText = Instantiate(textObject, chatPanel.transform);
+        GameObject newText = Instantiate(TextObject, chatPanel.transform);
+        newText.GetComponent<ChannelFieldHandler>().ChatManagerObject = this;
         message.MessageText = text;
         message.MsgType = messageType;
-        message.TextObject = newText.GetComponent<Text>();
+        message.TextObject = newText.GetComponent<TextMeshProUGUI>();
         message.TextObject.text = text;
         message.TextObject.color = __MessageTypeColor(messageType);
 
@@ -265,8 +273,9 @@ public class ChatManager : MonoBehaviour
         // Limit number of messages
         __LimitNumberOfMessages();
 
-        GameObject newText = Instantiate(textObject, chatPanel.transform);
-        message.TextObject = newText.GetComponent<Text>();
+        GameObject newText = Instantiate(TextObject, chatPanel.transform);
+        newText.GetComponent<ChannelFieldHandler>().ChatManagerObject = this;
+        message.TextObject = newText.GetComponent<TextMeshProUGUI>();
         message.TextObject.text = message.MessageText;
         message.TextObject.color = __MessageTypeColor(message.MsgType);
 

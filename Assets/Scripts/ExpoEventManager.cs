@@ -102,9 +102,11 @@ public class ExpoEventManager : MonoBehaviourPunCallbacks
 
     private bool __IsNameAvailable()
     {
+        string name = initialName + PhotonNetwork.CurrentRoom.Name;
+
         foreach (Player player in PhotonNetwork.PlayerList)
         {
-            if (initialName.Equals(player.NickName))
+            if (name.Equals(player.NickName))
             {
                 return false;
             }
