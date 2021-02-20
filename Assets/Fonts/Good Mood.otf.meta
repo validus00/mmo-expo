@@ -1,0 +1,23 @@
+fileFormatVersion: 2
+guid: e311eae18c3a44e4cb8906f8d2f3fc03
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Good Mood
+  fontNames:
+  - Good Mood
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: 3071156c020e8ef44836942543bf58b5, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  shouldRoundAdvanceValue: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
