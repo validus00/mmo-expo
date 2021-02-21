@@ -13,8 +13,10 @@ public class RoomListManager : MonoBehaviour, IPointerClickHandler
     public List<int> IndexesToDisable = new List<int>();
     // Channel box from chat reference
     public InputField ChannelBox;
-    // Hold the user's name
+    // Hold the user's name with concatenated with room name
     private string _name;
+    // Hold the user's name without room name
+    private string _nameTrimmed;
     // Default placeholder text for dropdown
     private const string K_defaultText = "Users in Room";
     // String concatenated to identifer user in room list
@@ -35,7 +37,7 @@ public class RoomListManager : MonoBehaviour, IPointerClickHandler
         if (ExpoEventManager.isNameUpdated && _name.StartsWith("User"))
         {
             _name = PhotonNetwork.NickName;
-
+            _nameTrimmed = PhotonChatHandler.RemoveRoomName(_name);
         }
         PopulateDropdown();
     }
@@ -44,7 +46,7 @@ public class RoomListManager : MonoBehaviour, IPointerClickHandler
     void DropdownItemSelected(Dropdown dropdown)
     {
         if (!dropdown.options[dropdown.value].text.Equals(K_defaultText) &&
-            !dropdown.options[dropdown.value].text.Equals(_name + K_selfIndicatorString))
+            !dropdown.options[dropdown.value].text.Equals(_nameTrimmed + K_selfIndicatorString))
         {
             ChannelBox.text = dropdown.options[dropdown.value].text;
         }
