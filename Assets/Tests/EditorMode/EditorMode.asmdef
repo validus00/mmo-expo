@@ -1,8 +1,9 @@
 {
     "name": "EditorMode",
     "references": [
-        "UnityEngine.TestRunner",
+        "Unity.TextMeshPro",
         "UnityEditor.TestRunner",
+        "UnityEngine.TestRunner",
         "Scripts"
     ],
     "includePlatforms": [
