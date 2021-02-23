@@ -7,12 +7,12 @@ public class PlayerNameInputManager : MonoBehaviour
         if (string.IsNullOrEmpty(playerName))
         {
             Debug.Log("Player name is empty");
-            ExpoEventManager.isNameInputTouched = false;
+            ExpoEventManager.IsNameInputTouched = false;
             return;
         }
 
         Debug.Log("player name: " + playerName);
-        ExpoEventManager.isNameInputTouched = true;
-        ExpoEventManager.initialName = playerName;
+        ExpoEventManager.IsNameInputTouched = true;
+        ExpoEventManager.InitialName = playerName;
     }
 }

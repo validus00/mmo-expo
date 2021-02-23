@@ -39,15 +39,15 @@ public class MovementController : MonoBehaviour
         }
         if (ChannelBoxHandler == null)
         {
-            ChannelBoxHandler = GameObject.Find(GameConstants.k_ChannelInputField).GetComponent<InputFieldHandler>();
+            ChannelBoxHandler = GameObject.Find(GameConstants.K_ChannelInputField).GetComponent<InputFieldHandler>();
         }
         if (ChatBoxHandler == null)
         {
-            ChatBoxHandler = GameObject.Find(GameConstants.k_MessageInputField).GetComponent<InputFieldHandler>();
+            ChatBoxHandler = GameObject.Find(GameConstants.K_MessageInputField).GetComponent<InputFieldHandler>();
         }
         if (PanelManager == null)
         {
-            PanelManager = GameObject.Find(GameConstants.k_PanelManager).GetComponent<PanelManager>();
+            PanelManager = GameObject.Find(GameConstants.K_PanelManager).GetComponent<PanelManager>();
         }
         _characterController = GetComponent<CharacterController>();
         _animator = GetComponent<Animator>();
@@ -97,7 +97,7 @@ public class MovementController : MonoBehaviour
         }
         Vector3 move;
         // Apply velocity only if user is allowed to move
-        if (!ChatBoxHandler.isFocused() && !ChannelBoxHandler.isFocused())
+        if (!ChatBoxHandler.IsFocused() && !ChannelBoxHandler.IsFocused())
         {
             move = PlayerInputHandler.GetMoveInput();
         }
@@ -116,8 +116,8 @@ public class MovementController : MonoBehaviour
             }
         }
         // Set float values for animation controller
-        _animator.SetFloat(GameConstants.k_Horizontal, GetAnimatorValue(move.x));
-        _animator.SetFloat(GameConstants.k_Vertical, GetAnimatorValue(move.z));
+        _animator.SetFloat(GameConstants.K_Horizontal, GetAnimatorValue(move.x));
+        _animator.SetFloat(GameConstants.K_Vertical, GetAnimatorValue(move.z));
 
         if (_characterController.enabled == true)
         {

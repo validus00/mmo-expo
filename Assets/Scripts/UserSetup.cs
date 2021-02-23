@@ -20,7 +20,7 @@ public class UserSetup : MonoBehaviourPunCallbacks
         else
         {
             // Differentiate user's own User clone from other clones with a different name
-            transform.name = GameConstants.k_MyUser;
+            transform.name = GameConstants.K_MyUser;
             Destroy(UserNameText);
         }
 

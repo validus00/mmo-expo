@@ -9,39 +9,39 @@ using UnityEngine.Networking;
  */
 public class BoothSetup : MonoBehaviourPunCallbacks
 {
-    public TextMeshProUGUI boothText;
-    public GameObject posterBoard;
-    private PanelManager __panelManager;
-    private ChatManager __chatManager;
-    private Camera __camera;
-    private bool __isUserInBooth = false;
-    private string __boothOwner;
-    private string __projectName;
-    private string __teamName;
-    private string __projectDescription;
-    private string __projectUrl;
+    public TextMeshProUGUI BoothText;
+    public GameObject PosterBoard;
+    private PanelManager _panelManager;
+    private ChatManager _chatManager;
+    private Camera _camera;
+    private bool _isUserInBooth = false;
+    private string _boothOwner;
+    private string _projectName;
+    private string _teamName;
+    private string _projectDescription;
+    private string _projectUrl;
 
     void Start()
     {
-        __panelManager = GameObject.Find(GameConstants.k_PanelManager).GetComponent<PanelManager>();
-        __chatManager = GameObject.Find(GameConstants.k_ExpoEventManager).GetComponent<ChatManager>();
+        _panelManager = GameObject.Find(GameConstants.K_PanelManager).GetComponent<PanelManager>();
+        _chatManager = GameObject.Find(GameConstants.K_ExpoEventManager).GetComponent<ChatManager>();
     }
 
     // This is called when the user first enters a booth area
     void OnTriggerEnter(Collider other)
     {
-        if (__camera == null)
+        if (_camera == null)
         {
-            __camera = GameObject.Find(GameConstants.k_Camera).GetComponent<Camera>();
-            GetComponentInChildren<Canvas>().worldCamera = __camera;
+            _camera = GameObject.Find(GameConstants.K_Camera).GetComponent<Camera>();
+            GetComponentInChildren<Canvas>().worldCamera = _camera;
         }
 
-        if (other.name == GameConstants.k_MyUser)
+        if (other.name == GameConstants.K_MyUser)
         {
-            __isUserInBooth = true;
-            if (!string.IsNullOrWhiteSpace(__projectName))
+            _isUserInBooth = true;
+            if (!string.IsNullOrWhiteSpace(_projectName))
             {
-                __JoinChannel();
+                JoinChannel();
             }
         }
     }
@@ -49,37 +49,37 @@ public class BoothSetup : MonoBehaviourPunCallbacks
     // This is called when the user leaves a booth area
     void OnTriggerExit(Collider other)
     {
-        if (other.name == GameConstants.k_MyUser)
+        if (other.name == GameConstants.K_MyUser)
         {
-            __LeaveChannel();
-            __isUserInBooth = false;
+            LeaveChannel();
+            _isUserInBooth = false;
         }
     }
 
-    private void __JoinChannel()
+    private void JoinChannel()
     {
-        __chatManager.UpdateChannel(__projectName, ChatManager.ChannelType.boothChannel);
-        __chatManager.EnterChannel(__projectName);
+        _chatManager.UpdateChannel(_projectName, ChatManager.ChannelType.boothChannel);
+        _chatManager.EnterChannel(_projectName);
     }
 
-    private void __LeaveChannel()
+    private void LeaveChannel()
     {
-        __chatManager.UpdateChannel(string.Empty, ChatManager.ChannelType.boothChannel);
-        __chatManager.LeaveChannel(__projectName);
+        _chatManager.UpdateChannel(string.Empty, ChatManager.ChannelType.boothChannel);
+        _chatManager.LeaveChannel(_projectName);
     }
 
     public void OpenBoothPanel()
     {
-        if (__isUserInBooth)
+        if (_isUserInBooth)
         {
-            if (string.IsNullOrEmpty(__projectName))
+            if (string.IsNullOrEmpty(_projectName))
             {
-                __panelManager.OpenBoothFormPanel(this);
+                _panelManager.OpenBoothFormPanel(this);
             }
             else
             {
-                __panelManager.OpenBoothInfoPanel(this, PhotonNetwork.NickName == __boothOwner, __projectName,
-                    __teamName, __projectDescription, __projectUrl);
+                _panelManager.OpenBoothInfoPanel(this, PhotonNetwork.NickName == _boothOwner, _projectName,
+                    _teamName, _projectDescription, _projectUrl);
             }
         }
     }
@@ -87,7 +87,7 @@ public class BoothSetup : MonoBehaviourPunCallbacks
     public bool SetUpBooth(string projectName, string teamName, string projectDescription, string projectUrl,
         string posterUrl)
     {
-        if (string.IsNullOrEmpty(__projectName))
+        if (string.IsNullOrEmpty(_projectName))
         {
             photonView.RPC("SyncBooth", RpcTarget.AllBuffered, PhotonNetwork.NickName, projectName, teamName,
                 projectDescription, projectUrl, posterUrl);
@@ -96,7 +96,7 @@ public class BoothSetup : MonoBehaviourPunCallbacks
         return false;
     }
 
-    private IEnumerator __SetPosterTexture(string url)
+    private IEnumerator SetPosterTexture(string url)
     {
         UnityWebRequest www = UnityWebRequestTexture.GetTexture(url);
         yield return www.SendWebRequest();
@@ -109,7 +109,7 @@ public class BoothSetup : MonoBehaviourPunCallbacks
         {
             Material posterMaterial = new Material(Shader.Find("Legacy Shaders/Diffuse"));
             posterMaterial.mainTexture = ((DownloadHandlerTexture)www.downloadHandler).texture;
-            posterBoard.GetComponent<MeshRenderer>().material = posterMaterial;
+            PosterBoard.GetComponent<MeshRenderer>().material = posterMaterial;
         }
     }
 
@@ -117,26 +117,26 @@ public class BoothSetup : MonoBehaviourPunCallbacks
     void SyncBooth(string boothOwner, string projectName, string teamName, string projectDescription,
         string projectUrl, string posterUrl)
     {
-        boothText.text = projectName;
-        __AssignBoothValues(boothOwner, projectName, teamName, projectDescription, projectUrl);
-        if (__isUserInBooth)
+        BoothText.text = projectName;
+        AssignBoothValues(boothOwner, projectName, teamName, projectDescription, projectUrl);
+        if (_isUserInBooth)
         {
-            __JoinChannel();
+            JoinChannel();
         }
         if (!string.IsNullOrWhiteSpace(posterUrl))
         {
-            StartCoroutine(__SetPosterTexture(posterUrl));
+            StartCoroutine(SetPosterTexture(posterUrl));
         }
     }
 
-    private void __AssignBoothValues(string boothOwner, string projectName, string teamName, string projectDescription,
+    private void AssignBoothValues(string boothOwner, string projectName, string teamName, string projectDescription,
         string url)
     {
-        __boothOwner = boothOwner;
-        __projectName = projectName;
-        __teamName = teamName;
-        __projectDescription = projectDescription;
-        __projectUrl = url;
+        _boothOwner = boothOwner;
+        _projectName = projectName;
+        _teamName = teamName;
+        _projectDescription = projectDescription;
+        _projectUrl = url;
     }
 
     public void ResetBooth()
@@ -147,12 +147,12 @@ public class BoothSetup : MonoBehaviourPunCallbacks
     [PunRPC]
     void ClearBooth()
     {
-        if (__isUserInBooth)
+        if (_isUserInBooth)
         {
-            __LeaveChannel();
+            LeaveChannel();
         }
-        boothText.text = string.Empty;
-        __AssignBoothValues(string.Empty, string.Empty, string.Empty, string.Empty, string.Empty);
-        StartCoroutine(__SetPosterTexture("https://i.imgur.com/EFfwKyC.png"));
+        BoothText.text = string.Empty;
+        AssignBoothValues(string.Empty, string.Empty, string.Empty, string.Empty, string.Empty);
+        StartCoroutine(SetPosterTexture("https://i.imgur.com/EFfwKyC.png"));
     }
 }

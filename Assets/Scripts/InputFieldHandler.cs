@@ -3,16 +3,16 @@ using UnityEngine.UI;
 
 public class InputFieldHandler : MonoBehaviour, IInputFieldHandler
 {
-    private InputField __inputField;
+    private InputField _inputField;
 
     // Start is called before the first frame update
     void Start()
     {
-        __inputField = GetComponent<InputField>();
+        _inputField = GetComponent<InputField>();
     }
 
-    public bool isFocused()
+    public bool IsFocused()
     {
-        return __inputField.isFocused;
+        return _inputField.isFocused;
     }
 }

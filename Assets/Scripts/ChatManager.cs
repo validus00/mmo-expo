@@ -19,125 +19,125 @@ public class ChatManager : MonoBehaviour
         general
     }
     // For storing channel names
-    private readonly Dictionary<ChannelType, string> __channelNames = new Dictionary<ChannelType, string>() {
-        { ChannelType.announcementChannel, GameConstants.k_AnnouncementChannelName },
-        { ChannelType.general, GameConstants.k_GeneralChannelName },
-        { ChannelType.hallChannel, GameConstants.k_HallChannelName },
+    private readonly Dictionary<ChannelType, string> _channelNames = new Dictionary<ChannelType, string>() {
+        { ChannelType.announcementChannel, GameConstants.K_AnnouncementChannelName },
+        { ChannelType.general, GameConstants.K_GeneralChannelName },
+        { ChannelType.hallChannel, GameConstants.K_HallChannelName },
         { ChannelType.boothChannel, string.Empty }
     };
     // For chat client handling
-    public IPhotonChatHandler photonChatHandler;
+    public IPhotonChatHandler PhotonChatHandler;
     // For handling user inputs
-    public IPlayerInputHandler playerInputHandler;
+    public IPlayerInputHandler PlayerInputHandler;
     // max number of channels
-    private const int __maxMessages = 100;
+    private const int K_maxMessages = 100;
     // Chat panel
-    public GameObject chatPanel;
+    public GameObject ChatPanel;
     // TMP text object to populate chat panel
     public GameObject TextObject;
     // Event info manager object to access event info manager
-    public GameObject eventInfoManagerObject;
+    public GameObject EventInfoManagerObject;
     // Event info manager to access event info owner
-    public IEventInfoManager eventInfoManager;
+    public IEventInfoManager EventInfoManager;
     // Channel name input field
-    public InputField channelBox;
+    public InputField ChannelBox;
     // message input field
-    public InputField chatBox;
+    public InputField ChatBox;
     // Color for general chat messages
-    public Color playerMessageColor;
+    public Color PlayerMessageColor;
     // Color for informational messages
-    public Color infoColor;
+    public Color InfoColor;
     // Color for private messages
-    public Color privateMessageColor;
+    public Color PrivateMessageColor;
     // For keeping track whether connect to service is called
-    private bool __connectToServiceIsCalled;
+    private bool _connectToServiceIsCalled;
     // messageList keeps tracks of recent messages
-    private readonly List<Message> __messageList = new List<Message>();
+    private readonly List<Message> _messageList = new List<Message>();
 
     // Returns current messages
     public List<Message> GetMessages()
     {
-        return __messageList;
+        return _messageList;
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        __connectToServiceIsCalled = false;
+        _connectToServiceIsCalled = false;
 
-        if (eventInfoManager == null)
+        if (EventInfoManager == null)
         {
-            eventInfoManager = eventInfoManagerObject.GetComponent<EventInfoManager>();
+            EventInfoManager = EventInfoManagerObject.GetComponent<EventInfoManager>();
         }
 
-        if (photonChatHandler == null)
+        if (PhotonChatHandler == null)
         {
-            photonChatHandler = new PhotonChatHandler();
+            PhotonChatHandler = new PhotonChatHandler();
         }
-        if (playerInputHandler == null)
+        if (PlayerInputHandler == null)
         {
-            playerInputHandler = new PlayerInputHandler();
+            PlayerInputHandler = new PlayerInputHandler();
         }
 
-        photonChatHandler.InitializeChannelNames(new string[] {
-            __channelNames[ChannelType.announcementChannel],
-            __channelNames[ChannelType.general],
-            __channelNames[ChannelType.hallChannel] });
+        PhotonChatHandler.InitializeChannelNames(new string[] {
+            _channelNames[ChannelType.announcementChannel],
+            _channelNames[ChannelType.general],
+            _channelNames[ChannelType.hallChannel] });
     }
 
     // Update is called once per frame
     void Update()
     {
         // Maintain service connection to Photon and is called during every update
-        photonChatHandler.MaintainService();
+        PhotonChatHandler.MaintainService();
 
-        if (photonChatHandler.IsConnected())
+        if (PhotonChatHandler.IsConnected())
         {
             // Get new messages from chat client
-            List<Message> messages = photonChatHandler.GetNewMessages();
+            List<Message> messages = PhotonChatHandler.GetNewMessages();
             foreach (Message message in messages)
             {
-                __SendMessageToChat(message);
+                SendMessageToChat(message);
             }
             // process chat input fields
-            __processChatInput();
+            ProcessChatInput();
         }
-        else if (ExpoEventManager.isNameUpdated && !__connectToServiceIsCalled)
+        else if (ExpoEventManager.IsNameUpdated && !_connectToServiceIsCalled)
         {
-            photonChatHandler.ConnectToService();
-            __connectToServiceIsCalled = true;
+            PhotonChatHandler.ConnectToService();
+            _connectToServiceIsCalled = true;
         }
     }
 
     // For updating channel input field
     public void UpdateChannelInputField(string channelName)
     {
-        channelBox.text = channelName;
+        ChannelBox.text = channelName;
     }
 
-    private void __processChatInput()
+    private void ProcessChatInput()
     {
         // Enter key either sends a message or activates the chat input field
-        if (playerInputHandler.GetReturnKey())
+        if (PlayerInputHandler.GetReturnKey())
         {
-            string channelName = channelBox.text;
-            string messageText = chatBox.text;
+            string channelName = ChannelBox.text;
+            string messageText = ChatBox.text;
 
             if (!string.IsNullOrEmpty(messageText))
             {
                 if (string.IsNullOrWhiteSpace(channelName))
                 {
                     // channel name not given
-                    __SendMessageToChat("No channel or username specified.", Message.MessageType.info);
+                    SendMessageToChat("No channel or username specified.", Message.MessageType.info);
                 }
-                else if (__CheckChannelName(channelName))
+                else if (CheckChannelName(channelName))
                 {
                     // If channel name does not exist in the channel list, assume private message attempt
 
                     // Check to see if the receipient is a valid user
                     bool isValidUser = false;
                     // temporary username from channel name + identifier (which is room name)
-                    string username = photonChatHandler.GetUsername(channelName);
+                    string username = PhotonChatHandler.GetUsername(channelName);
                     foreach (Player player in PhotonNetwork.PlayerList)
                     {
                         if (username.Equals(player.NickName))
@@ -151,51 +151,51 @@ public class ChatManager : MonoBehaviour
                         // Do not allow user to send private message to themselves
                         if (username == PhotonNetwork.NickName)
                         {
-                            __SendMessageToChat("Cannot send message to yourself.", Message.MessageType.info);
+                            SendMessageToChat("Cannot send message to yourself.", Message.MessageType.info);
                             UpdateChannelInputField(string.Empty);
                         }
                         else
                         {
                             // Send the private message
-                            photonChatHandler.SendPrivateMessage(username, messageText);
+                            PhotonChatHandler.SendPrivateMessage(username, messageText);
                         }
                     }
                     else
                     {
                         // Notify user that the recipient does not exist
-                        __SendMessageToChat($"\"{channelName}\" does not exist in the room.",
+                        SendMessageToChat($"\"{channelName}\" does not exist in the room.",
                             Message.MessageType.info);
                         UpdateChannelInputField(string.Empty);
                     }
-                    chatBox.text = string.Empty;
+                    ChatBox.text = string.Empty;
                 }
-                else if (channelName.Equals(__channelNames[ChannelType.announcementChannel]) &&
-                  !photonChatHandler.Username.Equals(eventInfoManager.EventInfoOwner))
+                else if (channelName.Equals(_channelNames[ChannelType.announcementChannel]) &&
+                  !PhotonChatHandler.Username.Equals(EventInfoManager.EventInfoOwner))
                 {
                     // Notify user that they do not have access to announcement channel
-                    __SendMessageToChat($"Only event admins have access to \"{channelName}\".", Message.MessageType.info);
+                    SendMessageToChat($"Only event admins have access to \"{channelName}\".", Message.MessageType.info);
                     UpdateChannelInputField(string.Empty);
                 }
                 else
                 {
                     // Send message
-                    photonChatHandler.SendChannelMessage(channelName, messageText);
-                    chatBox.text = string.Empty;
+                    PhotonChatHandler.SendChannelMessage(channelName, messageText);
+                    ChatBox.text = string.Empty;
                 }
             }
             else
             {
-                chatBox.ActivateInputField();
+                ChatBox.ActivateInputField();
             }
         }
     }
 
-    private bool __CheckChannelName(string channelName)
+    private bool CheckChannelName(string channelName)
     {
-        return channelName != __channelNames[ChannelType.announcementChannel] &&
-            channelName != __channelNames[ChannelType.hallChannel] &&
-            channelName != __channelNames[ChannelType.boothChannel] &&
-            channelName != __channelNames[ChannelType.general];
+        return channelName != _channelNames[ChannelType.announcementChannel] &&
+            channelName != _channelNames[ChannelType.hallChannel] &&
+            channelName != _channelNames[ChannelType.boothChannel] &&
+            channelName != _channelNames[ChannelType.general];
     }
 
     public void UpdateChannel(string channelName, ChannelType channelType)
@@ -205,21 +205,21 @@ public class ChatManager : MonoBehaviour
             return;
         }
 
-        __channelNames[channelType] = channelName;
+        _channelNames[channelType] = channelName;
 
-        if (!photonChatHandler.IsConnected())
+        if (!PhotonChatHandler.IsConnected())
         {
-            if (!string.IsNullOrEmpty(__channelNames[ChannelType.boothChannel]))
+            if (!string.IsNullOrEmpty(_channelNames[ChannelType.boothChannel]))
             {
-                photonChatHandler.InitializeChannelNames(new string[] {
-                    __channelNames[ChannelType.announcementChannel], __channelNames[ChannelType.hallChannel],
-                    __channelNames[ChannelType.general], __channelNames[ChannelType.boothChannel] });
+                PhotonChatHandler.InitializeChannelNames(new string[] {
+                    _channelNames[ChannelType.announcementChannel], _channelNames[ChannelType.hallChannel],
+                    _channelNames[ChannelType.general], _channelNames[ChannelType.boothChannel] });
             }
             else
             {
-                photonChatHandler.InitializeChannelNames(new string[] {
-                    __channelNames[ChannelType.announcementChannel], __channelNames[ChannelType.hallChannel],
-                    __channelNames[ChannelType.general],
+                PhotonChatHandler.InitializeChannelNames(new string[] {
+                    _channelNames[ChannelType.announcementChannel], _channelNames[ChannelType.hallChannel],
+                    _channelNames[ChannelType.general],
                 });
             }
         }
@@ -230,7 +230,7 @@ public class ChatManager : MonoBehaviour
     {
         if (!string.IsNullOrWhiteSpace(channelName))
         {
-            photonChatHandler.LeaveChannel(channelName);
+            PhotonChatHandler.LeaveChannel(channelName);
         }
     }
 
@@ -239,72 +239,72 @@ public class ChatManager : MonoBehaviour
     {
         if (!string.IsNullOrWhiteSpace(channelName))
         {
-            photonChatHandler.EnterChannel(channelName);
+            PhotonChatHandler.EnterChannel(channelName);
         }
     }
 
     public string GetChannelName(ChannelType channelType)
     {
-        return __channelNames[channelType];
+        return _channelNames[channelType];
     }
 
     // This method is for displaying received messages in chat panel
-    private void __SendMessageToChat(string text, Message.MessageType messageType)
+    private void SendMessageToChat(string text, Message.MessageType messageType)
     {
         // Limit number of messages
-        __LimitNumberOfMessages();
+        LimitNumberOfMessages();
 
         // Create new Message object and add to list of messages
         Message message = new Message();
-        GameObject newText = Instantiate(TextObject, chatPanel.transform);
+        GameObject newText = Instantiate(TextObject, ChatPanel.transform);
         newText.GetComponent<ChannelFieldHandler>().ChatManagerObject = this;
         message.MessageText = text;
         message.MsgType = messageType;
         message.TextObject = newText.GetComponent<TextMeshProUGUI>();
         message.TextObject.text = text;
-        message.TextObject.color = __MessageTypeColor(messageType);
+        message.TextObject.color = MessageTypeColor(messageType);
 
-        __messageList.Add(message);
+        _messageList.Add(message);
     }
 
     // This method is for displaying received messages in chat panel
-    private void __SendMessageToChat(Message message)
+    private void SendMessageToChat(Message message)
     {
         // Limit number of messages
-        __LimitNumberOfMessages();
+        LimitNumberOfMessages();
 
-        GameObject newText = Instantiate(TextObject, chatPanel.transform);
+        GameObject newText = Instantiate(TextObject, ChatPanel.transform);
         newText.GetComponent<ChannelFieldHandler>().ChatManagerObject = this;
         message.TextObject = newText.GetComponent<TextMeshProUGUI>();
         message.TextObject.text = message.MessageText;
-        message.TextObject.color = __MessageTypeColor(message.MsgType);
+        message.TextObject.color = MessageTypeColor(message.MsgType);
 
-        __messageList.Add(message);
+        _messageList.Add(message);
     }
 
-    private void __LimitNumberOfMessages()
+    private void LimitNumberOfMessages()
     {
         // Keep only 99 most recent messages before adding a new message to list
-        if (__messageList.Count >= __maxMessages)
+        if (_messageList.Count >= K_maxMessages)
         {
-            Destroy(__messageList[0].TextObject.gameObject);
-            __messageList.Remove(__messageList[0]);
+            Destroy(_messageList[0].TextObject.gameObject);
+            _messageList.Remove(_messageList[0]);
         }
     }
 
     // This method is for determining which color the message type is
-    private Color __MessageTypeColor(Message.MessageType messageType)
+    private Color MessageTypeColor(Message.MessageType messageType)
     {
         // Default color
-        Color color = infoColor;
+        Color color = InfoColor;
 
         switch (messageType)
         {
             case Message.MessageType.playerMessage:
-                color = playerMessageColor;
+                color = PlayerMessageColor;
                 break;
             case Message.MessageType.privateMessage:
-                color = privateMessageColor;
+                color = PrivateMessageColor;
                 break;
         }
 
