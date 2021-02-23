@@ -65,12 +65,12 @@ public class PlayerInputHandler : IPlayerInputHandler
 
     public float GetLookInputsHorizontal()
     {
-        return Input.GetAxisRaw(GameConstants.k_MouseX) * GetLookSensitivityMultiplier() * 0.01f;
+        return Input.GetAxisRaw(GameConstants.K_MouseX) * GetLookSensitivityMultiplier() * 0.01f;
     }
 
     public float GetLookInputsVertical()
     {
-        return Input.GetAxisRaw(GameConstants.k_MouseY) * GetLookSensitivityMultiplier() * -0.01f;
+        return Input.GetAxisRaw(GameConstants.K_MouseY) * GetLookSensitivityMultiplier() * -0.01f;
     }
 
     private float GetLookSensitivityMultiplier()

@@ -6,19 +6,19 @@
 public class FaceCamera : MonoBehaviour
 {
     // target will be the camera
-    private GameObject __target;
+    private GameObject _target;
 
     // Update is called once per frame
     void Update()
     {
         // set camera here since this script is loaded before camera object
-        if (__target == null)
+        if (_target == null)
         {
-            __target = GameObject.Find(GameConstants.k_Camera);
+            _target = GameObject.Find(GameConstants.K_Camera);
         }
-        if (__target != null)
+        if (_target != null)
         {
-            transform.LookAt(__target.transform);
+            transform.LookAt(_target.transform);
             transform.Rotate(Vector3.up - new Vector3(0, 180, 0));
         }
     }

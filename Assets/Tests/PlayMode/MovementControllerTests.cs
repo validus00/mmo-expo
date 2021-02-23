@@ -24,8 +24,8 @@ namespace Tests
             Assert.AreEqual(0, user.transform.position.z);
             Assert.AreEqual(0, user.transform.position.x);
             Assert.AreEqual(0, user.transform.position.y);
-            Assert.AreEqual(0, animator.GetFloat(GameConstants.k_Horizontal));
-            Assert.AreEqual(0, animator.GetFloat(GameConstants.k_Vertical));
+            Assert.AreEqual(0, animator.GetFloat(GameConstants.K_Horizontal));
+            Assert.AreEqual(0, animator.GetFloat(GameConstants.K_Vertical));
         }
 
         [UnityTest]
@@ -44,8 +44,8 @@ namespace Tests
             Assert.IsTrue(user.transform.position.z > 0);
             Assert.AreEqual(0, user.transform.position.x);
             Assert.AreEqual(0, user.transform.position.y);
-            Assert.AreEqual(0, animator.GetFloat(GameConstants.k_Horizontal));
-            Assert.AreEqual(1f, animator.GetFloat(GameConstants.k_Vertical));
+            Assert.AreEqual(0, animator.GetFloat(GameConstants.K_Horizontal));
+            Assert.AreEqual(1f, animator.GetFloat(GameConstants.K_Vertical));
         }
 
         [UnityTest]
@@ -64,8 +64,8 @@ namespace Tests
             Assert.IsTrue(0 > user.transform.position.x);
             Assert.AreEqual(0, user.transform.position.y);
             Assert.AreEqual(0, user.transform.position.z);
-            Assert.AreEqual(-1f, animator.GetFloat(GameConstants.k_Horizontal));
-            Assert.AreEqual(0, animator.GetFloat(GameConstants.k_Vertical));
+            Assert.AreEqual(-1f, animator.GetFloat(GameConstants.K_Horizontal));
+            Assert.AreEqual(0, animator.GetFloat(GameConstants.K_Vertical));
         }
 
         [UnityTest]
@@ -77,8 +77,8 @@ namespace Tests
             playerInputHandler.GetMoveInput().Returns(new Vector3(0, 0, 1));
             IInputFieldHandler channelBoxHandler = Substitute.For<IInputFieldHandler>();
             IInputFieldHandler chatBoxHandler = Substitute.For<IInputFieldHandler>();
-            channelBoxHandler.isFocused().Returns(false);
-            chatBoxHandler.isFocused().Returns(true);
+            channelBoxHandler.IsFocused().Returns(false);
+            chatBoxHandler.IsFocused().Returns(true);
 
             SetUpMovementController(user, playerInputHandler);
             Animator animator = user.GetComponent<Animator>();
@@ -91,19 +91,19 @@ namespace Tests
             Assert.AreEqual(0, user.transform.position.x);
             Assert.AreEqual(0, user.transform.position.y);
             Assert.AreEqual(0, user.transform.position.z);
-            Assert.AreEqual(0, animator.GetFloat(GameConstants.k_Horizontal));
-            Assert.AreEqual(0, animator.GetFloat(GameConstants.k_Vertical));
+            Assert.AreEqual(0, animator.GetFloat(GameConstants.K_Horizontal));
+            Assert.AreEqual(0, animator.GetFloat(GameConstants.K_Vertical));
 
-            channelBoxHandler.isFocused().Returns(false);
-            chatBoxHandler.isFocused().Returns(false);
+            channelBoxHandler.IsFocused().Returns(false);
+            chatBoxHandler.IsFocused().Returns(false);
 
             yield return new WaitForSeconds(0.5f);
 
             Assert.IsTrue(user.transform.position.z > 0);
             Assert.AreEqual(0, user.transform.position.x);
             Assert.AreEqual(0, user.transform.position.y);
-            Assert.AreEqual(0, animator.GetFloat(GameConstants.k_Horizontal));
-            Assert.AreEqual(1f, animator.GetFloat(GameConstants.k_Vertical));
+            Assert.AreEqual(0, animator.GetFloat(GameConstants.K_Horizontal));
+            Assert.AreEqual(1f, animator.GetFloat(GameConstants.K_Vertical));
         }
 
         [UnityTest]
@@ -129,8 +129,8 @@ namespace Tests
             Assert.AreEqual(0, user.transform.position.x);
             Assert.AreEqual(0, user.transform.position.y);
             Assert.AreEqual(0, user.transform.position.z);
-            Assert.AreEqual(0, animator.GetFloat(GameConstants.k_Horizontal));
-            Assert.AreEqual(0, animator.GetFloat(GameConstants.k_Vertical));
+            Assert.AreEqual(0, animator.GetFloat(GameConstants.K_Horizontal));
+            Assert.AreEqual(0, animator.GetFloat(GameConstants.K_Vertical));
         }
 
         [UnityTest]
@@ -156,8 +156,8 @@ namespace Tests
             Assert.AreEqual(0, user.transform.position.x);
             Assert.AreEqual(0, user.transform.position.y);
             Assert.AreEqual(0, user.transform.position.z);
-            Assert.AreEqual(0, animator.GetFloat(GameConstants.k_Horizontal));
-            Assert.AreEqual(0, animator.GetFloat(GameConstants.k_Vertical));
+            Assert.AreEqual(0, animator.GetFloat(GameConstants.K_Horizontal));
+            Assert.AreEqual(0, animator.GetFloat(GameConstants.K_Vertical));
         }
 
         [UnityTest]
@@ -179,8 +179,8 @@ namespace Tests
             Assert.AreEqual(0, user.transform.position.x);
             Assert.AreEqual(0, user.transform.position.y);
             Assert.AreEqual(0, user.transform.position.z);
-            Assert.AreEqual(0, animator.GetFloat(GameConstants.k_Horizontal));
-            Assert.AreEqual(0, animator.GetFloat(GameConstants.k_Vertical));
+            Assert.AreEqual(0, animator.GetFloat(GameConstants.K_Horizontal));
+            Assert.AreEqual(0, animator.GetFloat(GameConstants.K_Vertical));
         }
 
         [UnityTest]
@@ -201,8 +201,8 @@ namespace Tests
             Assert.AreEqual(0, user.transform.position.x);
             Assert.AreEqual(0, user.transform.position.y);
             Assert.AreEqual(0, user.transform.position.z);
-            Assert.AreEqual(0, animator.GetFloat(GameConstants.k_Horizontal));
-            Assert.AreEqual(0, animator.GetFloat(GameConstants.k_Vertical));
+            Assert.AreEqual(0, animator.GetFloat(GameConstants.K_Horizontal));
+            Assert.AreEqual(0, animator.GetFloat(GameConstants.K_Vertical));
             playerInputHandler.Received(1).GetTabKey();
         }
 
@@ -232,25 +232,25 @@ namespace Tests
             Assert.IsTrue(user.transform.position.z > 0);
             Assert.AreEqual(0, user.transform.position.x);
             Assert.AreEqual(0, user.transform.position.y);
-            Assert.AreEqual(0, animator.GetFloat(GameConstants.k_Horizontal));
-            Assert.AreEqual(1f, animator.GetFloat(GameConstants.k_Vertical));
+            Assert.AreEqual(0, animator.GetFloat(GameConstants.K_Horizontal));
+            Assert.AreEqual(1f, animator.GetFloat(GameConstants.K_Vertical));
         }
 
         private void SetUpMovementController(GameObject user, IPlayerInputHandler playerInputHandler)
         {
-            GameObject channelBoxObject = new GameObject(GameConstants.k_ChannelInputField);
+            GameObject channelBoxObject = new GameObject(GameConstants.K_ChannelInputField);
             channelBoxObject.AddComponent<InputField>();
             channelBoxObject.AddComponent<InputFieldHandler>();
 
-            GameObject chatBoxObject = new GameObject(GameConstants.k_MessageInputField);
+            GameObject chatBoxObject = new GameObject(GameConstants.K_MessageInputField);
             chatBoxObject.AddComponent<InputField>();
             chatBoxObject.AddComponent<InputFieldHandler>();
 
             user.AddComponent<CharacterController>();
             user.AddComponent<Animator>().runtimeAnimatorController
-                = Resources.Load(GameConstants.k_AnimationController) as RuntimeAnimatorController;
+                = Resources.Load(GameConstants.K_AnimationController) as RuntimeAnimatorController;
 
-            GameObject camera = new GameObject(GameConstants.k_Camera);
+            GameObject camera = new GameObject(GameConstants.K_Camera);
             MovementController movementController = user.AddComponent<MovementController>();
             movementController.PlayerInputHandler = playerInputHandler;
             movementController.FpsCamera = camera;

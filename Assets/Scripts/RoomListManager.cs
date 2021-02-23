@@ -34,7 +34,7 @@ public class RoomListManager : MonoBehaviour, IPointerClickHandler
     void Update()
     {
         // Reset the user's name if identifier holds default
-        if (ExpoEventManager.isNameUpdated && _name.StartsWith("User"))
+        if (ExpoEventManager.IsNameUpdated && _name.StartsWith("User"))
         {
             _name = PhotonNetwork.NickName;
             _nameTrimmed = PhotonChatHandler.RemoveRoomName(_name);

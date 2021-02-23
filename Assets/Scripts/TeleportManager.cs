@@ -14,7 +14,7 @@ public class TeleportManager : MonoBehaviour
 
     void Start()
     {
-        _chatManager = GameObject.Find(GameConstants.k_ExpoEventManager).GetComponent<ChatManager>();
+        _chatManager = GameObject.Find(GameConstants.K_ExpoEventManager).GetComponent<ChatManager>();
     }
 
     public void OnTriggerEnter(Collider other)

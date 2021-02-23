@@ -4,42 +4,42 @@ using UnityEngine;
 public class EventInfoManager : MonoBehaviourPunCallbacks, IEventInfoManager
 {
 
-    private PanelManager __panelManager;
-    private string __eventInfoUrl;
-    private string __scheduleUrl;
-    private string __zoomUrl;
-    private string __eventInfoOwner;
-    public static bool isUserInInfoBooth = false;
+    private PanelManager _panelManager;
+    private string _eventInfoUrl;
+    private string _scheduleUrl;
+    private string _zoomUrl;
+    private string _eventInfoOwner;
+    public static bool IsUserInInfoBooth = false;
 
     void Start()
     {
-        __panelManager = GameObject.Find(GameConstants.k_PanelManager).GetComponent<PanelManager>();
+        _panelManager = GameObject.Find(GameConstants.K_PanelManager).GetComponent<PanelManager>();
     }
 
     public string EventInfoOwner
     {
-        get { return __eventInfoOwner; }
+        get { return _eventInfoOwner; }
     }
 
     public void OpenEventInfo()
     {
-        if (isUserInInfoBooth)
+        if (IsUserInInfoBooth)
         {
-            if (string.IsNullOrEmpty(__eventInfoUrl))
+            if (string.IsNullOrEmpty(_eventInfoUrl))
             {
-                __panelManager.OpenEventInfoFormPanel(this);
+                _panelManager.OpenEventInfoFormPanel(this);
             }
             else
             {
-                __panelManager.OpenEventInfoPanel(this, PhotonNetwork.NickName == __eventInfoOwner, __eventInfoUrl,
-                    __scheduleUrl, __zoomUrl);
+                _panelManager.OpenEventInfoPanel(this, PhotonNetwork.NickName == _eventInfoOwner, _eventInfoUrl,
+                    _scheduleUrl, _zoomUrl);
             }
         }
     }
 
     public bool SetUpEventInfo(string eventInfoUrl, string scheduleUrl, string zoomUrl)
     {
-        if (string.IsNullOrEmpty(__eventInfoUrl))
+        if (string.IsNullOrEmpty(_eventInfoUrl))
         {
             photonView.RPC("SyncEventInfo", RpcTarget.AllBuffered, eventInfoUrl, scheduleUrl, zoomUrl,
                 PhotonNetwork.NickName);
@@ -51,10 +51,10 @@ public class EventInfoManager : MonoBehaviourPunCallbacks, IEventInfoManager
     [PunRPC]
     void SyncEventInfo(string eventInfoUrl, string scheduleUrl, string zoomUrl, string eventInfoOwner)
     {
-        __eventInfoUrl = eventInfoUrl;
-        __scheduleUrl = scheduleUrl;
-        __zoomUrl = zoomUrl;
-        __eventInfoOwner = eventInfoOwner;
+        _eventInfoUrl = eventInfoUrl;
+        _scheduleUrl = scheduleUrl;
+        _zoomUrl = zoomUrl;
+        _eventInfoOwner = eventInfoOwner;
     }
 
     public void ResetEventInfo()
@@ -65,9 +65,9 @@ public class EventInfoManager : MonoBehaviourPunCallbacks, IEventInfoManager
     [PunRPC]
     void ClearEventInfo()
     {
-        __eventInfoUrl = string.Empty;
-        __scheduleUrl = string.Empty;
-        __zoomUrl = string.Empty;
-        __eventInfoOwner = string.Empty;
+        _eventInfoUrl = string.Empty;
+        _scheduleUrl = string.Empty;
+        _zoomUrl = string.Empty;
+        _eventInfoOwner = string.Empty;
     }
 }
