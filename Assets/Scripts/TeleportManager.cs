@@ -34,7 +34,7 @@ public class TeleportManager : MonoBehaviour
     {
         string newChannelName = DestinationText.text;
         _chatManager.UpdateChannel(newChannelName, ChatManager.ChannelType.hallChannel);
-        _chatManager.EnterChannel(newChannelName);
         _chatManager.LeaveChannel(_currentChannelName);
+        _chatManager.EnterChannel(newChannelName);
     }
 }
