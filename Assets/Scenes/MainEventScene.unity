@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.4366757, g: 0.48427194, b: 0.5645252, a: 1}
+  m_IndirectSpecularColor: {r: 0.4366756, g: 0.48427194, b: 0.5645252, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -6823,7 +6823,7 @@ MonoBehaviour:
   DuplicateNameText: {fileID: 230908827}
   NameIsAvailableText: {fileID: 1365009482}
   EnterNameText: {fileID: 1611852656}
-  listOfAvatars:
+  ListOfAvatars:
   - {fileID: 2968297417577615623, guid: 10fc36862d85937478290c4609312be6, type: 3}
   - {fileID: 339832752081138134, guid: e0cc0e730f0ba714dade7e3f3b5a78b5, type: 3}
 --- !u!114 &727287418
@@ -18566,7 +18566,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 492985574518587468}
   m_HandleRect: {fileID: 492985574518587467}
   m_Direction: 0
-  m_Value: 1
+  m_Value: 0
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
