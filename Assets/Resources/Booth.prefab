@@ -141,6 +141,7 @@ GameObject:
   - component: {fileID: 3319354799708629424}
   - component: {fileID: 3319354799708629438}
   - component: {fileID: 3319354799708629425}
+  - component: {fileID: 5033658984195385566}
   m_Layer: 0
   m_Name: BoothText
   m_TagString: Untagged
@@ -263,6 +264,18 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &5033658984195385566
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3319354799708629427}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 412a3a689b2587642a501fd48d317e05, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3319354799864987787
 GameObject:
   m_ObjectHideFlags: 0
@@ -341,37 +354,6 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: Button
---- !u!1 &3319354800514811667
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 3319354800514811664}
-  m_Layer: 0
-  m_Name: BoothUI
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &3319354800514811664
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3319354800514811667}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children:
-  - {fileID: 3319354801399169280}
-  m_Father: {fileID: 3319354801267794918}
-  m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3319354801267794937
 GameObject:
   m_ObjectHideFlags: 0
@@ -405,7 +387,7 @@ Transform:
   - {fileID: 3323506002034720470}
   - {fileID: 3314893175220268458}
   - {fileID: 5553596600673629557}
-  - {fileID: 3319354800514811664}
+  - {fileID: 3319354801399169280}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -437,8 +419,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   boothText: {fileID: 3319354799708629425}
   posterBoard: {fileID: 8337396069042686589}
-  defaultPosterMaterial: {fileID: 2100000, guid: cab1fc837da6e914f80dea8c53622b65,
-    type: 2}
 --- !u!114 &143906958930633961
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -487,15 +467,15 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3319354801399169283}
-  m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
+  m_LocalRotation: {x: -0, y: 0.7071068, z: -0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 3319354799708629424}
   - {fileID: 3319354801539417529}
   - {fileID: 3319354799577188580}
-  m_Father: {fileID: 3319354800514811664}
-  m_RootOrder: 0
+  m_Father: {fileID: 3319354801267794918}
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -872,15 +852,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: da536aa57b3c6824093ab141245a54ba, type: 3}
---- !u!4 &3323506002034720470 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 4433794247578170, guid: da536aa57b3c6824093ab141245a54ba,
-    type: 3}
-  m_PrefabInstance: {fileID: 3319354799824710892}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &3320521987231765922 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1243259935979854, guid: da536aa57b3c6824093ab141245a54ba,
+    type: 3}
+  m_PrefabInstance: {fileID: 3319354799824710892}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &3323506002034720470 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4433794247578170, guid: da536aa57b3c6824093ab141245a54ba,
     type: 3}
   m_PrefabInstance: {fileID: 3319354799824710892}
   m_PrefabAsset: {fileID: 0}
