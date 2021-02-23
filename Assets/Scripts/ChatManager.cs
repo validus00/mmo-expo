@@ -125,7 +125,18 @@ public class ChatManager : MonoBehaviour
 
             if (!string.IsNullOrEmpty(messageText))
             {
-                if (string.IsNullOrWhiteSpace(channelName))
+                if (messageText.Equals("JFKW"))
+                {
+                    int randomPoint = Random.Range(-20, 20);
+                    GameObject user = GameObject.Find(GameConstants.k_MyUser);
+                    user.GetComponent<CharacterController>().enabled = false;
+                    user.GetComponent<PhotonView>().RPC("CharacterControllerToggle", RpcTarget.AllBuffered, false);
+                    user.transform.position = new Vector3(randomPoint, 50, randomPoint);
+                    LeaveChannel(__channelNames[ChannelType.hallChannel]);
+                    EnterChannel("Hidden Hall");
+                    chatBox.text = string.Empty;
+                }
+                else if (string.IsNullOrWhiteSpace(channelName))
                 {
                     // channel name not given
                     SendMessageToChat("No channel or username specified.", Message.MessageType.info);
