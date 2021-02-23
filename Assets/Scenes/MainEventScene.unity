@@ -6073,7 +6073,7 @@ MonoBehaviour:
   EnterNameText: {fileID: 1611852656}
   listOfAvatars:
   - {fileID: 6601386651165192743, guid: 84cfbeaebaceac84c884bbb4eb7b6099, type: 3}
-  - {fileID: 2537268446203303740, guid: 6f6fd950dc13a4148b948a70c7b7eec5, type: 3}
+  - {fileID: 7037095145537700804, guid: 4e19f4e7a81fc4c48b6da004e3ff319b, type: 3}
 --- !u!114 &727287418
 MonoBehaviour:
   m_ObjectHideFlags: 0
