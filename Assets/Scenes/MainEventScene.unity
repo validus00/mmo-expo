@@ -2689,7 +2689,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Dropdown: {fileID: 163575179}
   IndexesToDisable: 
-  ChannelBox: {fileID: 7723019544791249950}
+  ChatManagerObject: {fileID: 0}
 --- !u!114 &163575179
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19553,7 +19553,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Enter Channel/User
+  m_Text: Channel/User
 --- !u!222 &7723019545645505291
 CanvasRenderer:
   m_ObjectHideFlags: 0
