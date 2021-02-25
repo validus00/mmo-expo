@@ -3,6 +3,9 @@ using Photon.Realtime;
 using UnityEngine;
 using UnityEngine.UI;
 
+/*
+ * LaunchManager class is for implementing business logic surrounding launching the event for new users
+ */
 public class LaunchManager : MonoBehaviourPunCallbacks
 {
     public GameObject EnterEventPanel;

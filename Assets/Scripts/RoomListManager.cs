@@ -5,6 +5,9 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
+/*
+ * RoomListManager class implements room list panel feature
+ */
 public class RoomListManager : MonoBehaviour, IPointerClickHandler
 {
     // Dropdown object reference

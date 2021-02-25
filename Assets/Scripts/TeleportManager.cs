@@ -2,6 +2,9 @@
 using TMPro;
 using UnityEngine;
 
+/*
+ * TeleportManager class implements teleportation feature
+ */
 public class TeleportManager : MonoBehaviour
 {
     public Transform TeleportTarget;
@@ -19,9 +22,9 @@ public class TeleportManager : MonoBehaviour
 
     public void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.name.Equals("MyUser"))
+        if (other.gameObject.name.Equals(GameConstants.K_MyUser))
         {
-            Teleport(other.gameObject, TeleportTarget.transform.position);
+            Teleport(other.gameObject, TeleportTarget.position);
             ChangeChannel();
         }
     }
