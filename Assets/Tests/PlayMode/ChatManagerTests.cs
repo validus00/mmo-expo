@@ -144,7 +144,7 @@ namespace Tests
             yield return null;
 
             Assert.AreEqual(1, chatManager.GetMessages().Count);
-            Assert.AreEqual("\"Test\" does not exist in the room.",
+            Assert.AreEqual("\"Test\" is not in your channel list or player list.",
                 chatManager.GetMessages()[0].MessageText);
             Assert.AreEqual(Message.MessageType.info, chatManager.GetMessages()[0].MsgType);
             Assert.AreEqual(GameConstants.K_AnnouncementChannelName,
@@ -375,6 +375,144 @@ namespace Tests
             yield return null;
 
             photonChatHandler.Received(1).ConnectToService();
+        }
+
+        [UnityTest]
+        public IEnumerator WhenSecretPhraseIsEnteredThenTeleportUserToSecretArea()
+        {
+            GameObject eventManager = new GameObject(GameConstants.K_ExpoEventManager);
+            ChatManager chatManager = eventManager.AddComponent<ChatManager>();
+
+            IPlayerInputHandler playerInputHandler = Substitute.For<IPlayerInputHandler>();
+            playerInputHandler.GetReturnKey().Returns(true);
+
+            IPhotonChatHandler photonChatHandler = Substitute.For<IPhotonChatHandler>();
+            List<Message> messages = new List<Message>();
+            Message newMessage = new Message();
+            newMessage.MessageText = GameConstants.K_EasterEggSecretPhrase;
+            newMessage.MsgType = Message.MessageType.playerMessage;
+            messages.Add(newMessage);
+            photonChatHandler.GetNewMessages().Returns(messages);
+            photonChatHandler.IsConnected().Returns(true);
+
+            GameObject secretArea = new GameObject("Secret Area");
+            secretArea.transform.position = new Vector3(100, 100, 100);
+            chatManager.SecretArea = secretArea;
+            GameObject user = new GameObject(GameConstants.K_MyUser);
+            user.transform.position = new Vector3(1000, 1000, 1000);
+            user.AddComponent<CharacterController>();
+
+            SetUpChatManager(chatManager, playerInputHandler, photonChatHandler,
+                GameConstants.K_HallChannelName, GameConstants.K_EasterEggSecretPhrase);
+
+            yield return null;
+
+            Assert.AreEqual(user.transform.position.y, secretArea.transform.position.y);
+            Assert.AreEqual(1, chatManager.GetMessages().Count);
+            Assert.AreEqual(GameConstants.K_AnnouncementChannelName,
+                chatManager.GetChannelName(ChatManager.ChannelType.announcementChannel));
+            Assert.AreEqual("Hidden Hall", chatManager.GetChannelName(ChatManager.ChannelType.hallChannel));
+            Assert.AreEqual(string.Empty, chatManager.GetChannelName(ChatManager.ChannelType.boothChannel));
+            photonChatHandler.Received(0).SendChannelMessage(GameConstants.K_HallChannelName, K_Message);
+        }
+
+        [UnityTest]
+        public IEnumerator WhenAnnouncementMessageIsSentAndUserIsNotAdminThenGetErrorMessage()
+        {
+            GameObject eventManager = new GameObject(GameConstants.K_ExpoEventManager);
+            ChatManager chatManager = eventManager.AddComponent<ChatManager>();
+
+            IPlayerInputHandler playerInputHandler = Substitute.For<IPlayerInputHandler>();
+            playerInputHandler.GetReturnKey().Returns(true);
+
+            IPhotonChatHandler photonChatHandler = Substitute.For<IPhotonChatHandler>();
+            photonChatHandler.GetNewMessages().Returns(new List<Message>());
+            photonChatHandler.IsConnected().Returns(true);
+            photonChatHandler.Username.Returns("Random User");
+
+            SetUpChatManager(chatManager, playerInputHandler, photonChatHandler,
+                GameConstants.K_AnnouncementChannelName, K_Message);
+            chatManager.EventInfoManager.EventInfoOwner.Returns("Not Random User");
+
+            yield return null;
+
+            Assert.AreEqual(1, chatManager.GetMessages().Count);
+            Assert.AreEqual($"Only event admins have access to \"{GameConstants.K_AnnouncementChannelName}\".",
+                chatManager.GetMessages()[0].MessageText);
+            photonChatHandler.Received(0).SendChannelMessage(GameConstants.K_AnnouncementChannelName, K_Message);
+        }
+
+        [UnityTest]
+        public IEnumerator WhenAnnouncementMessageIsSentThenGetMessage()
+        {
+            GameObject eventManager = new GameObject(GameConstants.K_ExpoEventManager);
+            ChatManager chatManager = eventManager.AddComponent<ChatManager>();
+
+            IPlayerInputHandler playerInputHandler = Substitute.For<IPlayerInputHandler>();
+            playerInputHandler.GetReturnKey().Returns(true);
+
+            IPhotonChatHandler photonChatHandler = Substitute.For<IPhotonChatHandler>();
+            photonChatHandler.GetNewMessages().Returns(new List<Message>());
+            photonChatHandler.IsConnected().Returns(true);
+            photonChatHandler.Username.Returns("Random User");
+
+            SetUpChatManager(chatManager, playerInputHandler, photonChatHandler,
+                GameConstants.K_AnnouncementChannelName, K_Message);
+            chatManager.EventInfoManager.EventInfoOwner.Returns("Random User");
+
+            yield return null;
+
+            Assert.AreEqual(0, chatManager.GetMessages().Count);
+            photonChatHandler.Received(1).SendChannelMessage(GameConstants.K_AnnouncementChannelName, K_Message);
+        }
+
+        [UnityTest]
+        public IEnumerator WhenUserSendsItselfMessageThenGetErrorMessage()
+        {
+            GameObject eventManager = new GameObject(GameConstants.K_ExpoEventManager);
+            ChatManager chatManager = eventManager.AddComponent<ChatManager>();
+
+            IPlayerInputHandler playerInputHandler = Substitute.For<IPlayerInputHandler>();
+            playerInputHandler.GetReturnKey().Returns(true);
+
+            string username = "Random User";
+            IPhotonChatHandler photonChatHandler = Substitute.For<IPhotonChatHandler>();
+            photonChatHandler.GetNewMessages().Returns(new List<Message>());
+            photonChatHandler.IsConnected().Returns(true);
+            photonChatHandler.UserEnteredName.Returns(username);
+
+            SetUpChatManager(chatManager, playerInputHandler, photonChatHandler, username, K_Message);
+
+            yield return null;
+
+            Assert.AreEqual(1, chatManager.GetMessages().Count);
+            Assert.AreEqual("Cannot send message to yourself.", chatManager.GetMessages()[0].MessageText);
+            photonChatHandler.Received(0).SendChannelMessage(Arg.Any<string>(), K_Message);
+            photonChatHandler.Received(0).SendPrivateMessage(Arg.Any<string>(), Arg.Any<string>());
+        }
+
+        [UnityTest]
+        public IEnumerator WhenUserSendsValidUserMessageThenGetErrorMessage()
+        {
+            GameObject eventManager = new GameObject(GameConstants.K_ExpoEventManager);
+            ChatManager chatManager = eventManager.AddComponent<ChatManager>();
+
+            IPlayerInputHandler playerInputHandler = Substitute.For<IPlayerInputHandler>();
+            playerInputHandler.GetReturnKey().Returns(true);
+
+            string username = "Random User";
+            IPhotonChatHandler photonChatHandler = Substitute.For<IPhotonChatHandler>();
+            photonChatHandler.GetNewMessages().Returns(new List<Message>());
+            photonChatHandler.IsConnected().Returns(true);
+            photonChatHandler.UserEnteredName.Returns("Another Random User");
+            photonChatHandler.IsValidUsername(username).Returns(true);
+
+            SetUpChatManager(chatManager, playerInputHandler, photonChatHandler, username, K_Message);
+
+            yield return null;
+
+            photonChatHandler.Received(0).SendChannelMessage(Arg.Any<string>(), K_Message);
+            photonChatHandler.Received(1).SendPrivateMessage(username, K_Message);
         }
 
         private void SetUpChatManager(ChatManager chatManager, IPlayerInputHandler playerInputHandler,

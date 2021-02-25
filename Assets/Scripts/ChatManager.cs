@@ -1,6 +1,4 @@
 ﻿using System.Collections.Generic;
-using Photon.Pun;
-using Photon.Realtime;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -37,6 +35,8 @@ public class ChatManager : MonoBehaviour
     public GameObject TextObject;
     // Event info manager object to access event info manager
     public GameObject EventInfoManagerObject;
+    // Secret area
+    public GameObject SecretArea;
     // Event info manager to access event info owner
     public IEventInfoManager EventInfoManager;
     // Channel name input field
@@ -125,15 +125,9 @@ public class ChatManager : MonoBehaviour
 
             if (!string.IsNullOrEmpty(messageText))
             {
-                if (messageText.Equals("JFKW"))
+                if (messageText.Equals(GameConstants.K_EasterEggSecretPhrase))
                 {
-                    int randomPoint = Random.Range(-20, 20);
-                    GameObject user = GameObject.Find(GameConstants.K_MyUser);
-                    user.GetComponent<CharacterController>().enabled = false;
-                    user.GetComponent<PhotonView>().RPC("CharacterControllerToggle", RpcTarget.AllBuffered, false);
-                    user.transform.position = new Vector3(randomPoint, 50, randomPoint);
-                    LeaveChannel(_channelNames[ChannelType.hallChannel]);
-                    EnterChannel("Hidden Hall");
+                    TeleportUserToSecretArea();
                     ChatBox.text = string.Empty;
                 }
                 else if (string.IsNullOrWhiteSpace(channelName))
@@ -141,56 +135,39 @@ public class ChatManager : MonoBehaviour
                     // channel name not given
                     SendMessageToChat("No channel or username specified.", Message.MessageType.info);
                 }
-                else if (CheckChannelName(channelName))
+                else if (PhotonChatHandler.UserEnteredName.Equals(channelName))
                 {
-                    // If channel name does not exist in the channel list, assume private message attempt
-
-                    // Check to see if the receipient is a valid user
-                    bool isValidUser = false;
-                    // temporary username from channel name + identifier (which is room name)
-                    string username = PhotonChatHandler.GetUsername(channelName);
-                    foreach (Player player in PhotonNetwork.PlayerList)
+                    // Do not allow user to send private message to themselves
+                    SendMessageToChat("Cannot send message to yourself.", Message.MessageType.info);
+                    UpdateChannelInputField(string.Empty);
+                }
+                else if (PhotonChatHandler.IsValidUsername(channelName))
+                {
+                    // Send the private message
+                    PhotonChatHandler.SendPrivateMessage(channelName, messageText);
+                }
+                else if (IsChannelName(channelName))
+                {
+                    if (channelName.Equals(_channelNames[ChannelType.announcementChannel]) &&
+                        !PhotonChatHandler.Username.Equals(EventInfoManager.EventInfoOwner))
                     {
-                        if (username.Equals(player.NickName))
-                        {
-                            isValidUser = true;
-                            break;
-                        }
-                    }
-                    if (isValidUser)
-                    {
-                        // Do not allow user to send private message to themselves
-                        if (username == PhotonNetwork.NickName)
-                        {
-                            SendMessageToChat("Cannot send message to yourself.", Message.MessageType.info);
-                            UpdateChannelInputField(string.Empty);
-                        }
-                        else
-                        {
-                            // Send the private message
-                            PhotonChatHandler.SendPrivateMessage(username, messageText);
-                        }
+                        // Notify user that they do not have access to announcement channel
+                        SendMessageToChat($"Only event admins have access to \"{channelName}\".", Message.MessageType.info);
+                        UpdateChannelInputField(string.Empty);
                     }
                     else
                     {
-                        // Notify user that the recipient does not exist
-                        SendMessageToChat($"\"{channelName}\" does not exist in the room.",
-                            Message.MessageType.info);
-                        UpdateChannelInputField(string.Empty);
+                        // Send message
+                        PhotonChatHandler.SendChannelMessage(channelName, messageText);
+                        ChatBox.text = string.Empty;
                     }
-                    ChatBox.text = string.Empty;
-                }
-                else if (channelName.Equals(_channelNames[ChannelType.announcementChannel]) &&
-                  !PhotonChatHandler.Username.Equals(EventInfoManager.EventInfoOwner))
-                {
-                    // Notify user that they do not have access to announcement channel
-                    SendMessageToChat($"Only event admins have access to \"{channelName}\".", Message.MessageType.info);
-                    UpdateChannelInputField(string.Empty);
                 }
                 else
                 {
-                    // Send message
-                    PhotonChatHandler.SendChannelMessage(channelName, messageText);
+                    // Notify user that the recipient does not exist or user not in channel
+                    SendMessageToChat($"\"{channelName}\" is not in your channel list or player list.",
+                        Message.MessageType.info);
+                    UpdateChannelInputField(string.Empty);
                     ChatBox.text = string.Empty;
                 }
             }
@@ -201,12 +178,27 @@ public class ChatManager : MonoBehaviour
         }
     }
 
-    private bool CheckChannelName(string channelName)
+    private void TeleportUserToSecretArea()
     {
-        return channelName != _channelNames[ChannelType.announcementChannel] &&
-            channelName != _channelNames[ChannelType.hallChannel] &&
-            channelName != _channelNames[ChannelType.boothChannel] &&
-            channelName != _channelNames[ChannelType.general];
+        Vector3 secretAreaPosition = SecretArea.transform.position;
+        int randomPoint = Random.Range(-20, 20);
+        Vector3 destination = new Vector3(secretAreaPosition.x + randomPoint, secretAreaPosition.y, secretAreaPosition.z + randomPoint);
+
+        GameObject user = GameObject.Find(GameConstants.K_MyUser);
+        TeleportManager.Teleport(user, destination);
+
+        string channelName = "Hidden Hall";
+        LeaveChannel(_channelNames[ChannelType.hallChannel]);
+        UpdateChannel(channelName, ChannelType.hallChannel);
+        EnterChannel(channelName);
+    }
+
+    private bool IsChannelName(string channelName)
+    {
+        return channelName == _channelNames[ChannelType.announcementChannel] ||
+            channelName == _channelNames[ChannelType.hallChannel] ||
+            channelName == _channelNames[ChannelType.boothChannel] ||
+            channelName == _channelNames[ChannelType.general];
     }
 
     public void UpdateChannel(string channelName, ChannelType channelType)

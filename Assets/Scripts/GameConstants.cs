@@ -5,6 +5,7 @@ public class GameConstants
     public const string K_AnnouncementChannelName = "Announcements";
     public const string K_Camera = "Main Camera";
     public const string K_ChannelInputField = "ChannelInputField";
+    public const string K_EasterEggSecretPhrase = "JFKW";
     public const string K_EventInfoManager = "EventInfoManager";
     public const string K_ExpoEventManager = "ExpoEventManager";
     public const string K_GeneralChannelName = "General";

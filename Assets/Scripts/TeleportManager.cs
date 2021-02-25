@@ -19,13 +19,9 @@ public class TeleportManager : MonoBehaviour
 
     public void OnTriggerEnter(Collider other)
     {
-        CharacterController controller = other.GetComponent<CharacterController>();
         if (other.gameObject.name.Equals("MyUser"))
         {
-            // Turn off the character controller so that the user can be teleported
-            controller.enabled = false;
-            other.GetComponent<PhotonView>().RPC("CharacterControllerToggle", RpcTarget.AllBuffered, controller.enabled);
-            other.transform.position = TeleportTarget.transform.position;
+            Teleport(other.gameObject, TeleportTarget.transform.position);
             ChangeChannel();
         }
     }
@@ -36,5 +32,18 @@ public class TeleportManager : MonoBehaviour
         _chatManager.UpdateChannel(newChannelName, ChatManager.ChannelType.hallChannel);
         _chatManager.LeaveChannel(_currentChannelName);
         _chatManager.EnterChannel(newChannelName);
+    }
+
+    public static void Teleport(GameObject user, Vector3 destination)
+    {
+        // Turn off the character controller so that the user can be teleported
+        CharacterController controller = user.GetComponent<CharacterController>();
+        controller.enabled = false;
+        PhotonView photonView = user.GetComponent<PhotonView>();
+        if (photonView != null)
+        {
+            photonView.RPC("CharacterControllerToggle", RpcTarget.AllBuffered, controller.enabled);
+        }
+        user.transform.position = destination;
     }
 }
