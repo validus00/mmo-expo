@@ -20,7 +20,7 @@ public class ChatManager : MonoBehaviour
     private readonly Dictionary<ChannelType, string> _channelNames = new Dictionary<ChannelType, string>() {
         { ChannelType.announcementChannel, GameConstants.K_AnnouncementChannelName },
         { ChannelType.general, GameConstants.K_GeneralChannelName },
-        { ChannelType.hallChannel, GameConstants.K_HallChannelName },
+        { ChannelType.hallChannel, GameConstants.K_MainHallChannelName },
         { ChannelType.boothChannel, string.Empty }
     };
     // For chat client handling
@@ -187,10 +187,9 @@ public class ChatManager : MonoBehaviour
         GameObject user = GameObject.Find(GameConstants.K_MyUser);
         TeleportManager.Teleport(user, destination);
 
-        string channelName = "Hidden Hall";
         LeaveChannel(_channelNames[ChannelType.hallChannel]);
-        UpdateChannel(channelName, ChannelType.hallChannel);
-        EnterChannel(channelName);
+        UpdateChannel(GameConstants.K_SecretHallChannelName, ChannelType.hallChannel);
+        EnterChannel(GameConstants.K_SecretHallChannelName);
     }
 
     private bool IsChannelName(string channelName)

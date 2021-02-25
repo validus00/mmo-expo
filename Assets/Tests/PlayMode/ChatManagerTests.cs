@@ -32,7 +32,7 @@ namespace Tests
             Assert.AreEqual(0, chatManager.GetMessages().Count);
             Assert.AreEqual(GameConstants.K_AnnouncementChannelName,
                 chatManager.GetChannelName(ChatManager.ChannelType.announcementChannel));
-            Assert.AreEqual(GameConstants.K_HallChannelName,
+            Assert.AreEqual(GameConstants.K_MainHallChannelName,
                 chatManager.GetChannelName(ChatManager.ChannelType.hallChannel));
             Assert.AreEqual(string.Empty, chatManager.GetChannelName(ChatManager.ChannelType.boothChannel));
         }
@@ -62,7 +62,7 @@ namespace Tests
             Assert.AreEqual(100, chatManager.GetMessages().Count);
             Assert.AreEqual(GameConstants.K_AnnouncementChannelName,
                 chatManager.GetChannelName(ChatManager.ChannelType.announcementChannel));
-            Assert.AreEqual(GameConstants.K_HallChannelName,
+            Assert.AreEqual(GameConstants.K_MainHallChannelName,
                 chatManager.GetChannelName(ChatManager.ChannelType.hallChannel));
             Assert.AreEqual(string.Empty, chatManager.GetChannelName(ChatManager.ChannelType.boothChannel));
         }
@@ -86,17 +86,17 @@ namespace Tests
             photonChatHandler.IsConnected().Returns(true);
 
             SetUpChatManager(chatManager, playerInputHandler, photonChatHandler,
-                GameConstants.K_HallChannelName, K_Message);
+                GameConstants.K_MainHallChannelName, K_Message);
 
             yield return null;
 
             Assert.AreEqual(1, chatManager.GetMessages().Count);
             Assert.AreEqual(GameConstants.K_AnnouncementChannelName,
                 chatManager.GetChannelName(ChatManager.ChannelType.announcementChannel));
-            Assert.AreEqual(GameConstants.K_HallChannelName,
+            Assert.AreEqual(GameConstants.K_MainHallChannelName,
                 chatManager.GetChannelName(ChatManager.ChannelType.hallChannel));
             Assert.AreEqual(string.Empty, chatManager.GetChannelName(ChatManager.ChannelType.boothChannel));
-            photonChatHandler.Received(1).SendChannelMessage(GameConstants.K_HallChannelName, K_Message);
+            photonChatHandler.Received(1).SendChannelMessage(GameConstants.K_MainHallChannelName, K_Message);
         }
 
         [UnityTest]
@@ -121,7 +121,7 @@ namespace Tests
             Assert.AreEqual(Message.MessageType.info, chatManager.GetMessages()[0].MsgType);
             Assert.AreEqual(GameConstants.K_AnnouncementChannelName,
                 chatManager.GetChannelName(ChatManager.ChannelType.announcementChannel));
-            Assert.AreEqual(GameConstants.K_HallChannelName,
+            Assert.AreEqual(GameConstants.K_MainHallChannelName,
                 chatManager.GetChannelName(ChatManager.ChannelType.hallChannel));
             Assert.AreEqual(string.Empty, chatManager.GetChannelName(ChatManager.ChannelType.boothChannel));
         }
@@ -149,7 +149,7 @@ namespace Tests
             Assert.AreEqual(Message.MessageType.info, chatManager.GetMessages()[0].MsgType);
             Assert.AreEqual(GameConstants.K_AnnouncementChannelName,
                 chatManager.GetChannelName(ChatManager.ChannelType.announcementChannel));
-            Assert.AreEqual(GameConstants.K_HallChannelName,
+            Assert.AreEqual(GameConstants.K_MainHallChannelName,
                 chatManager.GetChannelName(ChatManager.ChannelType.hallChannel));
             Assert.AreEqual(string.Empty, chatManager.GetChannelName(ChatManager.ChannelType.boothChannel));
         }
@@ -173,7 +173,7 @@ namespace Tests
             Assert.AreEqual(0, chatManager.GetMessages().Count);
             Assert.AreEqual(GameConstants.K_AnnouncementChannelName,
                 chatManager.GetChannelName(ChatManager.ChannelType.announcementChannel));
-            Assert.AreEqual(GameConstants.K_HallChannelName,
+            Assert.AreEqual(GameConstants.K_MainHallChannelName,
                 chatManager.GetChannelName(ChatManager.ChannelType.hallChannel));
             Assert.AreEqual(string.Empty, chatManager.GetChannelName(ChatManager.ChannelType.boothChannel));
             photonChatHandler.Received(1).InitializeChannelNames(Arg.Any<string[]>());
@@ -198,7 +198,7 @@ namespace Tests
             Assert.AreEqual(0, chatManager.GetMessages().Count);
             Assert.AreEqual(GameConstants.K_AnnouncementChannelName,
                 chatManager.GetChannelName(ChatManager.ChannelType.announcementChannel));
-            Assert.AreEqual(GameConstants.K_HallChannelName,
+            Assert.AreEqual(GameConstants.K_MainHallChannelName,
                 chatManager.GetChannelName(ChatManager.ChannelType.hallChannel));
             Assert.AreEqual(K_ProjectName, chatManager.GetChannelName(ChatManager.ChannelType.boothChannel));
             photonChatHandler.Received(1).InitializeChannelNames(Arg.Any<string[]>());
@@ -223,7 +223,7 @@ namespace Tests
             Assert.AreEqual(0, chatManager.GetMessages().Count);
             Assert.AreEqual(GameConstants.K_AnnouncementChannelName,
                 chatManager.GetChannelName(ChatManager.ChannelType.announcementChannel));
-            Assert.AreEqual(GameConstants.K_HallChannelName,
+            Assert.AreEqual(GameConstants.K_MainHallChannelName,
                 chatManager.GetChannelName(ChatManager.ChannelType.hallChannel));
             Assert.AreEqual(K_ProjectName, chatManager.GetChannelName(ChatManager.ChannelType.boothChannel));
             photonChatHandler.Received(2).InitializeChannelNames(Arg.Any<string[]>());
@@ -273,7 +273,7 @@ namespace Tests
             Assert.AreEqual(0, chatManager.GetMessages().Count);
             Assert.AreEqual(GameConstants.K_AnnouncementChannelName,
                 chatManager.GetChannelName(ChatManager.ChannelType.announcementChannel));
-            Assert.AreEqual(GameConstants.K_HallChannelName,
+            Assert.AreEqual(GameConstants.K_MainHallChannelName,
                 chatManager.GetChannelName(ChatManager.ChannelType.hallChannel));
             Assert.AreEqual(K_TestChannel, chatManager.GetChannelName(ChatManager.ChannelType.boothChannel));
             photonChatHandler.Received(1).LeaveChannel(K_TestChannel);
@@ -298,7 +298,7 @@ namespace Tests
             Assert.AreEqual(0, chatManager.GetMessages().Count);
             Assert.AreEqual(GameConstants.K_AnnouncementChannelName,
                 chatManager.GetChannelName(ChatManager.ChannelType.announcementChannel));
-            Assert.AreEqual(GameConstants.K_HallChannelName,
+            Assert.AreEqual(GameConstants.K_MainHallChannelName,
                 chatManager.GetChannelName(ChatManager.ChannelType.hallChannel));
             Assert.AreEqual(string.Empty, chatManager.GetChannelName(ChatManager.ChannelType.boothChannel));
             photonChatHandler.DidNotReceive().LeaveChannel(Arg.Any<string>());
@@ -323,7 +323,7 @@ namespace Tests
             Assert.AreEqual(0, chatManager.GetMessages().Count);
             Assert.AreEqual(GameConstants.K_AnnouncementChannelName,
                 chatManager.GetChannelName(ChatManager.ChannelType.announcementChannel));
-            Assert.AreEqual(GameConstants.K_HallChannelName,
+            Assert.AreEqual(GameConstants.K_MainHallChannelName,
                 chatManager.GetChannelName(ChatManager.ChannelType.hallChannel));
             Assert.AreEqual(string.Empty, chatManager.GetChannelName(ChatManager.ChannelType.boothChannel));
             photonChatHandler.Received(1).EnterChannel(K_TestChannel);
@@ -348,7 +348,7 @@ namespace Tests
             Assert.AreEqual(0, chatManager.GetMessages().Count);
             Assert.AreEqual(GameConstants.K_AnnouncementChannelName,
                 chatManager.GetChannelName(ChatManager.ChannelType.announcementChannel));
-            Assert.AreEqual(GameConstants.K_HallChannelName,
+            Assert.AreEqual(GameConstants.K_MainHallChannelName,
                 chatManager.GetChannelName(ChatManager.ChannelType.hallChannel));
             Assert.AreEqual(string.Empty, chatManager.GetChannelName(ChatManager.ChannelType.boothChannel));
             photonChatHandler.DidNotReceive().EnterChannel(Arg.Any<string>());
@@ -403,7 +403,7 @@ namespace Tests
             user.AddComponent<CharacterController>();
 
             SetUpChatManager(chatManager, playerInputHandler, photonChatHandler,
-                GameConstants.K_HallChannelName, GameConstants.K_EasterEggSecretPhrase);
+                GameConstants.K_MainHallChannelName, GameConstants.K_EasterEggSecretPhrase);
 
             yield return null;
 
@@ -411,9 +411,10 @@ namespace Tests
             Assert.AreEqual(1, chatManager.GetMessages().Count);
             Assert.AreEqual(GameConstants.K_AnnouncementChannelName,
                 chatManager.GetChannelName(ChatManager.ChannelType.announcementChannel));
-            Assert.AreEqual("Hidden Hall", chatManager.GetChannelName(ChatManager.ChannelType.hallChannel));
+            Assert.AreEqual(GameConstants.K_SecretHallChannelName,
+                chatManager.GetChannelName(ChatManager.ChannelType.hallChannel));
             Assert.AreEqual(string.Empty, chatManager.GetChannelName(ChatManager.ChannelType.boothChannel));
-            photonChatHandler.Received(0).SendChannelMessage(GameConstants.K_HallChannelName, K_Message);
+            photonChatHandler.Received(0).SendChannelMessage(GameConstants.K_MainHallChannelName, K_Message);
         }
 
         [UnityTest]
