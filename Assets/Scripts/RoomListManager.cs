@@ -14,8 +14,8 @@ public class RoomListManager : MonoBehaviour, IPointerClickHandler
     public Dropdown Dropdown;
     // List of indexes to disable from dropdown
     public List<int> IndexesToDisable = new List<int>();
-    // Channel box from chat reference
-    public InputField ChannelBox;
+    // Use for updating channel box
+    public ChatManager ChatManagerObject;
     // Hold the user's name with concatenated with room name
     private string _name;
     // Hold the user's name without room name
@@ -51,7 +51,7 @@ public class RoomListManager : MonoBehaviour, IPointerClickHandler
         if (!dropdown.options[dropdown.value].text.Equals(K_defaultText) &&
             !dropdown.options[dropdown.value].text.Equals(_nameTrimmed + K_selfIndicatorString))
         {
-            ChannelBox.text = dropdown.options[dropdown.value].text;
+            ChatManagerObject.UpdateChannelInputField(dropdown.options[dropdown.value].text);
         }
 
         dropdown.value = 0;

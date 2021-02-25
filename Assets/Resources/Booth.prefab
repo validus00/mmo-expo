@@ -205,7 +205,7 @@ MonoBehaviour:
   m_fontColor32:
     serializedVersion: 2
     rgba: 4278191615
-  m_fontColor: {r: 1, g: 0.021337397, b: 0, a: 1}
+  m_fontColor: {r: 0.33819866, g: 0.6315339, b: 0.754717, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -417,8 +417,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec23254ed00ccb14db9d37f9aabd4089, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  boothText: {fileID: 3319354799708629425}
-  posterBoard: {fileID: 8337396069042686589}
+  BoothText: {fileID: 0}
+  PosterBoard: {fileID: 0}
 --- !u!114 &143906958930633961
 MonoBehaviour:
   m_ObjectHideFlags: 0
