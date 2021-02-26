@@ -1,5 +1,8 @@
 ﻿using UnityEngine;
 
+/*
+ * PlayerNameInputManager class implements player name input logic when players first log in
+ */
 public class PlayerNameInputManager : MonoBehaviour
 {
     public void SetPlayerName(string playerName)

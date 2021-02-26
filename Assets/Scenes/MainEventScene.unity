@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.4366757, g: 0.48427194, b: 0.5645252, a: 1}
+  m_IndirectSpecularColor: {r: 0.4366756, g: 0.48427194, b: 0.5645252, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -294,7 +294,7 @@ PrefabInstance:
     - target: {fileID: 8896538623879257360, guid: 6da8d30e50288b745890c973fd893c7d,
         type: 3}
       propertyPath: _currentChannelName
-      value: Hidden Hall
+      value: Secret Hall
       objectReference: {fileID: 0}
     - target: {fileID: 8896538623879257360, guid: 6da8d30e50288b745890c973fd893c7d,
         type: 3}
@@ -772,7 +772,7 @@ PrefabInstance:
     - target: {fileID: 8896538623879257360, guid: 6da8d30e50288b745890c973fd893c7d,
         type: 3}
       propertyPath: _currentChannelName
-      value: Hidden Hall
+      value: Secret Hall
       objectReference: {fileID: 0}
     - target: {fileID: 8896538623879257360, guid: 6da8d30e50288b745890c973fd893c7d,
         type: 3}
@@ -2689,7 +2689,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Dropdown: {fileID: 163575179}
   IndexesToDisable: 
-  ChatManagerObject: {fileID: 0}
+  ExpoEventManagerObject: {fileID: 727287414}
 --- !u!114 &163575179
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3044,7 +3044,7 @@ PrefabInstance:
     - target: {fileID: 2300000, guid: 3681543e5b0f59742b73073cb379cdc6, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: dc1a05fba9a6af241a25a35b4caf5e27, type: 2}
+      objectReference: {fileID: 2100000, guid: e2f2b38c79db06f42933f95b11761409, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3681543e5b0f59742b73073cb379cdc6, type: 3}
 --- !u!4 &195205967 stripped
@@ -6842,6 +6842,7 @@ MonoBehaviour:
   TextObject: {fileID: 1859685972784717751, guid: 6e2d0b2909a3b664c8f191a77566115f,
     type: 3}
   EventInfoManagerObject: {fileID: 264550427}
+  SecretArea: {fileID: 1050210616}
   ChannelBox: {fileID: 7723019544791249950}
   ChatBox: {fileID: 133935874}
   PlayerMessageColor: {r: 1, g: 1, b: 1, a: 1}
@@ -8047,7 +8048,7 @@ PrefabInstance:
     - target: {fileID: 8896538623879257360, guid: 6da8d30e50288b745890c973fd893c7d,
         type: 3}
       propertyPath: _currentChannelName
-      value: Hidden Hall
+      value: Secret Hall
       objectReference: {fileID: 0}
     - target: {fileID: 8896538623879257360, guid: 6da8d30e50288b745890c973fd893c7d,
         type: 3}
@@ -8363,7 +8364,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Texture: {fileID: 2800000, guid: d3a0aa63a6ad1e342a0ba521dd6b9e3a, type: 3}
+  m_Texture: {fileID: 2800000, guid: be01934d195d5044cb229a7c14758762, type: 3}
   m_UVRect:
     serializedVersion: 2
     x: 0
@@ -8825,7 +8826,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1050210617}
   m_Layer: 0
-  m_Name: HiddenHall
+  m_Name: SecretHall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8839,7 +8840,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1050210616}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 50, z: 0}
+  m_LocalPosition: {x: 100, y: 0, z: 100}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 356729179}
@@ -8996,7 +8997,7 @@ PrefabInstance:
     - target: {fileID: 2300000, guid: 3681543e5b0f59742b73073cb379cdc6, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: dc1a05fba9a6af241a25a35b4caf5e27, type: 2}
+      objectReference: {fileID: 2100000, guid: e2f2b38c79db06f42933f95b11761409, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3681543e5b0f59742b73073cb379cdc6, type: 3}
 --- !u!4 &1074754174 stripped
@@ -14480,7 +14481,7 @@ PrefabInstance:
     - target: {fileID: 8896538623879257360, guid: 6da8d30e50288b745890c973fd893c7d,
         type: 3}
       propertyPath: _currentChannelName
-      value: Hidden Hall
+      value: Secret Hall
       objectReference: {fileID: 0}
     - target: {fileID: 8896538623879257360, guid: 6da8d30e50288b745890c973fd893c7d,
         type: 3}
@@ -18279,7 +18280,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -0.000030517578}
+  m_AnchoredPosition: {x: 0, y: 0.000015258789}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
 --- !u!114 &492985573996540564
@@ -18565,8 +18566,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 492985574518587468}
   m_HandleRect: {fileID: 492985574518587467}
   m_Direction: 0
-  m_Value: 0
-  m_Size: 1
+  m_Value: 1
+  m_Size: 0.9999999
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -18908,7 +18909,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 492985574018449142}
   m_Direction: 2
   m_Value: 1
-  m_Size: 1
+  m_Size: 0.9990783
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:

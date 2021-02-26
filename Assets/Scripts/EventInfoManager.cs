@@ -3,7 +3,6 @@ using UnityEngine;
 
 public class EventInfoManager : MonoBehaviourPunCallbacks, IEventInfoManager
 {
-
     private PanelManager _panelManager;
     private string _eventInfoUrl;
     private string _scheduleUrl;

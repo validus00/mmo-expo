@@ -1,11 +1,12 @@
 ﻿using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine;
-using UnityEngine.UI;
 
+/*
+ * ExpoEventManager class is for implementing general event business logic for users entering and leaving the event
+ */
 public class ExpoEventManager : MonoBehaviourPunCallbacks
 {
-
     private const int K_maxAvatarCount = 2;
     public GameObject AvatarPanel;
     public GameObject UnselectedAvatarText;

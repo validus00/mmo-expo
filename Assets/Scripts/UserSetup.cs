@@ -2,6 +2,9 @@
 using TMPro;
 using UnityEngine;
 
+/*
+ * UserSetup class implements user specific features
+ */
 public class UserSetup : MonoBehaviourPunCallbacks
 {
     public GameObject FpsCamera;

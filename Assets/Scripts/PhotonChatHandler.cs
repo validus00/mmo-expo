@@ -2,6 +2,7 @@
 using ExitGames.Client.Photon;
 using Photon.Chat;
 using Photon.Pun;
+using Photon.Realtime;
 using UnityEngine;
 
 /*
@@ -21,7 +22,7 @@ public class PhotonChatHandler : IChatClientListener, IPhotonChatHandler
     // To keep track if connected to Photon Chat
     private bool _isConnected;
 
-    // Contructor that initializes Photon Chat client and connection
+    // Constructor that initializes Photon Chat client and connection
     public PhotonChatHandler()
     {
         _roomName = PhotonNetwork.CurrentRoom.Name;
@@ -29,6 +30,26 @@ public class PhotonChatHandler : IChatClientListener, IPhotonChatHandler
         // Create new Photon Chat client
         _chatClient = new ChatClient(this);
         _isConnected = false;
+    }
+
+    public bool IsValidUsername(string username)
+    {
+        string networkUsername = username + PhotonNetwork.CurrentRoom.Name;
+
+        foreach (Player player in PhotonNetwork.PlayerList)
+        {
+            if (networkUsername.Equals(player.NickName))
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public string UserEnteredName
+    {
+        get { return RemoveRoomName(Username); }
     }
 
     public string Username
@@ -44,7 +65,7 @@ public class PhotonChatHandler : IChatClientListener, IPhotonChatHandler
     public void ConnectToService()
     {
         _chatClient.Connect(PhotonNetwork.PhotonServerSettings.AppSettings.AppIdChat, PhotonNetwork.AppVersion,
-            new AuthenticationValues(PhotonNetwork.NickName));
+            new Photon.Chat.AuthenticationValues(PhotonNetwork.NickName));
     }
 
     public bool IsConnected()
@@ -114,7 +135,7 @@ public class PhotonChatHandler : IChatClientListener, IPhotonChatHandler
 
     public void SendPrivateMessage(string username, string message)
     {
-        _chatClient.SendPrivateMessage(username, message);
+        _chatClient.SendPrivateMessage(username + PhotonNetwork.CurrentRoom.Name, message);
     }
 
     #region IChatClientListener Callbacks

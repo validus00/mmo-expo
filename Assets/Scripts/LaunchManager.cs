@@ -3,6 +3,9 @@ using Photon.Realtime;
 using UnityEngine;
 using UnityEngine.UI;
 
+/*
+ * LaunchManager class is for implementing business logic surrounding launching the event for new users
+ */
 public class LaunchManager : MonoBehaviourPunCallbacks
 {
     public GameObject EnterEventPanel;
@@ -21,21 +24,37 @@ public class LaunchManager : MonoBehaviourPunCallbacks
     private void ConnectToPhotonServer()
     {
         SetInitialName();
+        PhotonNetwork.ConnectUsingSettings();
+    }
+
+    private void CloseEnterEventPanel()
+    {
         EnterEventPanel.SetActive(false);
         ConnectionStatusPanel.SetActive(true);
-        InvalidPasscodeText.SetActive(false);
-        PhotonNetwork.ConnectUsingSettings();
     }
 
     public void CreateNewRoom()
     {
-        _joinExisting = false;
-        ConnectToPhotonServer();
+        CloseEnterEventPanel();
+        if (PhotonNetwork.IsConnected)
+        {
+            CreateAndJoinRoom();
+        }
+        else
+        {
+            _joinExisting = false;
+            ConnectToPhotonServer();
+        }
     }
 
     public void JoinCreatedRoom()
     {
-        if (!PhotonNetwork.IsConnected)
+        CloseEnterEventPanel();
+        if (PhotonNetwork.IsConnected)
+        {
+            DisplayPasscodePanel();
+        }
+        else
         {
             _joinExisting = true;
             ConnectToPhotonServer();
@@ -108,7 +127,6 @@ public class LaunchManager : MonoBehaviourPunCallbacks
         EnterEventPanel.SetActive(true);
         PasscodeInputField.Select();
         PasscodeInputField.text = string.Empty;
-        PhotonNetwork.Disconnect();
     }
 
     private void ResetPasscodePanel()

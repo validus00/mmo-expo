@@ -19,12 +19,16 @@ public interface IPhotonChatHandler
     void InitializeChannelNames(string[] channels);
     // For determining if connected to service
     bool IsConnected();
+    // For determining if string is valid username
+    bool IsValidUsername(string username);
     // For maintaining connection to service
     void MaintainService();
     // For sending message to a specific channel
     void SendChannelMessage(string channelName, string message);
     // For sending private messages to a specific user
     void SendPrivateMessage(string channelName, string message);
+    // For getting user's entered name
+    string UserEnteredName { get; }
     // For getting username
     string Username { get; }
 }
