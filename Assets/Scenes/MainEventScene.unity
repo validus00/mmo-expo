@@ -8364,7 +8364,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Texture: {fileID: 2800000, guid: d3a0aa63a6ad1e342a0ba521dd6b9e3a, type: 3}
+  m_Texture: {fileID: 2800000, guid: be01934d195d5044cb229a7c14758762, type: 3}
   m_UVRect:
     serializedVersion: 2
     x: 0
@@ -18280,7 +18280,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0.000015258789}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
 --- !u!114 &492985573996540564
@@ -18566,8 +18566,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 492985574518587468}
   m_HandleRect: {fileID: 492985574518587467}
   m_Direction: 0
-  m_Value: 0
-  m_Size: 1
+  m_Value: 1
+  m_Size: 0.9999999
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -18908,8 +18908,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 492985574018449143}
   m_HandleRect: {fileID: 492985574018449142}
   m_Direction: 2
-  m_Value: 0
-  m_Size: 1
+  m_Value: 1
+  m_Size: 0.9990783
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
