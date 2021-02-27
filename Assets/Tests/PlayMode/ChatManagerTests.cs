@@ -493,7 +493,7 @@ namespace Tests
         }
 
         [UnityTest]
-        public IEnumerator WhenUserSendsValidUserMessageThenGetErrorMessage()
+        public IEnumerator WhenUserSendsValidUserMessageThenGetMessage()
         {
             GameObject eventManager = new GameObject(GameConstants.K_ExpoEventManager);
             ChatManager chatManager = eventManager.AddComponent<ChatManager>();
@@ -503,7 +503,13 @@ namespace Tests
 
             string username = "Random User";
             IPhotonChatHandler photonChatHandler = Substitute.For<IPhotonChatHandler>();
-            photonChatHandler.GetNewMessages().Returns(new List<Message>());
+            List<Message> messages = new List<Message>();
+            Message newMessage = new Message();
+            newMessage.MessageText = K_Message;
+            newMessage.MsgType = Message.MessageType.privateMessage;
+            messages.Add(newMessage);
+            photonChatHandler.GetNewMessages().Returns(messages);
+
             photonChatHandler.IsConnected().Returns(true);
             photonChatHandler.UserEnteredName.Returns("Another Random User");
             photonChatHandler.IsValidUsername(username).Returns(true);
@@ -512,6 +518,7 @@ namespace Tests
 
             yield return null;
 
+            Assert.AreEqual(Message.MessageType.privateMessage, chatManager.GetMessages()[0].MsgType);
             photonChatHandler.Received(0).SendChannelMessage(Arg.Any<string>(), K_Message);
             photonChatHandler.Received(1).SendPrivateMessage(username, K_Message);
         }

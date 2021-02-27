@@ -259,7 +259,7 @@ public class ChatManager : MonoBehaviour
         // Create new Message object and add to list of messages
         Message message = new Message();
         GameObject newText = Instantiate(TextObject, ChatPanel.transform);
-        newText.GetComponent<ChannelFieldHandler>().ChatManagerObject = this;
+        newText.GetComponent<ChannelFieldHandler>().ChatManager = this;
         message.MessageText = text;
         message.MsgType = messageType;
         message.TextObject = newText.GetComponent<TextMeshProUGUI>();
@@ -276,7 +276,7 @@ public class ChatManager : MonoBehaviour
         LimitNumberOfMessages();
 
         GameObject newText = Instantiate(TextObject, ChatPanel.transform);
-        newText.GetComponent<ChannelFieldHandler>().ChatManagerObject = this;
+        newText.GetComponent<ChannelFieldHandler>().ChatManager = this;
         message.TextObject = newText.GetComponent<TextMeshProUGUI>();
         message.TextObject.text = message.MessageText;
         message.TextObject.color = MessageTypeColor(message.MsgType);
