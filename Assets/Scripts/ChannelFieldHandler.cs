@@ -6,7 +6,7 @@ using UnityEngine.EventSystems;
  * ChannelFieldHandler class is for implementing the feature to allow users to click on channel/player names to
  * instantiate channel name input field
  */
-public class ChannelFieldHandler : MonoBehaviour, IPointerClickHandler
+public class ChannelFieldHandler : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler
 {
     public TextMeshProUGUI Text;
     public ChatManager ChatManagerObject;
@@ -24,5 +24,10 @@ public class ChannelFieldHandler : MonoBehaviour, IPointerClickHandler
                 ChatManagerObject.UpdateChannelInputField(linkId);
             }
         }
+    }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        Debug.Log("test");
     }
 }
