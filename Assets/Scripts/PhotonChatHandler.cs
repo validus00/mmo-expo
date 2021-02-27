@@ -241,7 +241,7 @@ public class PhotonChatHandler : IChatClientListener, IPhotonChatHandler
 
     private string GetLink(string channelName)
     {
-        return $"<link=\"{channelName}\">{channelName}</link>";
+        return $"<link=\"{channelName}\"><u>{channelName}</u></link>";
     }
 
     public void OnUnsubscribed(string[] channels)
