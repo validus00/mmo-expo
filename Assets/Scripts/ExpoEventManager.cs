@@ -7,7 +7,7 @@ using UnityEngine;
  */
 public class ExpoEventManager : MonoBehaviourPunCallbacks
 {
-    private const int K_maxAvatarCount = 2;
+    private const int K_maxAvatarCount = 4;
     public GameObject AvatarPanel;
     public GameObject UnselectedAvatarText;
     public GameObject DuplicateNameText;
@@ -29,7 +29,7 @@ public class ExpoEventManager : MonoBehaviourPunCallbacks
     void Start()
     {
         InitialName = PhotonNetwork.NickName;
-        _mySelectedAvatar = 2;
+        _mySelectedAvatar = K_maxAvatarCount;
         IsNameInputTouched = false;
         IsNameUpdated = false;
         DisplayAvatarPanel();

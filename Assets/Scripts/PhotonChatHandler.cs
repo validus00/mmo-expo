@@ -200,11 +200,11 @@ public class PhotonChatHandler : IChatClientListener, IPhotonChatHandler
         string privateMessage;
         if (sender == username)
         {
-            privateMessage = string.Format("[Private] To <link=\"{0}\">{0}</link>: {1}", RemoveRoomName(recipient), message.ToString());
+            privateMessage = string.Format("[Private] To <link=\"{0}\"><u>{0}</u></link>: {1}", RemoveRoomName(recipient), message.ToString());
         }
         else
         {
-            privateMessage = string.Format("[Private] From <link=\"{0}\">{0}</link>: {1}", RemoveRoomName(sender), message.ToString());
+            privateMessage = string.Format("[Private] From <link=\"{0}\"><u>{0}</u></link>: {1}", RemoveRoomName(sender), message.ToString());
         }
         AddNewMessage(privateMessage, Message.MessageType.privateMessage);
     }
@@ -227,7 +227,7 @@ public class PhotonChatHandler : IChatClientListener, IPhotonChatHandler
                 string subscriptionMessage;
                 if (results[i])
                 {
-                    subscriptionMessage = string.Format("You entered the <link=\"{0}\">{0}</link> channel.", RemoveRoomName(channels[i]));
+                    subscriptionMessage = string.Format("You entered the <link=\"{0}\"><u>{0}</u></link> channel.", RemoveRoomName(channels[i]));
                 }
                 else
                 {
