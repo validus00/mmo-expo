@@ -116,11 +116,11 @@ This project has been developed and tested to run in [Unity 2019.4.17f1](https:/
 
 ### Navigating Event
 - Everyone spawns in the **Main Hall**
-- There are 4 halls for booths placed in relative locations of the main hall
-  - Booths Hall North
-  - Booths Hall West
-  - Booths Hall East
-  - Booths Hall South
+- There are 4 halls for student booths placed in relative locations of the main hall
+  - Booth Hall North
+  - Booth Hall West
+  - Booth Hall East
+  - Booth Hall South
 - There is a labeled portal to teleport to each booth hall
 - Each booth hall has a portal to teleport the user back to the main hall
 - To use a portal and to teleport to a booth hall or main hall, walk up to the portal to trigger the teleporting event

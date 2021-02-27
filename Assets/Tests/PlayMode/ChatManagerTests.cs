@@ -14,7 +14,7 @@ namespace Tests
         private const string K_Message = "Hi there";
         private const string K_TestChannel = "Test";
         private const string K_ProjectName = "MMO Expo";
-        private const string K_BoothsHallName = "Booths Hall North";
+        private const string K_BoothHallName = "Booth Hall North";
 
         [UnityTest]
         public IEnumerator WhenOnStartThenGetNoMessages()
@@ -241,14 +241,14 @@ namespace Tests
 
             SetUpChatManager(chatManager, null, photonChatHandler, null, null);
 
-            chatManager.UpdateChannel(K_BoothsHallName, ChatManager.ChannelType.hallChannel);
+            chatManager.UpdateChannel(K_BoothHallName, ChatManager.ChannelType.hallChannel);
 
             yield return null;
 
             Assert.AreEqual(0, chatManager.GetMessages().Count);
             Assert.AreEqual(GameConstants.K_AnnouncementChannelName,
                 chatManager.GetChannelName(ChatManager.ChannelType.announcementChannel));
-            Assert.AreEqual(K_BoothsHallName, chatManager.GetChannelName(ChatManager.ChannelType.hallChannel));
+            Assert.AreEqual(K_BoothHallName, chatManager.GetChannelName(ChatManager.ChannelType.hallChannel));
             Assert.AreEqual(string.Empty, chatManager.GetChannelName(ChatManager.ChannelType.boothChannel));
             photonChatHandler.Received(2).InitializeChannelNames(Arg.Any<string[]>());
         }

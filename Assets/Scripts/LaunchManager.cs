@@ -149,7 +149,7 @@ public class LaunchManager : MonoBehaviourPunCallbacks
     }
 
     #region Photon Callbacks
-    // Called after user connects to master
+    // Called when user connects to lobby
     public override void OnConnectedToMaster()
     {
         Debug.Log("Connected! " + PhotonNetwork.NickName);
