@@ -35,7 +35,7 @@ public class UserSetup : MonoBehaviourPunCallbacks
         _characterController = GetComponent<CharacterController>();
     }
 
-    void SetUserUI()
+    private void SetUserUI()
     {
         if (UserNameText != null && photonView.Owner != null)
         {
@@ -43,7 +43,7 @@ public class UserSetup : MonoBehaviourPunCallbacks
         }
     }
 
-
+    // RPC for enable or disabling character controllers on users while teleporting them
     [PunRPC]
     public void CharacterControllerToggle(bool value)
     {
@@ -51,12 +51,13 @@ public class UserSetup : MonoBehaviourPunCallbacks
         {
             _characterController = GetComponent<CharacterController>();
         }
-        if (!GetComponent<PhotonView>().IsMine)
+        if (!photonView.IsMine)
         {
             _characterController.enabled = value;
         }
     }
 
+    // RPC for removing user clones who have left the event
     [PunRPC]
     public void RemoveUser()
     {

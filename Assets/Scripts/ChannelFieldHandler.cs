@@ -16,6 +16,7 @@ public class ChannelFieldHandler : MonoBehaviour, IPointerClickHandler
         set { _chatManager = value; }
     }
 
+    // Gets called when user clicks on a link in a TextMeshPro
     public void OnPointerClick(PointerEventData eventData)
     {
         if (eventData.button == PointerEventData.InputButton.Left)

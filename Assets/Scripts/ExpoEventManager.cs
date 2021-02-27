@@ -7,7 +7,7 @@ using UnityEngine;
  */
 public class ExpoEventManager : MonoBehaviourPunCallbacks
 {
-    private const int K_maxAvatarCount = 4;
+    private const int K_MaxAvatarCount = 4;
     public GameObject AvatarPanel;
     public GameObject UnselectedAvatarText;
     public GameObject DuplicateNameText;
@@ -29,26 +29,31 @@ public class ExpoEventManager : MonoBehaviourPunCallbacks
     void Start()
     {
         InitialName = PhotonNetwork.NickName;
-        _mySelectedAvatar = K_maxAvatarCount;
+        _mySelectedAvatar = K_MaxAvatarCount;
         IsNameInputTouched = false;
         IsNameUpdated = false;
         DisplayAvatarPanel();
     }
+
+    // For getting passcode
     public string PassCode
     {
         get { return _roomName; }
     }
 
+    // For leaving room
     public void LeaveEvent()
     {
         PhotonNetwork.LeaveRoom();
     }
 
+    // Photon callback for user leaving room
     public override void OnLeftRoom()
     {
         ResetEvent();
     }
 
+    // Photon callback for any player other than the user leaving room
     public override void OnPlayerLeftRoom(Player otherPlayer)
     {
         foreach (GameObject user in GameObject.FindGameObjectsWithTag("Player"))
@@ -62,6 +67,7 @@ public class ExpoEventManager : MonoBehaviourPunCallbacks
         }
     }
 
+    // Displays avatar panel
     public void DisplayAvatarPanel()
     {
         AvatarPanel.SetActive(true);
@@ -117,7 +123,7 @@ public class ExpoEventManager : MonoBehaviourPunCallbacks
 
     private bool IsAvatarSelected()
     {
-        return _mySelectedAvatar < K_maxAvatarCount;
+        return _mySelectedAvatar < K_MaxAvatarCount;
     }
 
     private void ToggleNameText(bool isValidName)
@@ -158,6 +164,7 @@ public class ExpoEventManager : MonoBehaviourPunCallbacks
         }
     }
 
+    // Check if name is not taken
     public void CheckNameAvailability()
     {
         Debug.Log("initial name is : " + InitialName);
@@ -165,12 +172,14 @@ public class ExpoEventManager : MonoBehaviourPunCallbacks
         ToggleNameText(isValidName);
     }
 
+    // Set user name
     public void SetPlayerName()
     {
         PhotonNetwork.NickName = InitialName + PhotonNetwork.CurrentRoom.Name;
         IsNameUpdated = true;
     }
 
+    // Set user avatar selection info
     public void OnClickAvatarSelection(int avatar)
     {
         _mySelectedAvatar = avatar;

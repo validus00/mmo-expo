@@ -26,7 +26,7 @@ public class PhotonChatHandler : IChatClientListener, IPhotonChatHandler
     public PhotonChatHandler()
     {
         _roomName = PhotonNetwork.CurrentRoom.Name;
-        AddNewMessage(string.Format("Passcode: {0}", _roomName), Message.MessageType.info);
+        AddNewMessage($"Passcode: {_roomName}", Message.MessageType.info);
         // Create new Photon Chat client
         _chatClient = new ChatClient(this);
         _isConnected = false;
@@ -55,11 +55,6 @@ public class PhotonChatHandler : IChatClientListener, IPhotonChatHandler
     public string Username
     {
         get { return PhotonNetwork.NickName; }
-    }
-
-    public string GetUsername(string name)
-    {
-        return name + PhotonNetwork.CurrentRoom.Name;
     }
 
     public void ConnectToService()
@@ -113,6 +108,8 @@ public class PhotonChatHandler : IChatClientListener, IPhotonChatHandler
         return channelName + _roomName;
     }
 
+    // For getting username without room name appended to it.
+    // Username in the network contains the room name after the user enters their username
     public static string RemoveRoomName(string text)
     {
         return text.Replace(PhotonNetwork.CurrentRoom.Name, string.Empty);

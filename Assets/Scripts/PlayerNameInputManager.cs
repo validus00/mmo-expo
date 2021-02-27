@@ -5,6 +5,7 @@
  */
 public class PlayerNameInputManager : MonoBehaviour
 {
+    // For handling username entering logic
     public void SetPlayerName(string playerName)
     {
         if (string.IsNullOrEmpty(playerName))
