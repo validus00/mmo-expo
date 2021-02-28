@@ -38,6 +38,7 @@ public class InfoBoothSetup : MonoBehaviourPunCallbacks
         }
     }
 
+    // For handling event info panel opening logic
     public void OpenEventInfo()
     {
         _eventInfoManager.OpenEventInfo();

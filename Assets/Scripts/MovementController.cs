@@ -7,11 +7,11 @@ using UnityEngine;
 public class MovementController : MonoBehaviour
 {
     // Maximum player move speed value
-    private const float K_maxSpeedOnGround = 20f;
+    private const float K_MaxSpeedOnGround = 20f;
     // Player acceleration and deceleration value
-    private const float K_movementSharpnessOnGround = 15f;
+    private const float K_MovementSharpnessOnGround = 15f;
     // Camera rotation speed value
-    private const float K_rotationSpeed = 200f;
+    private const float K_RotationSpeed = 200f;
     // Player velocity vector
     private Vector3 _characterVelocity;
     // Camera vertical angle
@@ -82,9 +82,9 @@ public class MovementController : MonoBehaviour
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
             // Rotate user horizontally
-            transform.Rotate(new Vector3(0f, (PlayerInputHandler.GetLookInputsHorizontal() * K_rotationSpeed), 0f), Space.Self);
+            transform.Rotate(new Vector3(0f, (PlayerInputHandler.GetLookInputsHorizontal() * K_RotationSpeed), 0f), Space.Self);
             // Rotate user camera vertically
-            _cameraVerticalAngle += PlayerInputHandler.GetLookInputsVertical() * K_rotationSpeed;
+            _cameraVerticalAngle += PlayerInputHandler.GetLookInputsVertical() * K_RotationSpeed;
             // Limit vertical camera rotation angle of up to +/- 89 degrees
             _cameraVerticalAngle = Mathf.Clamp(_cameraVerticalAngle, -89f, 89f);
             FpsCamera.transform.localEulerAngles = new Vector3(_cameraVerticalAngle, 0, 0);
@@ -122,8 +122,8 @@ public class MovementController : MonoBehaviour
         if (_characterController.enabled == true)
         {
             // Apply velocity to User object
-            Vector3 targetVelocity = K_maxSpeedOnGround * transform.TransformVector(move);
-            _characterVelocity = Vector3.Lerp(_characterVelocity, targetVelocity, K_movementSharpnessOnGround * Time.deltaTime);
+            Vector3 targetVelocity = K_MaxSpeedOnGround * transform.TransformVector(move);
+            _characterVelocity = Vector3.Lerp(_characterVelocity, targetVelocity, K_MovementSharpnessOnGround * Time.deltaTime);
             _characterController.Move(_characterVelocity * Time.deltaTime);
         }
     }
@@ -134,13 +134,10 @@ public class MovementController : MonoBehaviour
         {
             return 1f;
         }
-        else if (0 > input)
+        if (0 > input)
         {
             return -1f;
         }
-        else
-        {
-            return 0;
-        }
+        return 0;
     }
 }

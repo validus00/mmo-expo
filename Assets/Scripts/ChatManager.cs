@@ -28,7 +28,7 @@ public class ChatManager : MonoBehaviour
     // For handling user inputs
     public IPlayerInputHandler PlayerInputHandler;
     // max number of channels
-    private const int K_maxMessages = 100;
+    private const int K_MaxMessages = 100;
     // Chat panel
     public GameObject ChatPanel;
     // TMP text object to populate chat panel
@@ -200,6 +200,7 @@ public class ChatManager : MonoBehaviour
             channelName == _channelNames[ChannelType.general];
     }
 
+    // For updating channel dictionary
     public void UpdateChannel(string channelName, ChannelType channelType)
     {
         if (channelType == ChannelType.announcementChannel)
@@ -245,6 +246,7 @@ public class ChatManager : MonoBehaviour
         }
     }
 
+    // For getting channel names from dictionary
     public string GetChannelName(ChannelType channelType)
     {
         return _channelNames[channelType];
@@ -259,7 +261,7 @@ public class ChatManager : MonoBehaviour
         // Create new Message object and add to list of messages
         Message message = new Message();
         GameObject newText = Instantiate(TextObject, ChatPanel.transform);
-        newText.GetComponent<ChannelFieldHandler>().ChatManagerObject = this;
+        newText.GetComponent<ChannelFieldHandler>().ChatManager = this;
         message.MessageText = text;
         message.MsgType = messageType;
         message.TextObject = newText.GetComponent<TextMeshProUGUI>();
@@ -276,7 +278,7 @@ public class ChatManager : MonoBehaviour
         LimitNumberOfMessages();
 
         GameObject newText = Instantiate(TextObject, ChatPanel.transform);
-        newText.GetComponent<ChannelFieldHandler>().ChatManagerObject = this;
+        newText.GetComponent<ChannelFieldHandler>().ChatManager = this;
         message.TextObject = newText.GetComponent<TextMeshProUGUI>();
         message.TextObject.text = message.MessageText;
         message.TextObject.color = MessageTypeColor(message.MsgType);
@@ -287,7 +289,7 @@ public class ChatManager : MonoBehaviour
     private void LimitNumberOfMessages()
     {
         // Keep only 99 most recent messages before adding a new message to list
-        if (_messageList.Count >= K_maxMessages)
+        if (_messageList.Count >= K_MaxMessages)
         {
             Destroy(_messageList[0].TextObject.gameObject);
             _messageList.Remove(_messageList[0]);

@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.4366757, g: 0.48427194, b: 0.5645252, a: 1}
+  m_IndirectSpecularColor: {r: 0.4366756, g: 0.48427194, b: 0.5645252, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1891,7 +1891,7 @@ PrefabInstance:
     - target: {fileID: 2404306418756138925, guid: 8ff87ef0d81a2954aa11ec7aa3d9f5fb,
         type: 3}
       propertyPath: _currentChannelName
-      value: Booths Hall West
+      value: Booth Hall West
       objectReference: {fileID: 0}
     - target: {fileID: 2404306418756138925, guid: 8ff87ef0d81a2954aa11ec7aa3d9f5fb,
         type: 3}
@@ -1951,7 +1951,7 @@ PrefabInstance:
     - target: {fileID: 3703315927721504363, guid: 8ff87ef0d81a2954aa11ec7aa3d9f5fb,
         type: 3}
       propertyPath: m_Name
-      value: BoothsHallWest
+      value: BoothHallWest
       objectReference: {fileID: 0}
     - target: {fileID: 4334975962066347721, guid: 8ff87ef0d81a2954aa11ec7aa3d9f5fb,
         type: 3}
@@ -4924,7 +4924,12 @@ PrefabInstance:
     - target: {fileID: 6723780258194653258, guid: 6da8d30e50288b745890c973fd893c7d,
         type: 3}
       propertyPath: m_text
-      value: Booths Hall East
+      value: Booth Hall East
+      objectReference: {fileID: 0}
+    - target: {fileID: 6723780258194653258, guid: 6da8d30e50288b745890c973fd893c7d,
+        type: 3}
+      propertyPath: m_fontSize
+      value: 0.45
       objectReference: {fileID: 0}
     - target: {fileID: 6723780258966803956, guid: 6da8d30e50288b745890c973fd893c7d,
         type: 3}
@@ -6178,7 +6183,7 @@ PrefabInstance:
     - target: {fileID: 2404306418756138925, guid: 8ff87ef0d81a2954aa11ec7aa3d9f5fb,
         type: 3}
       propertyPath: _currentChannelName
-      value: Booths Hall East
+      value: Booth Hall East
       objectReference: {fileID: 0}
     - target: {fileID: 2404306418756138925, guid: 8ff87ef0d81a2954aa11ec7aa3d9f5fb,
         type: 3}
@@ -6238,7 +6243,7 @@ PrefabInstance:
     - target: {fileID: 3703315927721504363, guid: 8ff87ef0d81a2954aa11ec7aa3d9f5fb,
         type: 3}
       propertyPath: m_Name
-      value: BoothsHallEast
+      value: BoothHallEast
       objectReference: {fileID: 0}
     - target: {fileID: 4334975962066347721, guid: 8ff87ef0d81a2954aa11ec7aa3d9f5fb,
         type: 3}
@@ -12093,7 +12098,12 @@ PrefabInstance:
     - target: {fileID: 6723780258194653258, guid: 6da8d30e50288b745890c973fd893c7d,
         type: 3}
       propertyPath: m_text
-      value: Booths Hall West
+      value: Booth Hall West
+      objectReference: {fileID: 0}
+    - target: {fileID: 6723780258194653258, guid: 6da8d30e50288b745890c973fd893c7d,
+        type: 3}
+      propertyPath: m_fontSize
+      value: 0.45
       objectReference: {fileID: 0}
     - target: {fileID: 6723780258412603647, guid: 6da8d30e50288b745890c973fd893c7d,
         type: 3}
@@ -12467,7 +12477,7 @@ PrefabInstance:
     - target: {fileID: 2404306418756138925, guid: 8ff87ef0d81a2954aa11ec7aa3d9f5fb,
         type: 3}
       propertyPath: _currentChannelName
-      value: Booths Hall North
+      value: Booth Hall North
       objectReference: {fileID: 0}
     - target: {fileID: 2404306418756138925, guid: 8ff87ef0d81a2954aa11ec7aa3d9f5fb,
         type: 3}
@@ -12492,7 +12502,7 @@ PrefabInstance:
     - target: {fileID: 3703315927721504363, guid: 8ff87ef0d81a2954aa11ec7aa3d9f5fb,
         type: 3}
       propertyPath: m_Name
-      value: BoothsHallNorth
+      value: BoothHallNorth
       objectReference: {fileID: 0}
     - target: {fileID: 6910754326685429393, guid: 8ff87ef0d81a2954aa11ec7aa3d9f5fb,
         type: 3}
@@ -14471,7 +14481,7 @@ PrefabInstance:
     - target: {fileID: 2404306418756138925, guid: 8ff87ef0d81a2954aa11ec7aa3d9f5fb,
         type: 3}
       propertyPath: _currentChannelName
-      value: Booths Hall South
+      value: Booth Hall South
       objectReference: {fileID: 0}
     - target: {fileID: 2404306418756138925, guid: 8ff87ef0d81a2954aa11ec7aa3d9f5fb,
         type: 3}
@@ -14531,7 +14541,7 @@ PrefabInstance:
     - target: {fileID: 3703315927721504363, guid: 8ff87ef0d81a2954aa11ec7aa3d9f5fb,
         type: 3}
       propertyPath: m_Name
-      value: BoothsHallSouth
+      value: BoothHallSouth
       objectReference: {fileID: 0}
     - target: {fileID: 4334975962066347721, guid: 8ff87ef0d81a2954aa11ec7aa3d9f5fb,
         type: 3}
@@ -20185,7 +20195,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 492985574518587468}
   m_HandleRect: {fileID: 492985574518587467}
   m_Direction: 0
-  m_Value: 1
+  m_Value: 0
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -20665,7 +20675,12 @@ PrefabInstance:
     - target: {fileID: 6723780258194653258, guid: 6da8d30e50288b745890c973fd893c7d,
         type: 3}
       propertyPath: m_text
-      value: Booths Hall North
+      value: Booth Hall North
+      objectReference: {fileID: 0}
+    - target: {fileID: 6723780258194653258, guid: 6da8d30e50288b745890c973fd893c7d,
+        type: 3}
+      propertyPath: m_fontSize
+      value: 0.45
       objectReference: {fileID: 0}
     - target: {fileID: 6723780258966803956, guid: 6da8d30e50288b745890c973fd893c7d,
         type: 3}
@@ -20795,7 +20810,12 @@ PrefabInstance:
     - target: {fileID: 6723780258194653258, guid: 6da8d30e50288b745890c973fd893c7d,
         type: 3}
       propertyPath: m_text
-      value: Booths Hall South
+      value: Booth Hall South
+      objectReference: {fileID: 0}
+    - target: {fileID: 6723780258194653258, guid: 6da8d30e50288b745890c973fd893c7d,
+        type: 3}
+      propertyPath: m_fontSize
+      value: 0.45
       objectReference: {fileID: 0}
     - target: {fileID: 6723780258966803956, guid: 6da8d30e50288b745890c973fd893c7d,
         type: 3}

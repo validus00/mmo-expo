@@ -9,8 +9,14 @@ using UnityEngine.EventSystems;
 public class ChannelFieldHandler : MonoBehaviour, IPointerClickHandler
 {
     public TextMeshProUGUI Text;
-    public ChatManager ChatManagerObject;
+    private ChatManager _chatManager;
 
+    public ChatManager ChatManager
+    {
+        set { _chatManager = value; }
+    }
+
+    // Gets called when user clicks on a link in a TextMeshPro
     public void OnPointerClick(PointerEventData eventData)
     {
         if (eventData.button == PointerEventData.InputButton.Left)
@@ -21,7 +27,7 @@ public class ChannelFieldHandler : MonoBehaviour, IPointerClickHandler
                 TMP_LinkInfo linkInfo = Text.textInfo.linkInfo[linkIndex];
                 string linkId = linkInfo.GetLinkID();
 
-                ChatManagerObject.UpdateChannelInputField(linkId);
+                _chatManager.UpdateChannelInputField(linkId);
             }
         }
     }

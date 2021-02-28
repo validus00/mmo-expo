@@ -23,9 +23,9 @@ public class RoomListManager : MonoBehaviour, IPointerClickHandler
     // Hold the user's name without room name
     private string _nameTrimmed;
     // Default placeholder text for dropdown
-    private const string K_defaultText = "Users in Room";
+    private const string K_DefaultText = "Users in Room";
     // String concatenated to identifer user in room list
-    private const string K_selfIndicatorString = " (You)";
+    private const string K_SelfIndicatorString = " (You)";
     // List to hold user names
     private readonly List<string> _usernames = new List<string>();
 
@@ -50,8 +50,8 @@ public class RoomListManager : MonoBehaviour, IPointerClickHandler
     // Listener to populate the channel box text and reset the selected option to default
     void DropdownItemSelected(Dropdown dropdown)
     {
-        if (!dropdown.options[dropdown.value].text.Equals(K_defaultText) &&
-            !dropdown.options[dropdown.value].text.Equals(_nameTrimmed + K_selfIndicatorString))
+        if (!dropdown.options[dropdown.value].text.Equals(K_DefaultText) &&
+            !dropdown.options[dropdown.value].text.Equals(_nameTrimmed + K_SelfIndicatorString))
         {
             _chatManager.UpdateChannelInputField(dropdown.options[dropdown.value].text);
         }
@@ -88,13 +88,13 @@ public class RoomListManager : MonoBehaviour, IPointerClickHandler
         // Clear the list and dropdown and add names and default text to list
         _usernames.Clear();
         Dropdown.options.Clear();
-        Dropdown.options.Add(new Dropdown.OptionData() { text = K_defaultText });
+        Dropdown.options.Add(new Dropdown.OptionData() { text = K_DefaultText });
         foreach (Player player in PhotonNetwork.PlayerList)
         {
             if (player.NickName.Equals(_name))
             {
                 // Keep the local user at the top of the list
-                _usernames.Insert(0, PhotonChatHandler.RemoveRoomName(player.NickName) + K_selfIndicatorString);
+                _usernames.Insert(0, PhotonChatHandler.RemoveRoomName(player.NickName) + K_SelfIndicatorString);
             }
             else
             {

@@ -68,6 +68,7 @@ public class BoothSetup : MonoBehaviourPunCallbacks
         _chatManager.LeaveChannel(_projectName);
     }
 
+    // For handling booth panel opening logic
     public void OpenBoothPanel()
     {
         if (_isUserInBooth)
@@ -84,6 +85,7 @@ public class BoothSetup : MonoBehaviourPunCallbacks
         }
     }
 
+    // For handling booth setup logic
     public bool SetUpBooth(string projectName, string teamName, string projectDescription, string projectUrl,
         string posterUrl)
     {
@@ -113,6 +115,7 @@ public class BoothSetup : MonoBehaviourPunCallbacks
         }
     }
 
+    // RPC for updating booth info
     [PunRPC]
     void SyncBooth(string boothOwner, string projectName, string teamName, string projectDescription,
         string projectUrl, string posterUrl)
@@ -139,11 +142,13 @@ public class BoothSetup : MonoBehaviourPunCallbacks
         _projectUrl = url;
     }
 
+    // For handling booth info reset logic
     public void ResetBooth()
     {
         photonView.RPC("ClearBooth", RpcTarget.AllBuffered);
     }
 
+    // PRC for resetting booth
     [PunRPC]
     void ClearBooth()
     {

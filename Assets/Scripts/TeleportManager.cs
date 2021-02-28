@@ -37,6 +37,7 @@ public class TeleportManager : MonoBehaviour
         _chatManager.EnterChannel(newChannelName);
     }
 
+    // For teleporting user to a new location
     public static void Teleport(GameObject user, Vector3 destination)
     {
         // Turn off the character controller so that the user can be teleported

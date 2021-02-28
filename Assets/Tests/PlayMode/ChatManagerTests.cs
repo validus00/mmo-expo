@@ -14,7 +14,7 @@ namespace Tests
         private const string K_Message = "Hi there";
         private const string K_TestChannel = "Test";
         private const string K_ProjectName = "MMO Expo";
-        private const string K_BoothsHallName = "Booths Hall North";
+        private const string K_BoothHallName = "Booth Hall North";
 
         [UnityTest]
         public IEnumerator WhenOnStartThenGetNoMessages()
@@ -241,14 +241,14 @@ namespace Tests
 
             SetUpChatManager(chatManager, null, photonChatHandler, null, null);
 
-            chatManager.UpdateChannel(K_BoothsHallName, ChatManager.ChannelType.hallChannel);
+            chatManager.UpdateChannel(K_BoothHallName, ChatManager.ChannelType.hallChannel);
 
             yield return null;
 
             Assert.AreEqual(0, chatManager.GetMessages().Count);
             Assert.AreEqual(GameConstants.K_AnnouncementChannelName,
                 chatManager.GetChannelName(ChatManager.ChannelType.announcementChannel));
-            Assert.AreEqual(K_BoothsHallName, chatManager.GetChannelName(ChatManager.ChannelType.hallChannel));
+            Assert.AreEqual(K_BoothHallName, chatManager.GetChannelName(ChatManager.ChannelType.hallChannel));
             Assert.AreEqual(string.Empty, chatManager.GetChannelName(ChatManager.ChannelType.boothChannel));
             photonChatHandler.Received(2).InitializeChannelNames(Arg.Any<string[]>());
         }
@@ -493,7 +493,7 @@ namespace Tests
         }
 
         [UnityTest]
-        public IEnumerator WhenUserSendsValidUserMessageThenGetErrorMessage()
+        public IEnumerator WhenUserSendsValidUserMessageThenGetMessage()
         {
             GameObject eventManager = new GameObject(GameConstants.K_ExpoEventManager);
             ChatManager chatManager = eventManager.AddComponent<ChatManager>();
@@ -503,7 +503,13 @@ namespace Tests
 
             string username = "Random User";
             IPhotonChatHandler photonChatHandler = Substitute.For<IPhotonChatHandler>();
-            photonChatHandler.GetNewMessages().Returns(new List<Message>());
+            List<Message> messages = new List<Message>();
+            Message newMessage = new Message();
+            newMessage.MessageText = K_Message;
+            newMessage.MsgType = Message.MessageType.privateMessage;
+            messages.Add(newMessage);
+            photonChatHandler.GetNewMessages().Returns(messages);
+
             photonChatHandler.IsConnected().Returns(true);
             photonChatHandler.UserEnteredName.Returns("Another Random User");
             photonChatHandler.IsValidUsername(username).Returns(true);
@@ -512,6 +518,7 @@ namespace Tests
 
             yield return null;
 
+            Assert.AreEqual(Message.MessageType.privateMessage, chatManager.GetMessages()[0].MsgType);
             photonChatHandler.Received(0).SendChannelMessage(Arg.Any<string>(), K_Message);
             photonChatHandler.Received(1).SendPrivateMessage(username, K_Message);
         }

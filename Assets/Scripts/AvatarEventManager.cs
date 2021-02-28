@@ -2,6 +2,9 @@
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
+/*
+ * AvatarEventManager class implements avatar selection logic
+ */
 public class AvatarEventManager : MonoBehaviour
 {
     // Save previously selected avatar button game object

@@ -26,7 +26,7 @@ public class PhotonChatHandler : IChatClientListener, IPhotonChatHandler
     public PhotonChatHandler()
     {
         _roomName = PhotonNetwork.CurrentRoom.Name;
-        AddNewMessage(string.Format("Passcode: {0}", _roomName), Message.MessageType.info);
+        AddNewMessage($"Passcode: {_roomName}", Message.MessageType.info);
         // Create new Photon Chat client
         _chatClient = new ChatClient(this);
         _isConnected = false;
@@ -55,11 +55,6 @@ public class PhotonChatHandler : IChatClientListener, IPhotonChatHandler
     public string Username
     {
         get { return PhotonNetwork.NickName; }
-    }
-
-    public string GetUsername(string name)
-    {
-        return name + PhotonNetwork.CurrentRoom.Name;
     }
 
     public void ConnectToService()
@@ -113,6 +108,8 @@ public class PhotonChatHandler : IChatClientListener, IPhotonChatHandler
         return channelName + _roomName;
     }
 
+    // For getting username without room name appended to it.
+    // Username in the network contains the room name after the user enters their username
     public static string RemoveRoomName(string text)
     {
         return text.Replace(PhotonNetwork.CurrentRoom.Name, string.Empty);
@@ -179,7 +176,7 @@ public class PhotonChatHandler : IChatClientListener, IPhotonChatHandler
                 {
                     sender = senders[0];
                 }
-                string message = string.Format("[<link=\"{0}\">{0}</link>] {1}: {2}", RemoveRoomName(channelName), sender, messages[0]);
+                string message = string.Format("[{0}] {1}: {2}", GetLink(RemoveRoomName(channelName)), sender, messages[0]);
                 AddNewMessage(message, Message.MessageType.playerMessage);
             }
         }
@@ -200,11 +197,11 @@ public class PhotonChatHandler : IChatClientListener, IPhotonChatHandler
         string privateMessage;
         if (sender == username)
         {
-            privateMessage = string.Format("[Private] To <link=\"{0}\"><u>{0}</u></link>: {1}", RemoveRoomName(recipient), message.ToString());
+            privateMessage = string.Format("[Private] To {0}: {1}", GetLink(RemoveRoomName(recipient)), message.ToString());
         }
         else
         {
-            privateMessage = string.Format("[Private] From <link=\"{0}\"><u>{0}</u></link>: {1}", RemoveRoomName(sender), message.ToString());
+            privateMessage = string.Format("[Private] From {0}: {1}", GetLink(RemoveRoomName(sender)), message.ToString());
         }
         AddNewMessage(privateMessage, Message.MessageType.privateMessage);
     }
@@ -227,7 +224,7 @@ public class PhotonChatHandler : IChatClientListener, IPhotonChatHandler
                 string subscriptionMessage;
                 if (results[i])
                 {
-                    subscriptionMessage = string.Format("You entered the <link=\"{0}\"><u>{0}</u></link> channel.", RemoveRoomName(channels[i]));
+                    subscriptionMessage = string.Format("You entered the {0} channel.", GetLink(RemoveRoomName(channels[i])));
                 }
                 else
                 {
@@ -237,6 +234,11 @@ public class PhotonChatHandler : IChatClientListener, IPhotonChatHandler
                 AddNewMessage(subscriptionMessage, Message.MessageType.info);
             }
         }
+    }
+
+    private string GetLink(string channelName)
+    {
+        return $"<link=\"{channelName}\"><u>{channelName}</u></link>";
     }
 
     public void OnUnsubscribed(string[] channels)

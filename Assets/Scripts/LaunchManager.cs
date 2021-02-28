@@ -33,6 +33,7 @@ public class LaunchManager : MonoBehaviourPunCallbacks
         ConnectionStatusPanel.SetActive(true);
     }
 
+    // For when user clicks on creating new room
     public void CreateNewRoom()
     {
         CloseEnterEventPanel();
@@ -47,6 +48,7 @@ public class LaunchManager : MonoBehaviourPunCallbacks
         }
     }
 
+    // For when user clicks on join creatd room 
     public void JoinCreatedRoom()
     {
         CloseEnterEventPanel();
@@ -66,6 +68,7 @@ public class LaunchManager : MonoBehaviourPunCallbacks
         PhotonNetwork.NickName = string.Format("User{0}", GenerateRandomDigits());
     }
 
+    // For handling passcode and room joining logic
     public void JoinExistingRoom()
     {
         if (string.IsNullOrEmpty(_passcodeInput))
@@ -77,6 +80,7 @@ public class LaunchManager : MonoBehaviourPunCallbacks
         PhotonNetwork.JoinRoom(_passcodeInput);
     }
 
+    // For handling passcode-entering logic
     public void SetPasscode(string passcode)
     {
         if (string.IsNullOrEmpty(passcode))
@@ -121,6 +125,7 @@ public class LaunchManager : MonoBehaviourPunCallbacks
         return Random.Range(1000, 9999);
     }
 
+    // For displaying the main menu
     public void DisplayMainMenu()
     {
         ResetPasscodePanel();
@@ -144,7 +149,7 @@ public class LaunchManager : MonoBehaviourPunCallbacks
     }
 
     #region Photon Callbacks
-
+    // Called when user connects to lobby
     public override void OnConnectedToMaster()
     {
         Debug.Log("Connected! " + PhotonNetwork.NickName);
@@ -173,12 +178,14 @@ public class LaunchManager : MonoBehaviourPunCallbacks
         InvalidPasscodeText.SetActive(true);
     }
 
+    // Called when user joins a room
     public override void OnJoinedRoom()
     {
         Debug.Log("Joined room successfully!");
         LoadEvent();
     }
 
+    // Called when user enters a room
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
         Debug.Log(newPlayer.NickName + " joined " + PhotonNetwork.CurrentRoom.Name + "!");

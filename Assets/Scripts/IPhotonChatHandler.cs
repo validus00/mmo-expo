@@ -11,8 +11,6 @@ public interface IPhotonChatHandler
     void EnterChannel(string channelName);
     // Returns new messages and empty list of messages
     List<Message> GetNewMessages();
-    // For getting username with room name
-    string GetUsername(string name);
     // For leaving a specific channel
     void LeaveChannel(string channelName);
     // For initial setup

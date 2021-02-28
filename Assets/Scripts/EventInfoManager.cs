@@ -47,6 +47,7 @@ public class EventInfoManager : MonoBehaviourPunCallbacks, IEventInfoManager
         return false;
     }
 
+    // RPC for setting up event info panel data
     [PunRPC]
     void SyncEventInfo(string eventInfoUrl, string scheduleUrl, string zoomUrl, string eventInfoOwner)
     {
@@ -61,6 +62,7 @@ public class EventInfoManager : MonoBehaviourPunCallbacks, IEventInfoManager
         photonView.RPC("ClearEventInfo", RpcTarget.AllBuffered);
     }
 
+    // PRC for resetting event info panel data
     [PunRPC]
     void ClearEventInfo()
     {
