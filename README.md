@@ -170,6 +170,8 @@ This project has been developed and tested to run in [Unity 2019.4.17f1](https:/
   - https://blogs.unity3d.com/2014/05/07/dependency-injection-and-abstractions/
   - https://forum.photonengine.com/discussion/9908/how-to-create-the-private-chat-system-with-photon-chat
   - https://doc-api.photonengine.com/en/pun/v2/class_photon_1_1_chat_1_1_chat_client.html#a2ed94e1d0bdd01aa4654d287f102f855
+  - https://stackoverflow.com/questions/55297626/disable-an-options-in-a-dropdown-unity
+  - https://forum.unity.com/threads/what-is-the-best-way-to-display-3d-models-as-ui-elements.343205/
 - GitHub Pages For Hosting Browser Unity Applications
   - https://medium.com/@aboutin/host-unity-games-on-github-pages-for-free-2ed6b4d9c324
 - Kou-yeung WebGLInput package for copy and paste functionality in WebGL
@@ -186,9 +188,12 @@ This project has been developed and tested to run in [Unity 2019.4.17f1](https:/
   - https://www.youtube.com/watch?v=IRAeJgGkjHk
   - https://www.youtube.com/watch?v=WzzxjFD6-Mg
 - Sources for Unity Assets
-  - https://assetstore.unity.com/packages/3d/characters/toony-tiny-people-demo-113188
+  - https://assetstore.unity.com/packages/3d/characters/toony-tiny-people-demo-113188i
+  - https://assetstore.unity.com/packages/3d/characters/toony-tiny-citizens-megapack-99854
   - https://assetstore.unity.com/packages/essentials/asset-packs/standard-assets-for-unity-2018-4-32351
   - https://assetstore.unity.com/packages/3d/props/furniture/folding-table-and-chair-pbr-111726
+  - https://assetstore.unity.com/packages/tools/audio/free-footsteps-system-47967
+  - https://assetstore.unity.com/packages/vfx/particles/the-amazing-warp-portal-level-change-animations-173984
 - Linter References
   - https://github.com/dotnet/roslyn/blob/master/.editorconfig
   - https://github.com/dotnet/format
