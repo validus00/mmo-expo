@@ -176,7 +176,7 @@ public class PhotonChatHandler : IChatClientListener, IPhotonChatHandler
                 {
                     sender = senders[0];
                 }
-                string message = string.Format("[{0}] {1}: {2}", GetLink(RemoveRoomName(channelName)), sender, messages[0]);
+                string message = string.Format("[{0}] {1}: {2}", GetLink(channelName), RemoveRoomName(sender), messages[0]);
                 AddNewMessage(message, Message.MessageType.playerMessage);
             }
         }
@@ -197,11 +197,11 @@ public class PhotonChatHandler : IChatClientListener, IPhotonChatHandler
         string privateMessage;
         if (sender == username)
         {
-            privateMessage = string.Format("[Private] To {0}: {1}", GetLink(RemoveRoomName(recipient)), message.ToString());
+            privateMessage = string.Format("[Private] To {0}: {1}", GetLink(recipient), message.ToString());
         }
         else
         {
-            privateMessage = string.Format("[Private] From {0}: {1}", GetLink(RemoveRoomName(sender)), message.ToString());
+            privateMessage = string.Format("[Private] From {0}: {1}", GetLink(sender), message.ToString());
         }
         AddNewMessage(privateMessage, Message.MessageType.privateMessage);
     }
@@ -224,7 +224,7 @@ public class PhotonChatHandler : IChatClientListener, IPhotonChatHandler
                 string subscriptionMessage;
                 if (results[i])
                 {
-                    subscriptionMessage = string.Format("You entered the {0} channel.", GetLink(RemoveRoomName(channels[i])));
+                    subscriptionMessage = string.Format("You entered the {0} channel.", GetLink(channels[i]));
                 }
                 else
                 {
@@ -238,7 +238,8 @@ public class PhotonChatHandler : IChatClientListener, IPhotonChatHandler
 
     private string GetLink(string channelName)
     {
-        return $"<link=\"{channelName}\"><u>{channelName}</u></link>";
+        string newChannelName = RemoveRoomName(channelName);
+        return $"<link=\"{newChannelName}\"><u>{newChannelName}</u></link>";
     }
 
     public void OnUnsubscribed(string[] channels)
