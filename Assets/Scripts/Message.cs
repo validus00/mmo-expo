@@ -3,7 +3,6 @@
  */
 using TMPro;
 
-[System.Serializable]
 public class Message
 {
     // For displaying text in chat in different colors depending on type of message 
