@@ -1,10 +1,9 @@
-﻿using Photon.Pun;
-using UnityEngine;
+﻿using UnityEngine;
 
 /*
  * InfoBoothSetup class is for implementing business logic surrounding event information
  */
-public class InfoBoothSetup : MonoBehaviourPunCallbacks
+public class InfoBoothSetup : MonoBehaviour
 {
     private Camera _camera;
     private EventInfoManager _eventInfoManager;

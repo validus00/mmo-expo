@@ -1,9 +1,10 @@
 ﻿using Photon.Pun;
 using UnityEngine;
 
-public class EventInfoManager : MonoBehaviourPunCallbacks, IEventInfoManager
+public class EventInfoManager : MonoBehaviour, IEventInfoManager
 {
     private PanelManager _panelManager;
+    private PhotonView _photonView;
     private string _eventInfoUrl;
     private string _scheduleUrl;
     private string _zoomUrl;
@@ -13,6 +14,7 @@ public class EventInfoManager : MonoBehaviourPunCallbacks, IEventInfoManager
     void Start()
     {
         _panelManager = GameObject.Find(GameConstants.K_PanelManager).GetComponent<PanelManager>();
+        _photonView = GetComponent<PhotonView>();
     }
 
     public string EventInfoOwner
@@ -40,7 +42,7 @@ public class EventInfoManager : MonoBehaviourPunCallbacks, IEventInfoManager
     {
         if (string.IsNullOrEmpty(_eventInfoUrl))
         {
-            photonView.RPC("SyncEventInfo", RpcTarget.AllBuffered, eventInfoUrl, scheduleUrl, zoomUrl,
+            _photonView.RPC("SyncEventInfo", RpcTarget.AllBuffered, eventInfoUrl, scheduleUrl, zoomUrl,
                 PhotonNetwork.NickName);
             return true;
         }
@@ -59,7 +61,7 @@ public class EventInfoManager : MonoBehaviourPunCallbacks, IEventInfoManager
 
     public void ResetEventInfo()
     {
-        photonView.RPC("ClearEventInfo", RpcTarget.AllBuffered);
+        _photonView.RPC("ClearEventInfo", RpcTarget.AllBuffered);
     }
 
     // PRC for resetting event info panel data

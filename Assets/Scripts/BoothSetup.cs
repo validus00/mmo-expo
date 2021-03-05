@@ -7,13 +7,14 @@ using UnityEngine.Networking;
 /*
  * BoothSetup class is for implementing business logic surrounding entering and leaving booths
  */
-public class BoothSetup : MonoBehaviourPunCallbacks
+public class BoothSetup : MonoBehaviour
 {
     public TextMeshProUGUI BoothText;
     public GameObject PosterBoard;
     private PanelManager _panelManager;
     private ChatManager _chatManager;
     private Camera _camera;
+    private PhotonView _photonView;
     private bool _isUserInBooth = false;
     private string _boothOwner;
     private string _projectName;
@@ -25,6 +26,7 @@ public class BoothSetup : MonoBehaviourPunCallbacks
     {
         _panelManager = GameObject.Find(GameConstants.K_PanelManager).GetComponent<PanelManager>();
         _chatManager = GameObject.Find(GameConstants.K_ExpoEventManager).GetComponent<ChatManager>();
+        _photonView = GetComponent<PhotonView>();
     }
 
     // This is called when the user first enters a booth area
@@ -91,7 +93,7 @@ public class BoothSetup : MonoBehaviourPunCallbacks
     {
         if (string.IsNullOrEmpty(_projectName))
         {
-            photonView.RPC("SyncBooth", RpcTarget.AllBuffered, PhotonNetwork.NickName, projectName, teamName,
+            _photonView.RPC("SyncBooth", RpcTarget.AllBuffered, PhotonNetwork.NickName, projectName, teamName,
                 projectDescription, projectUrl, posterUrl);
             return true;
         }
@@ -145,7 +147,7 @@ public class BoothSetup : MonoBehaviourPunCallbacks
     // For handling booth info reset logic
     public void ResetBooth()
     {
-        photonView.RPC("ClearBooth", RpcTarget.AllBuffered);
+        _photonView.RPC("ClearBooth", RpcTarget.AllBuffered);
     }
 
     // PRC for resetting booth
