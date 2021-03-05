@@ -5,17 +5,19 @@ using UnityEngine;
 /*
  * UserSetup class implements user specific features
  */
-public class UserSetup : MonoBehaviourPunCallbacks
+public class UserSetup : MonoBehaviour
 {
     public GameObject FpsCamera;
     public TextMeshProUGUI UserNameText;
     public GameObject User;
     private CharacterController _characterController;
+    private PhotonView _photonView;
 
     // Start is called before the first frame update
     void Start()
     {
-        if (!photonView.IsMine)
+        _photonView = GetComponent<PhotonView>();
+        if (!_photonView.IsMine)
         {
             Destroy(GetComponent<MovementController>());
             Destroy(FpsCamera);
@@ -37,9 +39,9 @@ public class UserSetup : MonoBehaviourPunCallbacks
 
     private void SetUserUI()
     {
-        if (UserNameText != null && photonView.Owner != null)
+        if (UserNameText != null && _photonView.Owner != null)
         {
-            UserNameText.text = PhotonChatHandler.RemoveRoomName(photonView.Owner.NickName);
+            UserNameText.text = PhotonChatHandler.RemoveRoomName(_photonView.Owner.NickName);
         }
     }
 
@@ -51,7 +53,7 @@ public class UserSetup : MonoBehaviourPunCallbacks
         {
             _characterController = GetComponent<CharacterController>();
         }
-        if (!photonView.IsMine)
+        if (!_photonView.IsMine)
         {
             _characterController.enabled = value;
         }

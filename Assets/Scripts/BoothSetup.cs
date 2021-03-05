@@ -7,24 +7,38 @@ using UnityEngine.Networking;
 /*
  * BoothSetup class is for implementing business logic surrounding entering and leaving booths
  */
-public class BoothSetup : MonoBehaviourPunCallbacks
+public class BoothSetup : MonoBehaviour
 {
     public TextMeshProUGUI BoothText;
     public GameObject PosterBoard;
+    public Material DefaultPosterMaterial;
     private PanelManager _panelManager;
     private ChatManager _chatManager;
     private Camera _camera;
+    private PhotonView _photonView;
     private bool _isUserInBooth = false;
     private string _boothOwner;
     private string _projectName;
     private string _teamName;
     private string _projectDescription;
     private string _projectUrl;
+    private string _posterUrl;
+    private bool _posterUpdated = false;
 
     void Start()
     {
         _panelManager = GameObject.Find(GameConstants.K_PanelManager).GetComponent<PanelManager>();
         _chatManager = GameObject.Find(GameConstants.K_ExpoEventManager).GetComponent<ChatManager>();
+        _photonView = GetComponent<PhotonView>();
+    }
+
+    void Update()
+    {
+        if (!string.IsNullOrWhiteSpace(_posterUrl) && !_posterUpdated && ExpoEventManager.IsNameUpdated)
+        {
+            StartCoroutine(SetPosterTexture(_posterUrl));
+            _posterUpdated = true;
+        }
     }
 
     // This is called when the user first enters a booth area
@@ -91,7 +105,7 @@ public class BoothSetup : MonoBehaviourPunCallbacks
     {
         if (string.IsNullOrEmpty(_projectName))
         {
-            photonView.RPC("SyncBooth", RpcTarget.AllBuffered, PhotonNetwork.NickName, projectName, teamName,
+            _photonView.RPC("SyncBooth", RpcTarget.AllBuffered, PhotonNetwork.NickName, projectName, teamName,
                 projectDescription, projectUrl, posterUrl);
             return true;
         }
@@ -121,31 +135,32 @@ public class BoothSetup : MonoBehaviourPunCallbacks
         string projectUrl, string posterUrl)
     {
         BoothText.text = projectName;
-        AssignBoothValues(boothOwner, projectName, teamName, projectDescription, projectUrl);
+        AssignBoothValues(boothOwner, projectName, teamName, projectDescription, projectUrl, posterUrl);
         if (_isUserInBooth)
         {
             JoinChannel();
         }
-        if (!string.IsNullOrWhiteSpace(posterUrl))
+        if (ExpoEventManager.IsNameUpdated && !string.IsNullOrWhiteSpace(posterUrl))
         {
             StartCoroutine(SetPosterTexture(posterUrl));
         }
     }
 
     private void AssignBoothValues(string boothOwner, string projectName, string teamName, string projectDescription,
-        string url)
+        string projectUrl, string posterUrl)
     {
         _boothOwner = boothOwner;
         _projectName = projectName;
         _teamName = teamName;
         _projectDescription = projectDescription;
-        _projectUrl = url;
+        _projectUrl = projectUrl;
+        _posterUrl = posterUrl;
     }
 
     // For handling booth info reset logic
     public void ResetBooth()
     {
-        photonView.RPC("ClearBooth", RpcTarget.AllBuffered);
+        _photonView.RPC("ClearBooth", RpcTarget.AllBuffered);
     }
 
     // PRC for resetting booth
@@ -157,7 +172,10 @@ public class BoothSetup : MonoBehaviourPunCallbacks
             LeaveChannel();
         }
         BoothText.text = string.Empty;
-        AssignBoothValues(string.Empty, string.Empty, string.Empty, string.Empty, string.Empty);
-        StartCoroutine(SetPosterTexture("https://i.imgur.com/EFfwKyC.png"));
+        AssignBoothValues(string.Empty, string.Empty, string.Empty, string.Empty, string.Empty, string.Empty);
+        if (ExpoEventManager.IsNameUpdated)
+        {
+            PosterBoard.GetComponent<MeshRenderer>().material = DefaultPosterMaterial;
+        }
     }
 }

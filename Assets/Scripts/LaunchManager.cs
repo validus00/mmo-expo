@@ -112,14 +112,6 @@ public class LaunchManager : MonoBehaviourPunCallbacks
         Debug.Log($"Creating room with name: {randomRoomName}");
     }
 
-    // This callback is called if the randomly generated room name is identical to one that is already used by an
-    // existing room
-    public void OnCreateRoomFailed()
-    {
-        Debug.Log("Create room failed");
-        CreateAndJoinRoom();
-    }
-
     private int GenerateRandomDigits()
     {
         return Random.Range(1000, 9999);
@@ -165,6 +157,14 @@ public class LaunchManager : MonoBehaviourPunCallbacks
         }
     }
 
+    // This callback is called if the randomly generated room name is identical to one that is already used by an
+    // existing room
+    public override void OnCreateRoomFailed(short returnCode, string message)
+    {
+        Debug.Log($"Create room failed: {message} - code {returnCode}");
+        CreateAndJoinRoom();
+    }
+
     // This method is called when we have internet connection (before OnConnectedToMaster)
     public override void OnConnected()
     {
@@ -174,7 +174,7 @@ public class LaunchManager : MonoBehaviourPunCallbacks
     // Called when PhotonNetwork.JoinRoom fails
     public override void OnJoinRoomFailed(short returnCode, string message)
     {
-        Debug.Log("joined room failed");
+        Debug.Log($"Joined room failed: {message} - code {returnCode}");
         InvalidPasscodeText.SetActive(true);
     }
 
