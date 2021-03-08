@@ -388,10 +388,6 @@ namespace Tests
 
             IPhotonChatHandler photonChatHandler = Substitute.For<IPhotonChatHandler>();
             List<Message> messages = new List<Message>();
-            Message newMessage = new Message();
-            newMessage.MessageText = GameConstants.K_EasterEggSecretPhrase;
-            newMessage.MsgType = Message.MessageType.playerMessage;
-            messages.Add(newMessage);
             photonChatHandler.GetNewMessages().Returns(messages);
             photonChatHandler.IsConnected().Returns(true);
 
@@ -407,14 +403,16 @@ namespace Tests
 
             yield return null;
 
-            Assert.AreEqual(user.transform.position.y, secretArea.transform.position.y);
-            Assert.AreEqual(1, chatManager.GetMessages().Count);
+            Assert.AreEqual(secretArea.transform.position.y, user.transform.position.y);
+            Assert.AreEqual(0, chatManager.GetMessages().Count);
             Assert.AreEqual(GameConstants.K_AnnouncementChannelName,
                 chatManager.GetChannelName(ChatManager.ChannelType.announcementChannel));
             Assert.AreEqual(GameConstants.K_SecretHallChannelName,
                 chatManager.GetChannelName(ChatManager.ChannelType.hallChannel));
             Assert.AreEqual(string.Empty, chatManager.GetChannelName(ChatManager.ChannelType.boothChannel));
-            photonChatHandler.Received(0).SendChannelMessage(GameConstants.K_MainHallChannelName, K_Message);
+            photonChatHandler.Received(0).SendChannelMessage(GameConstants.K_MainHallChannelName,
+                GameConstants.K_EasterEggSecretPhrase);
+            Object.Destroy(user);
         }
 
         [UnityTest]

@@ -53,6 +53,7 @@ public class ChatManager : MonoBehaviour
     private bool _connectToServiceIsCalled;
     // messageList keeps tracks of recent messages
     private readonly List<Message> _messageList = new List<Message>();
+    private MovementController _movementController;
 
     // Returns current messages
     public List<Message> GetMessages()
@@ -128,7 +129,7 @@ public class ChatManager : MonoBehaviour
                 if (messageText.Equals(GameConstants.K_EasterEggSecretPhrase))
                 {
                     TeleportUserToSecretArea();
-                    ChatBox.text = string.Empty;
+                    ClearChatBox();
                 }
                 else if (string.IsNullOrWhiteSpace(channelName))
                 {
@@ -159,7 +160,7 @@ public class ChatManager : MonoBehaviour
                     {
                         // Send message
                         PhotonChatHandler.SendChannelMessage(channelName, messageText);
-                        ChatBox.text = string.Empty;
+                        ClearChatBox();
                     }
                 }
                 else
@@ -168,7 +169,7 @@ public class ChatManager : MonoBehaviour
                     SendMessageToChat($"\"{channelName}\" is not in your channel list or player list.",
                         Message.MessageType.info);
                     UpdateChannelInputField(string.Empty);
-                    ChatBox.text = string.Empty;
+                    ClearChatBox();
                 }
             }
             else
@@ -176,6 +177,11 @@ public class ChatManager : MonoBehaviour
                 ChatBox.ActivateInputField();
             }
         }
+    }
+
+    private void ClearChatBox()
+    {
+        ChatBox.text = string.Empty;
     }
 
     private void TeleportUserToSecretArea()
