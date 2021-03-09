@@ -29,6 +29,7 @@ public class MovementController : MonoBehaviour
     // For handling panel related logic
     public IPanelManager PanelManager;
     public PhotonView PhotonView;
+    private bool _isGodMode = false;
 
     // Start is called before the first frame update
     void Start()
@@ -73,6 +74,25 @@ public class MovementController : MonoBehaviour
         }
     }
 
+    public void ToggleGodMode()
+    {
+        _isGodMode = !_isGodMode;
+
+        if (_isGodMode)
+        {
+            _characterController.enabled = false;
+        }
+        else
+        {
+            _characterController.enabled = true;
+        }
+
+        if (PhotonView != null)
+        {
+            PhotonView.RPC("CharacterControllerToggle", RpcTarget.AllBuffered, _characterController.enabled);
+        }
+    }
+
     private void HandleCharacterMovement()
     {
         // If right mouse button is held down, then hide the mouse cursor and allow mouse free look
@@ -97,7 +117,7 @@ public class MovementController : MonoBehaviour
         }
         Vector3 move;
         // Apply velocity only if user is allowed to move
-        if (!ChatBoxHandler.IsFocused() && !ChannelBoxHandler.IsFocused())
+        if (!_isGodMode && !ChatFieldIsFocused())
         {
             move = PlayerInputHandler.GetMoveInput();
         }
@@ -126,6 +146,19 @@ public class MovementController : MonoBehaviour
             _characterVelocity = Vector3.Lerp(_characterVelocity, targetVelocity, K_MovementSharpnessOnGround * Time.deltaTime);
             _characterController.Move(_characterVelocity * Time.deltaTime);
         }
+
+        if (_isGodMode && !ChatFieldIsFocused())
+        {
+            // Get a camera vector that is relative to the user
+            Vector3 localCameraVector = transform.InverseTransformVector(FpsCamera.transform.forward);
+            // Move user object
+            transform.Translate(PlayerInputHandler.GetFlyingInput(localCameraVector));
+        }
+    }
+
+    private bool ChatFieldIsFocused()
+    {
+        return ChatBoxHandler.IsFocused() || ChannelBoxHandler.IsFocused();
     }
 
     private float GetAnimatorValue(float input)

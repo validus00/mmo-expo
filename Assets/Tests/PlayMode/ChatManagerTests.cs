@@ -521,6 +521,63 @@ namespace Tests
             photonChatHandler.Received(1).SendPrivateMessage(username, K_Message);
         }
 
+        [UnityTest]
+        public IEnumerator WhenGodModePhraseIsEnteredTwiceThenCharacterControllerEnabledChangesTwice()
+        {
+            GameObject eventManager = new GameObject(GameConstants.K_ExpoEventManager);
+            ChatManager chatManager = eventManager.AddComponent<ChatManager>();
+
+            IPlayerInputHandler playerInputHandler = Substitute.For<IPlayerInputHandler>();
+            playerInputHandler.GetReturnKey().Returns(true);
+
+            IPhotonChatHandler photonChatHandler = Substitute.For<IPhotonChatHandler>();
+            List<Message> messages = new List<Message>();
+            photonChatHandler.GetNewMessages().Returns(messages);
+            photonChatHandler.IsConnected().Returns(true);
+
+            GameObject user = new GameObject(GameConstants.K_MyUser);
+            CharacterController characterController = user.AddComponent<CharacterController>();
+            user.AddComponent<Animator>().runtimeAnimatorController
+                = Resources.Load(GameConstants.K_AnimationController) as RuntimeAnimatorController;
+            GameObject camera = new GameObject(GameConstants.K_Camera);
+            MovementController movementController = user.AddComponent<MovementController>();
+            movementController.PlayerInputHandler = playerInputHandler;
+            movementController.FpsCamera = camera;
+            movementController.PanelManager = Substitute.For<IPanelManager>();
+
+            Assert.AreEqual(true, characterController.enabled);
+
+            SetUpChatManager(chatManager, playerInputHandler, photonChatHandler, null, null);
+
+            GameObject channelBoxObject = new GameObject(GameConstants.K_ChannelInputField);
+            InputField channelBox = channelBoxObject.AddComponent<InputField>();
+            channelBoxObject.AddComponent<InputFieldHandler>();
+            chatManager.ChannelBox = channelBox;
+            channelBox.text = GameConstants.K_MainHallChannelName;
+
+            GameObject chatBoxObject = new GameObject(GameConstants.K_MessageInputField);
+            InputField chatBox = chatBoxObject.AddComponent<InputField>();
+            chatBoxObject.AddComponent<InputFieldHandler>();
+            chatManager.ChatBox = chatBox;
+            chatBox.text = GameConstants.K_GodModeSecretPhrase;
+
+            yield return null;
+
+            Assert.AreEqual(false, characterController.enabled);
+
+            chatBox.text = GameConstants.K_GodModeSecretPhrase;
+
+            yield return null;
+
+            Assert.AreEqual(true, characterController.enabled);
+            Assert.AreEqual(0, chatManager.GetMessages().Count);
+            photonChatHandler.Received(0).SendChannelMessage(GameConstants.K_MainHallChannelName,
+                GameConstants.K_GodModeSecretPhrase);
+            Object.Destroy(user);
+            Object.Destroy(channelBoxObject);
+            Object.Destroy(chatBoxObject);
+        }
+
         private void SetUpChatManager(ChatManager chatManager, IPlayerInputHandler playerInputHandler,
             IPhotonChatHandler photonChatHandler, string channelName, string message)
         {

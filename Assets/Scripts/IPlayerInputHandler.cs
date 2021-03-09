@@ -5,6 +5,8 @@
  */
 public interface IPlayerInputHandler
 {
+    // Returns a vector corresponding to the user's keyboard inputs for flying
+    Vector3 GetFlyingInput(Vector3 vector);
     // Returns value of any horizontal mouse movement
     float GetLookInputsHorizontal();
     // Returns value of any vertical mouse movement

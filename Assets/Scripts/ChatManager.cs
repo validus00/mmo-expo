@@ -131,6 +131,11 @@ public class ChatManager : MonoBehaviour
                     TeleportUserToSecretArea();
                     ClearChatBox();
                 }
+                else if (messageText.Equals(GameConstants.K_GodModeSecretPhrase))
+                {
+                    ToggleGodMode();
+                    ClearChatBox();
+                }
                 else if (string.IsNullOrWhiteSpace(channelName))
                 {
                     // channel name not given
@@ -182,6 +187,15 @@ public class ChatManager : MonoBehaviour
     private void ClearChatBox()
     {
         ChatBox.text = string.Empty;
+    }
+
+    private void ToggleGodMode()
+    {
+        if (_movementController == null)
+        {
+            _movementController = GameObject.Find(GameConstants.K_MyUser).GetComponent<MovementController>();
+        }
+        _movementController.ToggleGodMode();
     }
 
     private void TeleportUserToSecretArea()

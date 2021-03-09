@@ -9,6 +9,7 @@ public class GameConstants
     public const string K_EventInfoManager = "EventInfoManager";
     public const string K_ExpoEventManager = "ExpoEventManager";
     public const string K_GeneralChannelName = "General";
+    public const string K_GodModeSecretPhrase = "GodMode";
     public const string K_Horizontal = "Horizontal";
     public const string K_MainHallChannelName = "Main Hall";
     public const string K_MessageInputField = "MessageInputField";

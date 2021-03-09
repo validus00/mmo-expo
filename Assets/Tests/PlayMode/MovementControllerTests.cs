@@ -213,7 +213,6 @@ namespace Tests
 
             IPlayerInputHandler playerInputHandler = Substitute.For<IPlayerInputHandler>();
 
-
             SetUpMovementController(user, playerInputHandler);
             Animator animator = user.GetComponent<Animator>();
 
@@ -234,6 +233,30 @@ namespace Tests
             Assert.AreEqual(0, user.transform.position.y);
             Assert.AreEqual(0, animator.GetFloat(GameConstants.K_Horizontal));
             Assert.AreEqual(1f, animator.GetFloat(GameConstants.K_Vertical));
+        }
+
+        [UnityTest]
+        public IEnumerator WhenUserIsInGodModeThenYPositionChanges()
+        {
+            GameObject user = new GameObject(K_Player);
+
+            IPlayerInputHandler playerInputHandler = Substitute.For<IPlayerInputHandler>();
+            SetUpMovementController(user, playerInputHandler);
+            Animator animator = user.GetComponent<Animator>();
+
+            yield return null;
+
+            user.GetComponent<MovementController>().ToggleGodMode();
+            playerInputHandler.GetMoveInput().Returns(new Vector3(1, 0, 1));
+            playerInputHandler.GetFlyingInput(Arg.Any<Vector3>()).Returns(new Vector3(0, 1, 0));
+
+            yield return null;
+
+            Assert.IsTrue(user.transform.position.y > 0);
+            Assert.AreEqual(0, user.transform.position.x);
+            Assert.AreEqual(0, user.transform.position.z);
+            Assert.AreEqual(0, animator.GetFloat(GameConstants.K_Horizontal));
+            Assert.AreEqual(0, animator.GetFloat(GameConstants.K_Vertical));
         }
 
         private void SetUpMovementController(GameObject user, IPlayerInputHandler playerInputHandler)

@@ -27,6 +27,37 @@ public class PlayerInputHandler : IPlayerInputHandler
         return Vector3.ClampMagnitude(move, 1);
     }
 
+    public Vector3 GetFlyingInput(Vector3 vector)
+    {
+        float horizontalInput = GetAInput() + GetDInput();
+        float verticalInput = GetSInput() + GetWInput();
+
+        float yRaw = GetSpaceInput() + GetXInput();
+        float y = (yRaw != 0) ? yRaw : verticalInput * vector.y;
+
+        Vector3 move = new Vector3(horizontalInput, y, verticalInput * vector.z);
+        // Prevents diagonal movement value from exceeding 1
+        return Vector3.ClampMagnitude(move, 1);
+    }
+
+    private float GetSpaceInput()
+    {
+        if (Input.GetKey(KeyCode.Space))
+        {
+            return 1f;
+        }
+        return 0;
+    }
+
+    private float GetXInput()
+    {
+        if (Input.GetKey(KeyCode.X))
+        {
+            return -1f;
+        }
+        return 0;
+    }
+
     private float GetWInput()
     {
         if (Input.GetKey(KeyCode.W))
